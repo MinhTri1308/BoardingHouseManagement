@@ -1,9 +1,10 @@
-Boarding House Management - Python, 
-Thành viên nhóm ZSM
-1. 3122410424_Nguyễn Minh Trí (leader)
-2. 3122410290_Đào Thành Phát
-3. 3122410316_Nguyện Trọng Phú
-4. 3122410226_H' Như Lưk
+Boarding House Management - Python
 
-Lấy code về:
+Thành viên nhóm ZSM
+1. 3122410424 - Nguyễn Minh Trí (leader)
+2. 3122410290 - Đào Thành Phát
+3. 3122410316 - Nguyện Trọng Phú
+4. 3122410226 - H' Như Lưk
+
+Lấy code về máy dùng:
 git clone https://github.com/MinhTri1308/BoardingHouseManagement.git
