@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#model {
+    background: #f2efef;
+    height: 670px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width: 400px;
+    height: 340px;
+    background: #fff;
+    border: solid red;
+}
+
+
+.form-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    border: 1px solid rgb(242, 240, 237);
+    background-color: rgb(240, 240, 233);
+    position: relative;
+}
+
+.closeTab {
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.closeTab:hover {
+    background-color: red;
+}
+
+.form-group,
+.form-submit {
+    background-color: #dff51c;
+    border: solid blue;
+    margin: 5px 0;
+
+}
+
+.form-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    position: relative;
+}
+
+.form-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.form-label {
+    background-color: #dff51c;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 6px;
+    min-width: 120px;
+    height: 30px;
+    text-align: center;
+    margin: 5px;
+}
+
+.form-control {
+    border: 1px solid #b3b3b3;
+    border-radius: 5px;
+    min-width: 250px;
+    height: 30px;
+    margin: 5px;
+    /* Outline CSS là một thuộc tính được sử dụng để định dạng các đường viền bao ngoài của phần tử trên website */
+    outline: none;
+}
+
+.form-control:hover {
+    border-color: aqua;
+}
+
+.form-group.invalid .form-control,
+.form-group.invalid {
+    border-color: rgb(230, 12, 12);
+}
+
+
+.have_account {}

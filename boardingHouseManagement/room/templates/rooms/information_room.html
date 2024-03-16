@@ -1,0 +1,9 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thông tin phòng số {{room.roomsNumber}}{% endblock %}
+{% block main-content %}
+<h3><a href="{% url 'information_room' room.id %}">{{room.roomsNumber}}</a></h3>
+<h4>Diện tích phòng là: {{room.acreage}}</h4>
+{{room.interior|safe|linebreaks}}
+<h4>Phòng chưa có thông tin gì</h4>
+{% endblock main-content %}

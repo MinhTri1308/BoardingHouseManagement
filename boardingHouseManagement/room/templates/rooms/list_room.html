@@ -1,0 +1,14 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block title %}Danh sách phòng{% endblock %}
+{% block main-content %}
+
+{% for room in Room %}
+    <div class="list-room">
+        {% comment %}mốt đổi lại thành {% url 'room' room.id %}{% endcomment %}
+        <p><a class="list-item-link" href="{% url 'information_room' room.id %}">Phòng số {{room.roomsNumber}}</a></p>
+        <h5>Các danh sách phòng hiện đang cập nhật, chờ cập nhật đầy đủ</h5>
+    </div>
+{% endfor %}
+{% endblock main-content %}
