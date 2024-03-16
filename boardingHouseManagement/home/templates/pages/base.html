@@ -8,6 +8,8 @@
     <!-- <link rel="stylesheet" href="{% static 'bootstrap-5.3.2-dist/css/bootstrap-grid.css' %}" type="text/css"> -->
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'base/css/grid.css' %}" type="text/css">
+    <link rel="stylesheet"
+        href="{% static 'fonts/fontawesome-free-6.4.2-web/fontawesome-free-6.4.2/css/all.min.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -16,24 +18,26 @@
         <div class="header">
             <div class="grid wide">
                 <div class="row">
-                    <div class="col l-10">
-                        <!-- <img src="{% static 'imgage/bla.png' %}" alt="ảnh logo ngôi nhà"> -->
-                        <nav class="header-nav">
-                            <ul class="header_list">
-                                <li class="list-item">Quản lí nhà trọ</li>
-                                <li class="list-item">BoardingHouseManagement</li>
-                            </ul>
-                        </nav>
+                    <div class="col l-2">
+                        <a href="{% url 'home' %}" class="logo-link list-item-link">
+                            <img src="{% static 'image/home.jpg' %}" alt="Ảnh logo nhà trọ"
+                                style="max-width: 150px; max-height: 150px;">
+                        </a>
+
+                    </div>
+                    <div class="col l-8 ">
+                        <div class="title-text">
+                            <h4>Ứng dụng quản lí nhà trọ</h4>
+                        </div>
                     </div>
                     <div class="col l-2">
                         <ul class="nav-login">
                             {% if user.username %}
-                            <h4 class="">Xin chào, {{user.username}}</h4>
+                            <h4 class="text">Xin chào, {{user.username}}</h4>
                             <li class="list-item"><a href="{% url 'logout' %}">Đăng xuất</a></li>
 
                             {% else %}
                             <li class="list-item"><a class="list-item-link" href="{% url 'login' %}">Đăngnhập</a></li>
-                            <!-- <li class="list-item"><a class="list-item-link" href="login/">Đăngnhập</a></li> -->
                             <li class="list-item"><a class="list-item-link" href="{% url 'register' %}">Đăng ký</a></li>
                             {% endif %}
 
@@ -53,7 +57,9 @@
                                     <i class="fa-solid fa-house"></i>
                                     <a class="list-item-link" href="{% url 'home' %}">Trang chủ</a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="{% url 'list_room' %}">Phòng</a>
+                                <li class="list-item">
+                                    <i class="fa-solid fa-door-closed icon"></i>
+                                    <a class="list-item-link" href="{% url 'list_room' %}">Phòng</a>
                                 </li>
                                 <li class="list-item"><a class="list-item-link" href="electricity_index/">Chỉ số
                                         điện</a>

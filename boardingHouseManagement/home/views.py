@@ -14,14 +14,6 @@ def register(request):
             return redirect('login')
     return render(request, 'pages/register.html', {'form': form})
 
-# def login(request):
-#     form_login = RegistrationForm()
-#     if request.method == 'POST':
-#         form_login = RegistrationForm(request.POST)
-#         if form_login.is_valid():
-#             form_login.save()
-#             return redirect('home')
-#     return render(request, 'pages/login.html', {'form': form_login})
 
 def back_home(request):
     return redirect('home')
@@ -29,3 +21,6 @@ def back_home(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+def electricity(request):
+    return render(request, 'pages/electricity.html')
