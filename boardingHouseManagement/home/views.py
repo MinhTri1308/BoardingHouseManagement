@@ -22,5 +22,3 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-def electricity(request):
-    return render(request, 'pages/electricity.html')

@@ -6,7 +6,7 @@
 
 #model {
     background: #f2efef;
-    height: 670px;
+    height: 728px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@
 
 .form {
     width: 400px;
-    height: 340px;
+    height: 420px;
     background: #fff;
     border: solid red;
 }
@@ -98,5 +98,32 @@
     border-color: rgb(230, 12, 12);
 }
 
+.form-group::after {
+    content: "";
+    border-width: 15px 15px;
+    border-style: solid;
+    /* transparent là màu trong suốt */
+    border-color: transparent rgb(224, 5, 5) transparent transparent;
+    position: absolute;
+    right: -10px;
+    top: 8px;
+    display: none;
+}
+
+.form-message {
+    font-size: 1.0rem;
+    padding: 13px;
+    color: red;
+    width: 300px;
+    height: 40px;
+    border-color: rgba(219, 180, 180, 0.5);
+    border: 1px solid;
+    border-radius: 3px;
+    position: absolute;
+    right: -310px;
+}
+
 
 .have_account {}
+
+.have_not_account {}

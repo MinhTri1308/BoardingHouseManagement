@@ -1,0 +1,51 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thêm phòng{% endblock %}
+
+{% block main-content %}
+<div id="form_addroom">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Thêm phòng</h4>
+        <div class="form-submit">
+            <button class="btn btn-normal"><a class="add_room back" href="{% url 'list_room' %}">Trở về</a></button>
+        </div>
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row ">
+            <div class="col form-room">
+                <label for="roomsNumber">Phòng số</label>
+                {% if room.roomsNumber %}
+                    <span>Đã có số phòng này, vui lòng đổi số phòng khác</span>
+                {% else %}
+                    <input type="text" name="roomsNumber">
+                {% endif %}
+
+            </div>
+            <div class="col form-acreage">
+                <label for="acreage">Diện tích phòng</label>
+                <input type="text" name="acreage">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-price">
+                <label for="price">Giá phòng</label>
+                <input type="text" name="price">
+            </div>
+            <div class="col form-quantity">
+                <label for="quantity">Số người tối đa</label>
+                <input type="text" name="quantity">
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-room">
+                <label for="interior">Nội thất của phòng</label>
+                <textarea name="interior" cols="30" rows="10"></textarea>
+
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Lưu</button>
+    </form>
+</div>
+
+{% endblock main-content %}

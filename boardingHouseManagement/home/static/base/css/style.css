@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -10,31 +12,85 @@ html {
     box-sizing: border-box;
 }
 
-.header .header__nav {
+.header {
     display: block;
     height: 120px;
-    background-color: #666;
+    /* #38f3fa */
+    background-color: rgba(99, 99, 99, 0.2);
 
 }
 
-
-.title-text {
+.header_navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+
 }
 
+.header_naver-text {
+    padding-top: 10px;
+    font-size: 1.6rem;
+}
+
+.text {
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.header_navber-user {
+    padding-top: 10px;
+}
+
+.header_navber-user--list {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+}
+
+.header_navbar-item {
+    margin: 0 8px;
+}
+
+.header_navbar-item--separate::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-left: 1px solid #FB9086;
+    height: 12px;
+    right: 247px;
+    top: 19px;
+    /* transform dùng để di chuyển theo trục và ta chọn theo trục Y trong TH này */
+    transform: translateY(-50%);
+}
+
+.login {
+    margin-right: 5px;
+}
+
+.logout {
+    padding-left: 5px;
+}
 
 .nav-login {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
     padding-left: 0;
+    margin-top: 20px;
+}
+
+.app-menu {
+    background-color: #38f3fa;
+    display: flex;
+    align-items: center;
 }
 
 .list-item-link {
+    display: block;
     text-decoration: none;
-    margin-right: 5px;
     color: #666;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+
 }
 
 .list-container {
@@ -43,6 +99,7 @@ html {
 }
 
 .app__container {
+    margin-top: 20px;
     background-color: rgb(red, green, blue);
 }
 
@@ -61,6 +118,5 @@ html {
     display: flex;
 }
 
-.list-room {
-    display: flex;
-}
+
+

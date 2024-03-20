@@ -4,4 +4,41 @@
 
 {% block main-content %}
 <p>Thông tin của các chức năng hiện đang trong quá trình cập nhật</p>
+<div class="home-container">
+    <label for="area">Khu vực: </label>
+    <select name="area" size="1">
+        <option value="">Quận/Huyện</option>
+        <option value="1">Quận 1</option>
+        <option value="2">Quận 2</option>
+        <option value="3">Quận 3</option>
+        <option value="4">Quận 4</option>
+        <option value="5">Quận 5</option>
+        <option value="6">Quận 6</option>
+        <option value="7">Quận 7</option>
+        <option value="8">Quận 8</option>
+        <option value="9">Quận 9</option>
+        <option value="10">Quận 10</option>
+        <option value="11">Quận 11</option>
+        <option value="12">Quận 12</option>
+        <option value="13">Quận Bình Thạnh</option>
+        <option value="14">Quận Tân Bình</option>
+        <option value="15">Quận Phú Nhuận</option>
+        <option value="16">Quận Gò Vấp</option>
+        <option value="17">Quận Bình Tân</option>
+        <option value="18">Quận Tân Phú</option>
+    </select>
+</div>
+<div class="home-status">
+    <fieldset class="field_status">
+        <legend>
+            Trạng thái
+        </legend>
+        <div class="field_container">
+            <ul class="field_list list-container">
+                <li><a class="list-item-link" href="#">Phòng đang thuê</a></li>
+                <li><a class="list-item-link" href="#">Phòng trống</a></li>
+            </ul>
+        </div>
+    </fieldset>
+</div>
 {% endblock main-content %}

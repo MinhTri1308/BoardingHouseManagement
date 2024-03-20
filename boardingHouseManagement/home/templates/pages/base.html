@@ -8,6 +8,8 @@
     <!-- <link rel="stylesheet" href="{% static 'bootstrap-5.3.2-dist/css/bootstrap-grid.css' %}" type="text/css"> -->
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'base/css/grid.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'base/css/electricity.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'base/css/room.css' %}" type="text/css">
     <link rel="stylesheet"
         href="{% static 'fonts/fontawesome-free-6.4.2-web/fontawesome-free-6.4.2/css/all.min.css' %}">
     <title>{% block title %}{% endblock %}</title>
@@ -17,33 +19,36 @@
     <div class="app">
         <div class="header">
             <div class="grid wide">
-                <div class="row">
-                    <div class="col l-2">
-                        <a href="{% url 'home' %}" class="logo-link list-item-link">
+                <nav class="header_navbar">
+                    <div class="header_navbar-img">
+                        <a href="{% url 'home' %}" class="header_navbar-img--link list-item-link">
                             <img src="{% static 'image/home.jpg' %}" alt="Ảnh logo nhà trọ"
-                                style="max-width: 150px; max-height: 150px;">
+                                style="max-width: 150px; height: 120px; border-radius: 50%;">
                         </a>
+                    </div>
 
+                    <div class="header_naver-text">
+                        <h4>Ứng dụng quản lí nhà trọ</h4>
                     </div>
-                    <div class="col l-8 ">
-                        <div class="title-text">
-                            <h4>Ứng dụng quản lí nhà trọ</h4>
-                        </div>
-                    </div>
-                    <div class="col l-2">
-                        <ul class="nav-login">
+
+                    <div class="header_navber-user">
+                        <ul class="header_navber-user--list">
                             {% if user.username %}
                             <h4 class="text">Xin chào, {{user.username}}</h4>
-                            <li class="list-item"><a href="{% url 'logout' %}">Đăng xuất</a></li>
+                            <li class="list-item"><a href="{% url 'logout' %}"
+                                    class="list-item-link header_navbar-item">Đăngxuất</a>
+                            </li>
 
                             {% else %}
-                            <li class="list-item"><a class="list-item-link" href="{% url 'login' %}">Đăngnhập</a></li>
-                            <li class="list-item"><a class="list-item-link" href="{% url 'register' %}">Đăng ký</a></li>
+                            <li class="list-item"><a
+                                    class="list-item-link header_navbar-item header_navbar-item--separate"
+                                    href="{% url 'register' %}">Đăng ký</a></li>
+                            <li class="list-item"><a class="list-item-link header_navbar-item"
+                                    href="{% url 'login' %}">Đăngnhập</a></li>
                             {% endif %}
-
                         </ul>
                     </div>
-                </div>
+                </nav>
             </div>
         </div>
         <br>
@@ -54,59 +59,34 @@
                         <div class="app-menu">
                             <ul class="nav list-container">
                                 <li class="list-item">
-                                    <i class="fa-solid fa-house"></i>
-                                    <a class="list-item-link" href="{% url 'home' %}">Trang chủ</a>
+                                    <a class="list-item-link" href="{% url 'home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                        Trang chủ
+                                    </a>
                                 </li>
                                 <li class="list-item">
-                                    <i class="fa-solid fa-door-closed icon"></i>
-                                    <a class="list-item-link" href="{% url 'list_room' %}">Phòng</a>
+
+                                    <a class="list-item-link" href="{% url 'list_room' %}">
+                                        <i class="fa-solid fa-door-closed icon"></i>
+                                        Phòng
+                                    </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="electricity_index/">Chỉ số
-                                        điện</a>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'electricity' %}">
+                                        <i class="fa-solid fa-bolt"></i>
+                                        Chỉ số điện
+                                    </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="calulate/">Tính toán</a></li>
+                                <li class="list-item"><a class="list-item-link" href="{% url 'calculate' %}">
+                                        <i class="fa-solid fa-calculator"></i>
+                                        Tính toán
+                                    </a>
+                                </li>
                                 <li class="list-item"><a class="list-item-link" href="orther/">Khác</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col l-10">
-                        <!-- <div class="home-container">
-                            <label for="area">Khu vực: </label>
-                            <select name="area" size="1">
-                                <option value="">Quận/Huyện</option>
-                                <option value="1">Quận 1</option>
-                                <option value="2">Quận 2</option>
-                                <option value="3">Quận 3</option>
-                                <option value="4">Quận 4</option>
-                                <option value="5">Quận 5</option>
-                                <option value="6">Quận 6</option>
-                                <option value="7">Quận 7</option>
-                                <option value="8">Quận 8</option>
-                                <option value="9">Quận 9</option>
-                                <option value="10">Quận 10</option>
-                                <option value="11">Quận 11</option>
-                                <option value="12">Quận 12</option>
-                                <option value="13">Quận Bình Thạnh</option>
-                                <option value="14">Quận Tân Bình</option>
-                                <option value="15">Quận PHú Nhuận</option>
-                                <option value="16">Quận Gò Vấp</option>
-                                <option value="17">Quận Bình Tân</option>
-                                <option value="18">Quận Tân Phú</option>
-                            </select>
-                        </div>
-                        <div class="home-status">
-                            <fieldset class="field_status">
-                                <legend>
-                                    Trạng thái
-                                </legend>
-                                <div class="field_container">
-                                    <ul class="field_list list-container">
-                                        <li><a class="list-item-link" href="#">Phòng đang thuê</a></li>
-                                        <li><a class="list-item-link" href="#">Phòng trống</a></li>
-                                    </ul>
-                                </div>
-                            </fieldset>
-                        </div> -->
                         <!-- Các chức năng sẽ xài lại cái này-->
                         <div class="container-item">
                             <!-- Chức năng -->
