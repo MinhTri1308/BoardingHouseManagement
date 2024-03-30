@@ -1,0 +1,17 @@
+{% extends "pages/base.html" %}
+
+
+{% block title %}Danh sách nhà{% endblock %}
+{% block main-content %}
+<div class="list-house-container">
+    {% for house in House %}
+    <div class="list-house">
+        <div class="list-house-item">
+            <a href="{% url 'inf_house' house.id %}">Tên nhà {{house.nameHouse}}</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock main-content %}

@@ -3,10 +3,9 @@
 {% block title %}Home{% endblock %}
 
 {% block main-content %}
-<p>Thông tin của các chức năng hiện đang trong quá trình cập nhật</p>
 <div class="home-container">
-    <label for="area">Khu vực: </label>
-    <select name="area" size="1">
+    <label for="area" class="title-area">Khu vực: </label>
+    <select class="select-area" name="area" size="1">
         <option value="">Quận/Huyện</option>
         <option value="1">Quận 1</option>
         <option value="2">Quận 2</option>
@@ -30,15 +29,22 @@
 </div>
 <div class="home-status">
     <fieldset class="field_status">
-        <legend>
+        <legend class="title-status">
             Trạng thái
         </legend>
         <div class="field_container">
             <ul class="field_list list-container">
-                <li><a class="list-item-link" href="#">Phòng đang thuê</a></li>
-                <li><a class="list-item-link" href="#">Phòng trống</a></li>
+                <li class="list-item-room">
+                    <a class="list-item-link rented-room" href="#">Phòng đang thuê</a>
+                    <span class="quantity-notify">0</span>
+                </li>
+                <li class="list-item-room">
+                    <a class="list-item-link empty-room" href="#">Phòng trống</a>
+                    <span class="quantity-notify">0</span>
+                </li>
             </ul>
         </div>
     </fieldset>
 </div>
+<p>Thông tin của các chức năng hiện đang trong quá trình cập nhật</p>
 {% endblock main-content %}

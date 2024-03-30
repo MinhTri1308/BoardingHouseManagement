@@ -1,0 +1,26 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thêm nhà{% endblock %}
+
+{% block main-content %}
+<div id="form_addhouse">
+    <h4 class="title-house">Thêm nhà</h4>
+    <div class="form-submit">
+        <a class="add_house back" href="{% url 'list_room' %}"><button class="btn btn-normal">Trở về</button></a>
+    </div>
+</div>
+<form action="." method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col form-nameHouse">
+            <label for="nameHouse">Tên nhà</label>
+            <input type="text" name="nameHouse">
+        </div>
+        <div class="col form-address">
+            <label for="address">Địa chỉ nhà</label>
+            <input type="text" name="address">
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Lưu</button>
+</form>
+{% endblock main-content %}

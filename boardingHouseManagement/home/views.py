@@ -15,9 +15,6 @@ def register(request):
     return render(request, 'pages/register.html', {'form': form})
 
 
-def back_home(request):
-    return redirect('home')
-
 def logout_view(request):
     logout(request)
     return redirect('home')

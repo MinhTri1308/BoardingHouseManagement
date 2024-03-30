@@ -100,23 +100,58 @@ html {
 
 .app__container {
     margin-top: 20px;
-    background-color: rgb(red, green, blue);
+}
+
+.home-container {
+    margin-bottom: 10px;
+}
+
+.title-area {
+    font-size: 1.4rem;
+}
+
+.select-area {
+    border-radius: 4px;
 }
 
 .home-status {
-    width: 200px;
-    height: auto;
-    border: 2px solid rgba(red, green, blue, 0.5);
+    max-width: 300px;
+    max-height: 200px;
 }
 
 .field_status {
-    min-width: 200px;
-    height: auto;
+    min-width: 260px;
+    height: 100px;
+}
+
+.title-status {
+    font-size: 1.4rem;
 }
 
 .field_list {
     display: flex;
 }
 
+.list-item-room {
+    position: relative;
+}
 
+.rented-room {
+    margin: 10px 15px 10px 10px;
+}
 
+.empty-room {
+    margin: 10px 10px;
+}
+
+.quantity-notify {
+    position: absolute;
+    top: -3px;
+    right: -9px;
+    padding: 1px 7px;
+    font-size: 1.4rem;
+    border: 2px solid #38f3fa;
+    border-radius: 10px;
+    color: aqua;
+    background-color: #666;
+}

@@ -5,8 +5,14 @@
 {% block main-content %}
 <div id="model-room">
     <div class="navbar_room">
+        <div class="title-room">Danh sách nhà</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'add_room' %}"><button class="btn btn-normal">Thêm phòng</button></a>
+            <a class="add_house" href="{% url 'add_house' %}"><button class="btn btn-normal">Thêm nhà</button></a>
+        </div>
+    </div>
+    <div class="navbar_room navbar_room-2">
         <div class="title-room">Danh sách phòng</div>
-        <button class="btn"><a class="add_room" href="{% url 'add_room' %}">Thêm phòng</a></button>
     </div>
     <div class="list-room-container">
         {% for room in Room %}
@@ -14,18 +20,19 @@
         <div class="list-room">
             <div class="list-room-item">
                 <a class="list-item-link" href="{% url 'information_room' room.id %}">Phòng số {{room.roomsNumber}}</a>
-                <button><a href="#" class="list-item-link">+ Thêm khách</a></button>
+                <button><a href="guests/" class="list-item-link">+ Thêm khách</a></button>
+
                 <h5 class="price-room">
                     <i class="fa-solid fa-money-bill"></i>
                     {% if not room.price %}
-                    <span class="not_prive">Phòng hiện tại chưa cấp giá tiền phù hợp</span>
+                    <span class="not_prive">Phòng hiện tại đang cập nhật giá tiền phù hợp</span>
                     {% else %}
                     {{room.price}}VNĐ
                     {% endif %}
 
                 </h5>
-                <button><a class="edit_room list-item-link" href="{% url 'edit_room' %}">Sửa</a></button>
-                <button><a class="delete_room list-item-link" href="#">Xóa</a></button>
+                <button><a class="edit_room list-item-link" href="{% url 'edit_room' room.id %}">Sửa</a></button>
+                <button><a class="delete_room list-item-link" href="{% url 'delete_room' room.id %}">Xóa</a></button>
             </div>
         </div>
 

@@ -44,8 +44,15 @@
     background-color: red;
 }
 
-.form-group,
-.form-submit {
+.register {
+    text-decoration: none;
+}
+
+.login {
+    text-decoration: none;
+}
+
+.form-group {
     background-color: #dff51c;
     border: solid blue;
     margin: 5px 0;
@@ -58,13 +65,6 @@
     align-items: center;
     height: 50px;
     position: relative;
-}
-
-.form-submit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
 }
 
 .form-label {
