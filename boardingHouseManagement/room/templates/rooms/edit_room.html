@@ -7,41 +7,66 @@
     <div class="form_navbar navbar_room">
         <h4 class="title-room">Sửa phòng</h4>
         <div class="form-submit">
-            <button class="btn btn-normal"><a class="add_room" href="{% url 'list_room' %}">Trở về</a></button>
+            <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
         </div>
     </div>
     <form action="." method="POST">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ inf_room.id }}">
         <div class="row">
+            <div class="col form-house">
+                <label for="house">Nhà</label>
+                <input class="inp" type="text" name="house" value="{{inf_room.house}}">
+                {% if update_room.house %}
+                <span>{{update_room.house.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="house" value="{{update_room.house}}">
+                {% endif %}
+            </div>
             <div class="col form-room">
                 <label for="roomsNumber">Phòng số</label>
-                <input type="text" name="roomsNumber" value="{{inf_room.roomsNumber}}">
-                {% if update.roomsNumber %}
-                <span>{{update.roomsNumber.errors}}</span>
+                <input class="inp" type="text" name="roomsNumber" value="{{inf_room.roomsNumber}}">
+                {% if update_room.roomsNumber %}
+                <span>{{update_room.roomsNumber.errors}}</span>
                 {% else %}
-                <input type="text" name="roomsNumber" value="{{update.roomsNumber}}">
+                <input class="inp" type="text" name="roomsNumber" value="{{update_room.roomsNumber}}">
                 {% endif %}
             </div>
             <div class="col form-acreage">
                 <label for="acreage">Diện tích phòng</label>
-                <input name="acreage" type="text" value="{{inf_room.acreage}}">
+                <input class="inp" name="acreage" type="text" value="{{inf_room.acreage}}">
+                {% if update_room.acreage %}
+                <span>{{update_room.acreage.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="acreage" value="{{update_room.acreage}}">
+                {% endif %}
             </div>
         </div>
         <div class="row">
             <div class="col form-price">
                 <label for="price">Giá phòng</label>
-                <input name="price" type="text" value="{{inf_room.price}}">
+                <input class="inp" name="price" type="text" value="{{inf_room.price}}">
+                {% if update_room.price %}
+                <span>{{update_room.price.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="price" value="{{update_room.price}}">
+                {% endif %}
             </div>
             <div class="col form-quantity">
                 <label for="quantity">Số người tối đa</label>
-                <input name="quantity" type="text" value="{{inf_room.quantity}}">
+                <input class="inp" name="quantity" type="text" value="{{inf_room.quantity}}">
+                {% if update_room.quantity %}
+                <span>{{update_room.quantity.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="quantity" value="{{update_room.quantity}}">
+                {% endif %}
             </div>
         </div>
         <div class="row">
             <div class="col form-interior">
                 <label for="interior">Nội thất của phòng</label>
-                <textarea name="interior" cols="30" rows="10">{{inf_room.interior}}</textarea>
+                <textarea class="inp" name="interior" cols="30" rows="10">{{inf_room.interior}}</textarea>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Lưu</button>

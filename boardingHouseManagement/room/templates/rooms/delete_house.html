@@ -4,13 +4,13 @@
 <div id="form-delete">
     <form action="." method="POST">
         {% csrf_token %}
-        <input type="hidden" name="id" value="{{ inf_room.id }}">
+        <input type="hidden" name="nameHouse" value="{{ inf_house.nameHouse }}">
         <div class="notification">
-            <h3>Bạn có chắc là muốn xóa phòng số {{inf_room.roomsNumber}} này ?</h3>
+            <h3>Bạn có chắc là muốn xóa nhà {{inf_house.nameHouse}} này ?</h3>
         </div>
         <div class="form-delete-item">
             <button class="btn btn-primary" type="submit">Đồng ý</button>
-            <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở
+            <a class="add_room back" href="{% url 'list_house' %}"><button class="btn btn-normal" type="button">Trở
                     về</button></a>
         </div>
     </form>

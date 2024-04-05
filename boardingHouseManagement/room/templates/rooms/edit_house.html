@@ -1,0 +1,44 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Sửa nhà{% endblock %}
+
+{% block main-content %}
+<div id="form_addroom">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Sửa nhà</h4>
+        <div class="form-submit">
+            <a class="add_room back" href="{% url 'list_house' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
+        </div>
+    </div>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="nameHouse" value="{{ inf_house.nameHouse }}">
+        <div class="row">
+            <div class="col form-house">
+                <label for="nameHouse">Tên nhà</label>
+                <input class="inp" type="text" name="nameHouse" value="{{inf_house.nameHouse}}">
+                {% if update_house.nameHouse %}
+                <span>{{update_house.nameHouse.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="nameHouse" value="{{update_house.nameHouse}}">
+                {% endif %}
+            </div>
+            <div class="col form-address">
+                <label for="address">Địa chỉ</label>
+                <input class="inp inp-address" type="text" name="address" value="{{inf_house.address}}">
+                {% if update_house.address %}
+                <span>{{update_house.address.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="address" value="{{update_house.address}}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" type="submit">Lưu</button>
+            <a href="{% url 'delete_house' inf_house.nameHouse %}"><button class="btn btn-normal" type="button">Xóa
+                    nhà</button></a>
+        </div>
+    </form>
+</div>
+{% endblock main-content %}

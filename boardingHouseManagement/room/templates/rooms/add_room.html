@@ -7,38 +7,59 @@
     <div class="form_navbar navbar_room">
         <h4 class="title-room">Thêm phòng</h4>
         <div class="form-submit">
-            <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal">Trở về</button></a>
+            <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
         </div>
     </div>
     <form action="." method="POST">
         {% csrf_token %}
         <div class="row ">
+            <div class="col form-house">
+                <label for="house">Nhà</label>
+                <!-- <select name="house" id="nameHouse" size="1">
+                    <option value="">------</option>
+                    {% for houses in inf_house %}
+                    <option value="{{houses.nameHouse}}">{{houses.nameHouse}}</option>
+                    {% endfor %}
+                </select> -->
+                <input class="inp" type="text" name="house">
+            </div>
             <div class="col form-room">
                 <label for="roomsNumber">Phòng số</label>
-                <input type="text" name="roomsNumber">
+                <input class="inp" type="text" name="roomsNumber">
                 {% if new_room.roomsNumber %}
                 <span>{{new_room.roomsNumber.errors}}</span>
                 {% endif %}
             </div>
             <div class="col form-acreage">
                 <label for="acreage">Diện tích phòng</label>
-                <input type="text" name="acreage">
+                <input class="inp" type="text" name="acreage">
+                {% if new_room.acreage %}
+                <span>{{new_room.acreage.errors}}</span>
+                {% endif %}
+                <div class="comment-acreage">m²</div>
             </div>
         </div>
         <div class="row">
             <div class="col form-price">
                 <label for="price">Giá phòng</label>
-                <input type="text" name="price">
+                <input class="inp" type="text" name="price">
+                {% if new_room.price %}
+                <span>{{new_room.price.errors}}</span>
+                {% endif %}
             </div>
             <div class="col form-quantity">
                 <label for="quantity">Số người tối đa</label>
-                <input type="text" name="quantity">
+                <input class="inp" type="text" name="quantity">
+                {% if new_room.quantity %}
+                <span>{{new_room.quantity.errors}}</span>
+                {% endif %}
             </div>
         </div>
         <div class="row">
             <div class="col form-interior">
                 <label for="interior">Nội thất của phòng</label>
-                <textarea name="interior" cols="30" rows="10"></textarea>
+                <textarea class="inp" name="interior" cols="30" rows="10"></textarea>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Lưu</button>

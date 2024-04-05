@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import Room, Electricity, House, Guests
 # Register your models here.
 class RoomAdmin(admin.ModelAdmin):
-    list_display = ['roomsNumber', 'acreage']
-    list_filter = ['acreage']
+    list_display = ['house', 'roomsNumber', 'acreage']
+    list_filter = ['house' ,'acreage']
     search_fields = ['roomsNumber', 'acreage']
 
 

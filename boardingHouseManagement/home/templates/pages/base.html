@@ -36,15 +36,14 @@
                         <ul class="header_navber-user--list">
                             {% if user.username %}
                             <h4 class="text">Xin chào, {{user.username}}</h4>
-                            <li class="list-item"><a href="{% url 'logout' %}"
+                            <li class=""><a href="{% url 'logout' %}"
                                     class="list-item-link header_navbar-item">Đăngxuất</a>
                             </li>
 
                             {% else %}
-                            <li class="list-item"><a
-                                    class="list-item-link header_navbar-item header_navbar-item--separate"
+                            <li class=""><a class="list-item-link header_navbar-item header_navbar-item--separate"
                                     href="{% url 'register' %}">Đăng ký</a></li>
-                            <li class="list-item"><a class="list-item-link header_navbar-item"
+                            <li class=""><a class="list-item-link header_navbar-item"
                                     href="{% url 'login' %}">Đăngnhập</a></li>
                             {% endif %}
                         </ul>
@@ -66,6 +65,12 @@
                                     </a>
                                 </li>
                                 <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_house' %}">
+                                        <i class="fa-solid fa-house-user"></i>
+                                        Nhà
+                                    </a>
+                                </li>
+                                <li class="list-item">
 
                                     <a class="list-item-link" href="{% url 'list_room' %}">
                                         <i class="fa-solid fa-door-closed icon"></i>
@@ -78,12 +83,11 @@
                                         Chỉ số điện
                                     </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="calculate/">
+                                <li class="list-item"><a class="list-item-link" href="{% url 'calculate' %}">
                                         <i class="fa-solid fa-calculator"></i>
                                         Tính toán
                                     </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="orther/">Khác</a></li>
                             </ul>
                         </div>
                     </div>

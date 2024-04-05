@@ -81,8 +81,11 @@ html {
 
 .app-menu {
     background-color: #38f3fa;
-    display: flex;
-    align-items: center;
+    min-height: 200px;
+}
+
+.list-item {
+    padding: 10px;
 }
 
 .list-item-link {

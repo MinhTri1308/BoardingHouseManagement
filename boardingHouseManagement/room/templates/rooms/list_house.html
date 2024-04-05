@@ -1,17 +1,44 @@
 {% extends "pages/base.html" %}
 
-
 {% block title %}Danh sách nhà{% endblock %}
+
+
 {% block main-content %}
-<div class="list-house-container">
-    {% for house in House %}
-    <div class="list-house">
-        <div class="list-house-item">
-            <a href="{% url 'inf_house' house.id %}">Tên nhà {{house.nameHouse}}</a>
+<div class="model_house">
+    <div class="navbar_room">
+        <div class="title-house">Danh sách nhà</div>
+        <div class="navbar-item">
+            <a class="add_house" href="{% url 'add_house' %}"><button class="btn btn-normal">Thêm nhà</button></a>
+            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
         </div>
     </div>
-    {% endfor %}
+    <div class="list-house-container">
+        {% for house in House %}
+        <div class="list-house">
+            <div class="list-house-item">
+                <a class="list-item-link" href="{% url 'get_rooms' house.nameHouse %}"><button class="btn" name="nameHouse" value="{{house.nameHouse}}"
+                        type="button">{{house.nameHouse}}</button></a>
+                
+                <div class="interface-house">
+                    <a class="add_house" href="{% url 'edit_house' house.nameHouse %}"><button class="" type="button">Sửa nhà</button></a>
+                    <a class="add_house" href="{% url 'delete_house' house.nameHouse %}"><button class="" type="button">Xóa nhà</button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+        <!--{% comment %} <form method="post" action="{% url 'get_rooms' %}" class="list-house-form"> {% endcomment %}
+            {% csrf_token %}
+            {% for house in House %}
+            <div class="list-house">
+                <div class="list-house-item">
+                    <button class="btn" type="submit" name="house_id" value="{{ house.nameHouse }}">{{ house.nameHouse }}</button>
+                </div>
+            </div>
+            {% endfor %}
+        </form> -->
+    
+    </div>
 
 </div>
-
 {% endblock main-content %}

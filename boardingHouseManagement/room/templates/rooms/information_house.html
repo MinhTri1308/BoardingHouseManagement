@@ -1,10 +1,9 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Thông tin nhà {{house.namehouse}}{% endblock %}
+{% block title %}Thông tin nhà {{house.nameHouse}}{% endblock %}
 {% block main-content %}
-<h3>Nhà {{inf_house.nameHouse}}</a>
-</h3>
-<h3>Địa chỉ nhà: {{inf_house.address}}</h3>
+<h3>Tên nhà: {{inf_house.nameHouse}} </h3>
+<h4>Địa chỉ: {{inf_house.address}} </h4>
 
-<a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal">Trở về</button></a>
+<a class="list-item-link back" href="{% url 'list_room' %}"><button class="btn btn-normal">Trở về</button></a>
 {% endblock main-content %}

@@ -1,9 +1,11 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Room, Electricity, House
-from .forms import AddRoom, UpdateInformationRoom, DeleteRoomForm, AddHouse
+from .forms import AddRoom, UpdateInformationRoom, DeleteRoomForm, AddHouse, UpdataInformationHouse, GetRoomOfHouse, DeleteHouseForm
 # Create your views here.
+#Room
 def create_room(request):
-    data = {'Room': Room.objects.all()}
+    data = {'Room': Room.objects.all().order_by('roomsNumber')}
     return render(request, 'rooms/list_room.html', data)
 
 def get_information_room(request, id):
@@ -27,7 +29,7 @@ def edit_room(request, id):
         if form.is_valid():
             form.save()
             return redirect('list_room')
-    return render(request, 'rooms/edit_room.html', {'update': form, 'inf_room': room})
+    return render(request, 'rooms/edit_room.html', {'update_room': form, 'inf_room': room})
 
 def delete_room(request, id):
     room = get_object_or_404(Room, id=id)
@@ -35,26 +37,30 @@ def delete_room(request, id):
     if request.method == 'POST':
         form = DeleteRoomForm(request.POST, instance=room)
         if form.is_valid():
-            form.delete_existing()
+            form.deleteRoom(id)
             return redirect('list_room')
-    return render(request, 'rooms/delete_room.html', {'delete': form, 'inf_room': room})
-
-
-def create_electricity(request):
-    data = {'Electricity': Electricity.objects.all().order_by('roomsNumber')}
-    return render(request, 'rooms/electricity.html', data)
+    return render(request, 'rooms/delete_room.html', {'delete_room': form ,'inf_room': room})
 
 def information(request, id):
     index = get_object_or_404(Electricity, id=id)
     return render(request, 'rooms/information.html', {'inf_electricity': index})
 
+#House
 def create_house(request):
     data = {'House': House.objects.all()}
     return render(request, 'rooms/list_house.html', data)
 
-def information_house(request, id):
-    house = get_object_or_404(House, id=id)
-    return render(request, 'rooms/information_house.html', {'inf_house': house})
+
+def get_rooms(request, nameHouse):
+    house = House.objects.get(nameHouse=nameHouse)
+    room = Room.objects.filter(house=house)
+    # house = get_object_or_404(House, nameHouse=nameHouse)
+    # # room = get_object_or_404(Room, nameHouse=None, id=id)
+    # form = GetRoomOfHouse(instance=house)
+    # if form.is_valid():
+    #     form.get_room_of_house(nameHouse)
+    #     return redirect('get_rooms')
+    return render(request, 'rooms/house_of_list_rooms.html', {'inf_house': house, 'room_of_house': room})
 
 def add_house(request):
     form = AddHouse()
@@ -62,5 +68,34 @@ def add_house(request):
         form = AddHouse(request.POST)
         if form.is_valid():
             form.save()
-            redirect('list_room')
+            return redirect('list_house')
     return render(request, 'rooms/add_house.html', {'new_house': form})
+
+def edit_house(request, nameHouse):
+    house = get_object_or_404(House, nameHouse=nameHouse)
+    form = UpdataInformationHouse(instance=house)
+    if request.method == 'POST':
+        form = UpdataInformationHouse(request.POST, instance=house)
+        if form.is_valid():
+            form.save()
+            redirect('list_house')
+    return render(request, 'rooms/edit_house.html', {'update_house': form, 'inf_house': house})
+
+def delete_house(request, nameHouse):
+    house = get_object_or_404(House, nameHouse=nameHouse)
+    form = DeleteHouseForm(instance=house)
+    if request.method == 'POST':
+        form = DeleteHouseForm(request.POST, instance=house)
+        if form.is_valid():
+            form.deleteHouse(nameHouse)
+            return redirect('list_house')
+    return render(request, 'rooms/delete_house.html', {'delete_house': form, 'inf_house': house})
+
+#Electricity
+def create_electricity(request):
+    data = {'Electricity': Electricity.objects.all(), 'House': House.objects.all()}
+    return render(request, 'rooms/electricity.html', data)
+
+def calculate(request):
+    data = House.objects.all()
+    return render(request, 'rooms/calculate.html', {'inf_house': data})

@@ -2,10 +2,11 @@
 
 {% block title %}Thông tin phòng số {{room.roomsNumber}}{% endblock %}
 {% block main-content %}
+<h2>Tên nhà {{inf_room.house}}</h2>
 <h3>Phòng {{inf_room.roomsNumber}} </h3>
 <h4>Diện tích phòng là: {{inf_room.acreage}} (m²)</h4>
 <h4>Số lượng thành viên ở được phòng này là: {{inf_room.quantity}} (người)</h4>
 <h4>Giá phòng là: {{inf_room.price}} (vnđ)</h4>
 {{inf_room.interior|safe|linebreaks}}
-<button class="btn btn-normal"><a class="add_room back" href="{% url 'list_room' %}">Trở về</a></button>
+<a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal">Trở về</button></a>
 {% endblock main-content %}

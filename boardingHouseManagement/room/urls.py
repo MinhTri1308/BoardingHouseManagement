@@ -6,9 +6,11 @@ urlpatterns = [
     path('addroom/', views.add_room, name='add_room'),
     path('<int:id>/editroom/', views.edit_room, name='edit_room'),
     path('<int:id>/deleteroom/', views.delete_room, name='delete_room'),
+    path('house/', views.create_house, name='list_house'),
+    path('house/add_house/', views.add_house, name='add_house'),
+    path('<str:nameHouse>/get_rooms/', views.get_rooms, name='get_rooms'),
+    path('<str:nameHouse>/edit_house/', views.edit_house, name='edit_house'),
+    path('<str:nameHouse>/delete_house/', views.delete_house, name='delete_house'),
     path('electricity/', views.create_electricity, name='electricity'),
-    path('list_house', views.create_house, name='list_house'),
-    path('<int:id>/', views.information_house, name='information_house'),
-    path('add_house/', views.add_house, name='add_house'),
-
+    path('calculate/', views.calculate, name='calculate'),
 ]
