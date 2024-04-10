@@ -1,0 +1,19 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thông tin của nhân viên {{personnel.fulname}}{% endblock %}
+{% block main-content %}
+<div class="model-information">
+    <div class="navbar_room">
+        <div class="title-house">Thông tin của nhân viên {{inf_personnel.fulname}}</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'add_room' %}"><button class="btn btn-normal">Thêm phòng</button></a>
+            <a class="add_room" href="{% url 'list_personnel' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <h2>Mã nhân viên: {{inf_personnel.id_personnel}}</h2>
+    <h2>Tên nhân viên: {{inf_personnel.fullname}}</h2>
+    <h3>Số điện thoại: {{inf_personnel.phone}} </h3>
+</div>
+
+
+{% endblock main-content %}

@@ -1,33 +1,41 @@
 {% extends "pages/base.html" %}
 
 {% block main-content %}
-
-<div class="form_navbar navbar_room">
-    <h4 class="title-room">Danh sách phòng của nhà {{inf_house.nameHouse}}</h4>
-    <div class="form-submit">
-        <a class="add_room back" href="{% url 'list_house' %}"><button class="btn btn-normal" type="button">Trở
-                về</button></a>
-    </div>
-</div>
-<div class="list-room-container">
-    {% for room in room_of_house %}
-    <div class="list-room">
-        <div class="list-room-item">
-            <a class="list-item-link" href="{% url 'information_room' room.id %}">Phòng số {{ room.roomsNumber }}</a>
-            <button><a href="guests/" class="list-item-link">+ Thêm khách</a></button>
-
-            <h5 class="price-room">
-                <i class="fa-solid fa-money-bill"></i>
-                {% if not room.price %}
-                <span class="not_prive">Phòng hiện tại đang cập nhật giá tiền phù hợp</span>
-                {% else %}
-                {{ room.price }}VNĐ
-                {% endif %}
-            </h5>
-            <button><a class="edit_room list-item-link" href="{% url 'edit_room' room.id %}">Sửa</a></button>
-            <button><a class="delete_room list-item-link" href="{% url 'delete_room' room.id %}">Xóa</a></button>
+<div class="model-room">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Danh sách phòng của nhà {{inf_house.nameHouse}}</h4>
+        <div class="form-submit">
+            <a class="add_room back" href="{% url 'list_house' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
         </div>
     </div>
-    {% endfor %}
+    <div class="list-room-container">
+        {% for room in room_of_house %}
+        <div class="list-room">
+            <div class="list-room-item">
+                <a class="list-item-link information-room" href="{% url 'information_room' room.id %}">Phòng số
+                    {{room.roomsNumber}}</a>
+                <button class="add_guests"><a href="guests/" class="list-item-link">+ Thêm khách</a></button>
+
+                <h5 class="price-room">
+                    <i class="fa-solid fa-money-bill"></i>
+                    {% if not room.price %}
+                    <span class="not_prive">Phòng hiện tại đang cập nhật giá tiền phù hợp</span>
+                    {% else %}
+                    {{room.price}} triệu VNĐ
+                    {% endif %}
+
+                </h5>
+                <div class="interface-room">
+                    <a class="list-item-link" href="{% url 'edit_room' room.id %}"><button type="button"
+                            class="edit_room">Sửa</button></a>
+                    <a class="list-item-link" href="{% url 'delete_room' room.id %}"><button type="button"
+                            class="delete_room">Xóa</button></a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
 </div>
 {% endblock main-content %}

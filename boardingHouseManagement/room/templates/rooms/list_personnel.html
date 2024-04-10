@@ -1,0 +1,31 @@
+{% extends "pages/base.html" %}
+
+
+{% block title %}Danh sách nhân viên{% endblock %}
+{% block main-content %}
+<div id="model-room">
+    <div class="navbar_room">
+        <div class="title-house">Danh sách nhân viên</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'add_personnel' %}"><button class="btn btn-normal">Thêm nhân viên</button></a>
+            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div class="list-personnel-container">
+        {% for personnel in Personnel %}
+        <div class="list-personnel">
+            <div class="list-personnel-item">
+                <a class="list-item-link personnel-name" href="{% url 'information_personnel' personnel.fullname %}">{{personnel.fullname}}</a>
+                
+                <div class="interface-personnel">
+                    <a class="add_house" href="{% url 'edit_personnel' personnel.fullname %}"><button class="" type="button">Sửa</button></a>
+                    <a class="add_house" href="{% url 'delete_personnel' personnel.fullname %}"><button class="" type="button">Xóa</button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+</div>
+
+{% endblock main-content %}

@@ -16,8 +16,10 @@
         {% for house in House %}
         <div class="list-house">
             <div class="list-house-item">
-                <a class="list-item-link" href="{% url 'get_rooms' house.nameHouse %}"><button class="btn" name="nameHouse" value="{{house.nameHouse}}"
-                        type="button">{{house.nameHouse}}</button></a>
+                <div class="link-house">
+                    <a title="Danh sách phòng của nhà" class="list-item-link" href="{% url 'get_rooms' house.nameHouse %}">{{house.nameHouse}}</a>
+                    <a title="Thông tin nhà" class="list-item-link icon-link" href="{% url 'information_house' house.nameHouse %}"><i class="fa-solid fa-eye"></i></a>
+                </div>
                 
                 <div class="interface-house">
                     <a class="add_house" href="{% url 'edit_house' house.nameHouse %}"><button class="" type="button">Sửa nhà</button></a>
@@ -26,17 +28,6 @@
             </div>
         </div>
         {% endfor %}
-    
-        <!--{% comment %} <form method="post" action="{% url 'get_rooms' %}" class="list-house-form"> {% endcomment %}
-            {% csrf_token %}
-            {% for house in House %}
-            <div class="list-house">
-                <div class="list-house-item">
-                    <button class="btn" type="submit" name="house_id" value="{{ house.nameHouse }}">{{ house.nameHouse }}</button>
-                </div>
-            </div>
-            {% endfor %}
-        </form> -->
     
     </div>
 

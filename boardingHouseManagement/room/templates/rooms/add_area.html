@@ -1,0 +1,29 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thêm nhà{% endblock %}
+
+{% block main-content %}
+<div id="form_addhouse">
+    <div class="form-navbar navbar_room">
+        <h4 class="title-house">Thêm khu vực</h4>
+        <div class="form-submit">
+            <a class="add_house back" href="{% url 'list_area' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
+        </div>
+    </div>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col form-nameHouse">
+                <label for="nameHouse">Tên khu vực</label>
+                <input class="inp" type="text" name="nameDistrict">
+                {% if new_area.nameDistrict %}
+                <span>{{new_area.nameDistrict.errors}}</span>
+                {% endif %}
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Lưu</button>
+    </form>
+</div>
+{% endblock main-content %}

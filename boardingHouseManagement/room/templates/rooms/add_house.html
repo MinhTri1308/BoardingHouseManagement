@@ -22,9 +22,16 @@
                 <span>{{new_house.nameHouse.errors}}</span>
                 {% endif %}
             </div>
+            <div class="col form-personnel">
+                <label for="personnel">Mã nhân viên</label>
+                <input class="inp" type="text" name="personnel">
+            </div>
             <div class="col form-address">
                 <label for="address">Địa chỉ nhà</label>
                 <input class="inp inp-address" type="text" name="address">
+                {% if new_house.address %}
+                <span>{{new_house.address.errors}}</span>
+                {% endif %}
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Lưu</button>

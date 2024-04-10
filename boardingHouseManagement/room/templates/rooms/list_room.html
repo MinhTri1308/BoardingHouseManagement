@@ -16,8 +16,11 @@
 
         <div class="list-room">
             <div class="list-room-item">
-                <a class="list-item-link information-room" href="{% url 'information_room' room.id %}">Phòng số
-                    {{room.roomsNumber}}</a>
+                <a title="Thông tin phòng" class="list-item-link information-room" href="{% url 'information_room' room.id %}">
+                    <i class="fa-solid fa-eye"></i>
+                    Phòng số
+                    {{room.roomsNumber}}
+                </a>
                 <button class="add_guests"><a href="guests/" class="list-item-link">+ Thêm khách</a></button>
 
                 <h5 class="price-room">

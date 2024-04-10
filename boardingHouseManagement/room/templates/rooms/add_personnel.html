@@ -1,0 +1,43 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Thêm nhà{% endblock %}
+
+{% block main-content %}
+<div id="form_addhouse">
+    <div class="form-navbar navbar_room">
+        <h4 class="title-house">Thêm nhân viên</h4>
+        <div class="form-submit">
+            <a class="add_house back" href="{% url 'list_personnel' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
+        </div>
+    </div>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col form-fullname">
+                <label for="id_personnel">Mã nhân viên</label>
+                <input class="inp" type="text" name="id_personnel">
+                {% if new_personnel.id_personnel %}
+                <span>{{new_personnel.id_personnel.errors}}</span>
+                {% endif %}
+            </div>
+            <div class="col form-fullname">
+                <label for="fullname">Tên nhân viên</label>
+                <input class="inp" type="text" name="fullname">
+                {% if new_personnel.fullname %}
+                <span>{{new_personnel.fullname.errors}}</span>
+                {% endif %}
+            </div>
+            <div class="col form-phone">
+                <label for="phone">Số điện thoại</label>
+                <input class="inp" type="text" name="phone">
+                {% if new_personnel.phone %}
+                <span>{{new_personnel.phone.errors}}</span>
+                {% endif %}
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Lưu</button>
+    </form>
+</div>
+{% endblock main-content %}

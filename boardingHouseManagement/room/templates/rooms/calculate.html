@@ -15,8 +15,11 @@
         <div class="col month-year">
             <ul class="list-container">
                 <li><label for="">Tháng/Năm</label></li>
-                <li><input class="inp" type="month" name="month/year"></li>
+                <li><input class="inp" type="month" name="date"></li>
             </ul>
+        </div>
+        <div class="col">
+            <button class="btn btn-normal">Tính</button>
         </div>
     </div>
     <div class="row">
@@ -44,25 +47,19 @@
 
         <div class="col old-electricity">
             <ul class="list-container">
-                <li><label for="">Số điện cũ</label></li>
-                <li><input class="inp" type="text" name="old_electricity"></li>
+                <li><label for="">Số tiền (VNĐ)</label></li>
+                <li><input class="inp" type="text" name="old_electricity" disabled></li>
             </ul>
         </div>
         <div class="col new-electricity">
             <ul class="list-container">
-                <li><label for="">Số điện mới</label></li>
-                <li><input class="inp" type="text" name="new_electricity"></li>
+                <li><label for="">Đã Trả (VNĐ)</label></li>
+                <li><input class="inp" type="text" name="new_electricity" disabled></li>
             </ul>
         </div>
         <div class="col old-electricity">
             <ul class="list-container">
-                <li><label for="">Số điện sử dụng</label></li>
-                <li><input class="inp" type="text" name="use_electricity" disabled></li>
-            </ul>
-        </div>
-        <div class="col old-electricity">
-            <ul class="list-container">
-                <li><label for="">Số tiền</label></li>
+                <li><label for="">Còn lại (VNĐ)</label></li>
                 <li><input class="inp" type="text" name="use_electricity" disabled></li>
             </ul>
         </div>

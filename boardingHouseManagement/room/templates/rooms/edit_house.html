@@ -25,6 +25,10 @@
                 {% endif %}
             </div>
             <div class="col form-address">
+                <label for="personnel">Mã nhân viên</label>
+                <input class="inp" type="text" name="personnel" value="{{inf_house.personnel}}">
+            </div>
+            <div class="col form-address">
                 <label for="address">Địa chỉ</label>
                 <input class="inp inp-address" type="text" name="address" value="{{inf_house.address}}">
                 {% if update_house.address %}

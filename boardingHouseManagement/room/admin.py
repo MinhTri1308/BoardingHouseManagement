@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, Electricity, House, Guests
+from .models import Room, Electricity, House, Guests, Personnel
 # Register your models here.
 class RoomAdmin(admin.ModelAdmin):
     list_display = ['house', 'roomsNumber', 'acreage']
@@ -15,12 +15,9 @@ class GuestsAdmin(admin.ModelAdmin):
     search_fields = ['room', 'fullname']
 
 class ElectricityAdmin(admin.ModelAdmin):
-    list_display = ['roomsNumber','old_electricity', 'new_electricity', 'use_electricity']
-    list_filter = ['roomsNumber']
-
-    def use_electricity(self, obj):
-        return obj.calulate_electricity()
-    
+    list_display = ['room', 'index_electricity', 'date']
+    list_filter = ['room']
+   
 admin.site.register(Electricity, ElectricityAdmin)
 
 class HouseAdmin(admin.ModelAdmin):
@@ -29,3 +26,10 @@ class HouseAdmin(admin.ModelAdmin):
     search_fields = ['nameHouse']
 
 admin.site.register(House, HouseAdmin)
+
+class PersonnelAdmin(admin.ModelAdmin):
+    list_display = ['id_personnel', 'fullname', 'phone']
+    list_filter = ['fullname']
+    search_fields = ['id_personnel','fullname']
+
+admin.site.register(Personnel, PersonnelAdmin)

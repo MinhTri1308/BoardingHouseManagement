@@ -11,59 +11,63 @@
                     về</button></a>
         </div>
     </div>
-    <form action="." method="POST">
-        {% csrf_token %}
-        <div class="row ">
-            <div class="col form-house">
-                <label for="house">Nhà</label>
-                <!-- <select name="house" id="nameHouse" size="1">
-                    <option value="">------</option>
-                    {% for houses in inf_house %}
-                    <option value="{{houses.nameHouse}}">{{houses.nameHouse}}</option>
-                    {% endfor %}
-                </select> -->
-                <input class="inp" type="text" name="house">
+    <div class="form-newroom">
+        <form action="." method="POST">
+            {% csrf_token %}
+            <div class="row form-addroom">
+                <div class="col form-house">
+                    <label class="form-title-room" for="house">Nhà</label>
+                    <!-- <select name="house" id="nameHouse" size="1">
+                        <option value="">------</option>
+                        {% for houses in inf_house %}
+                        <option value="{{houses.nameHouse}}">{{houses.nameHouse}}</option>
+                        {% endfor %}
+                    </select> -->
+                    <input class="inp" type="text" name="house">
+                </div>
             </div>
-            <div class="col form-room">
-                <label for="roomsNumber">Phòng số</label>
-                <input class="inp" type="text" name="roomsNumber">
-                {% if new_room.roomsNumber %}
-                <span>{{new_room.roomsNumber.errors}}</span>
-                {% endif %}
+            <div class="row form-addroom">
+                <div class="col form-room">
+                    <label class="form-title-room" for="roomsNumber">Phòng số</label>
+                    <input class="inp" type="text" name="roomsNumber">
+                    {% if new_room.roomsNumber %}
+                    <span>{{new_room.roomsNumber.errors}}</span>
+                    {% endif %}
+                </div>
+                <div class="col form-acreage">
+                    <label class="form-title-room" for="acreage">Diện tích phòng</label>
+                    <input class="inp" type="text" name="acreage">
+                    {% if new_room.acreage %}
+                    <span>{{new_room.acreage.errors}}</span>
+                    {% endif %}
+                    <div class="comment-acreage">m²</div>
+                </div>
             </div>
-            <div class="col form-acreage">
-                <label for="acreage">Diện tích phòng</label>
-                <input class="inp" type="text" name="acreage">
-                {% if new_room.acreage %}
-                <span>{{new_room.acreage.errors}}</span>
-                {% endif %}
-                <div class="comment-acreage">m²</div>
+            <div class="row form-addroom">
+                <div class="col form-price">
+                    <label class="form-title-room" for="price">Giá phòng</label>
+                    <input class="inp" type="text" name="price">
+                    {% if new_room.price %}
+                    <span>{{new_room.price.errors}}</span>
+                    {% endif %}
+                </div>
+                <div class="col form-quantity">
+                    <label class="form-title-room" for="quantity">Số người tối đa</label>
+                    <input class="inp" type="text" name="quantity">
+                    {% if new_room.quantity %}
+                    <span>{{new_room.quantity.errors}}</span>
+                    {% endif %}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col form-price">
-                <label for="price">Giá phòng</label>
-                <input class="inp" type="text" name="price">
-                {% if new_room.price %}
-                <span>{{new_room.price.errors}}</span>
-                {% endif %}
+            <div class="row form-addroom">
+                <div class="col form-interior">
+                    <label class="form-title-room" for="interior">Nội thất của phòng</label>
+                    <textarea class="inp" name="interior" cols="30" rows="10"></textarea>
+                </div>
             </div>
-            <div class="col form-quantity">
-                <label for="quantity">Số người tối đa</label>
-                <input class="inp" type="text" name="quantity">
-                {% if new_room.quantity %}
-                <span>{{new_room.quantity.errors}}</span>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col form-interior">
-                <label for="interior">Nội thất của phòng</label>
-                <textarea class="inp" name="interior" cols="30" rows="10"></textarea>
-            </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Lưu</button>
-    </form>
+            <button class="btn btn-primary" type="submit">Lưu</button>
+        </form>
+    </div>
 </div>
 
 {% endblock main-content %}

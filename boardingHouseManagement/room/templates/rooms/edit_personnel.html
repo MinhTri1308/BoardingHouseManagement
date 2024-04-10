@@ -1,0 +1,52 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Sửa nhà{% endblock %}
+
+{% block main-content %}
+<div id="form_addroom">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Sửa thông tin nhân viên</h4>
+        <div class="form-submit">
+            <a class="add_room back" href="{% url 'list_personnel' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
+        </div>
+    </div>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="fullname" value="{{ inf_house.fullname }}">
+        <div class="row">
+            <div class="col form-house">
+                <label for="fullname">Mã nhân viên</label>
+                <input class="inp" type="text" name="fullname" value="{{inf_personnel.id_personnel}}">
+                {% if update_personnel.id_personnel %}
+                <span>{{update_personnel.id_personnel.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="fullname" value="{{update_personnel.id_personnel}}">
+                {% endif %}
+            </div>
+            <div class="col form-house">
+                <label for="fullname">Tên nhân viên</label>
+                <input class="inp" type="text" name="fullname" value="{{inf_personnel.fullname}}">
+                {% if update_personnel.fullname %}
+                <span>{{update_personnel.fullname.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="fullname" value="{{update_personnel.fullname}}">
+                {% endif %}
+            </div>
+            <div class="col form-address">
+                <label for="address">Số điện thoại</label>
+                <input class="inp" type="text" name="phone" value="{{inf_personnel.phone}}">
+                {% if update_personnel.phone %}
+                <span>{{update_personnel.phone.errors}}</span>
+                {% else %}
+                <input class="inp" type="text" name="phone" value="{{update_personnel.address}}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" type="submit">Lưu</button>
+            <a href="{% url 'delete_personnel' inf_personnel.fullname %}"><button class="btn btn-normal" type="button">Xóa</button></a>
+        </div>
+    </form>
+</div>
+{% endblock main-content %}

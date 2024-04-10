@@ -6,8 +6,11 @@
 <div class="home-container">
     <label for="area" class="title-area">Khu vực: </label>
     <select class="select-area" name="area" size="1">
+        {% for area in Area %}
         <option value="">Quận/Huyện</option>
-        <option value="1">Quận 1</option>
+        <option value="{{area.nameDistrict}}">{{area.nameDistrict}}</option>
+        {% endfor %}
+        <!-- <option value="1">Quận 1</option>
         <option value="2">Quận 2</option>
         <option value="3">Quận 3</option>
         <option value="4">Quận 4</option>
@@ -24,7 +27,7 @@
         <option value="15">Quận Phú Nhuận</option>
         <option value="16">Quận Gò Vấp</option>
         <option value="17">Quận Bình Tân</option>
-        <option value="18">Quận Tân Phú</option>
+        <option value="18">Quận Tân Phú</option> -->
     </select>
 </div>
 <div class="home-status">
@@ -34,6 +37,9 @@
         </legend>
         <div class="field_container">
             <ul class="field_list list-container">
+                <li class="list-item-room">
+                    <a class="list-item-link rented-room" href="#">Nhà {{house.nameHouse}}</a>
+                </li>
                 <li class="list-item-room">
                     <a class="list-item-link rented-room" href="#">Phòng đang thuê</a>
                     <span class="quantity-notify">0</span>
