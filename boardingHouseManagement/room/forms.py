@@ -182,7 +182,7 @@ class GetRoomOfHouse(forms.ModelForm):
 class AddPersonnel(forms.ModelForm):
     class Meta:
         model = Personnel
-        fields = ['id_personnel', 'fullname', 'phone']
+        fields = ['id_personnel', 'fullname', 'phone', 'date']
 
     def clean_id(self):
         id_personnel = self.cleaned_data['id_personnel']
@@ -212,8 +212,16 @@ class AddPersonnel(forms.ModelForm):
             return phone
         raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
 
+    def clean_date(self):
+        date = self.cleaned_data['date']       
+        Personnel.objects.get(date=date)
+        return date
+        
     def save(self):
-        Personnel.objects.create(id_personnel=self.clean_id(), fullname=self.clean_fullname(), phone=self.clean_phone())
+        Personnel.objects.create(id_personnel=self.clean_id(), 
+                                 fullname=self.clean_fullname(), 
+                                 phone=self.clean_phone(),
+                                 date=self.clean_date())
 
 class UpdateInformationPersonnel(forms.ModelForm):
     class Meta:
