@@ -4,7 +4,7 @@
 <div id="form-delete">
     <form action="." method="POST">
         {% csrf_token %}
-        <input type="hidden" name="nameHouse" value="{{ inf_house.nameHouse }}">
+        <input type="hidden" name="id" value="{{ inf_house.id }}">
         <div class="notification">
             <h3>Bạn có chắc là muốn xóa nhà {{inf_house.nameHouse}} này ?</h3>
         </div>

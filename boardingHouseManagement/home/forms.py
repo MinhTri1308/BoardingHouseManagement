@@ -1,6 +1,8 @@
 from django import forms
 import re
 from django.contrib.auth.models import User
+from room.models import Personnel
+from django.contrib.auth import authenticate
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Tên đăng nhập', max_length=20)
@@ -25,8 +27,26 @@ class RegistrationForm(forms.Form):
             if password == confirm_password and password:
                 return password
         raise forms.ValidationError('Mật khẩu nhập lại không đúng')
+    
 
     def save(self):
         User.objects.create_user(username=self.cleaned_data['username'], email=self.cleaned_data['email'], password=self.cleaned_data['password'])
 
+class UserLoginForm(forms.Form):
+    username = forms.CharField(label='Tên đăng nhập', max_length=20)
+    password = forms.CharField(label='Mật khẩu', widget=forms.PasswordInput())
 
+    def display_errors(self):
+        raise forms.ValidationError('Tên đăng nhập hoặc mật khẩu không đúng.')
+
+
+
+class PersonnelLoginForm(forms.ModelForm):
+    class Meta:
+        model = Personnel
+        fields = ['id_personnel', 'fullname']
+    
+    
+    
+        
+        

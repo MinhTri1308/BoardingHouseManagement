@@ -5,21 +5,14 @@
 {% block main-content %}
 <div id="model-room">
     <div class="navbar_room">
-        <div class="title-house">Danh sách phòng</div>
-        <div class="form-search">
-            <form action="{% url 'search_room' %}" method="POST">
-                {% csrf_token %}
-                <input type="search" name="roomsNumber">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
-            </form>
-        </div>
+        <div class="title-house">Danh sách phòng đã tìm kiếm</div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'add_room' %}"><button class="btn btn-normal" type="button">Thêm phòng</button></a>
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
+            <a class="add_room" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
+    {% if search_roomsNumber %}
     <div class="list-room-container">
-        {% for room in Room %}
+        {% for room in search_roomsNumber %}
 
         <div class="list-room">
             <div class="list-room-item">
@@ -28,6 +21,7 @@
                     Phòng số
                     {{room.roomsNumber}}
                 </a>
+                <button class="add_guests"><a href="guests/" class="list-item-link">+ Thêm khách</a></button>
 
                 <h5 class="price-room">
                     <i class="fa-solid fa-money-bill"></i>
@@ -46,9 +40,11 @@
                 </div>
             </div>
         </div>
-
         {% endfor %}
     </div>
+    {% else %}
+    <h2 style="text-align: center;">Không tìm thấy phòng bạn nhập</h2>
+    {% endif %}
 </div>
 
 {% endblock main-content %}

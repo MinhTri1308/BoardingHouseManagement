@@ -7,13 +7,6 @@ class AddRoom(forms.ModelForm):
         model = Room
         fields = ['house', 'roomsNumber', 'acreage', 'quantity', 'price', 'interior']
 
-    def clean_roomsNumber(self):
-        roomsNumber = self.cleaned_data['roomsNumber']
-        try:
-            Room.objects.get(roomsNumber=roomsNumber)
-        except Room.DoesNotExist:
-            return roomsNumber
-        raise forms.ValidationError('Số phòng này đã có, vui lòng nhập số phòng khác')
     
     def clean_acreage(self):
         acreage = self.cleaned_data['acreage']
@@ -34,33 +27,19 @@ class AddRoom(forms.ModelForm):
         return price
     
     def save(self):
-        Room.objects.create(house=self.cleaned_data['house'],
-                            roomsNumber=self.clean_roomsNumber(),
-                            acreage=self.clean_acreage(),
-                            quantity=self.clean_quantity(),
-                            price=self.clean_price(),
-                            interior=self.cleaned_data['interior'])
+        Room.objects.create(
+            house=self.cleaned_data['house'],
+            roomsNumber=self.cleaned_data['roomsNumber'],
+            acreage=self.clean_acreage(),
+            quantity=self.clean_quantity(),
+            price=self.clean_price(),
+            interior=self.cleaned_data['interior']
+        )
         
 class UpdateInformationRoom(forms.ModelForm):
     class Meta:
         model = Room
         fields = ['house', 'roomsNumber', 'acreage', 'quantity', 'price', 'interior']
-
-    def clean_roomsNumber(self):
-        roomsNumber = self.cleaned_data['roomsNumber']
-        try:
-            Room.objects.filter(roomsNumber=roomsNumber)
-        except Room.DoesNotExist:
-            return roomsNumber
-        return roomsNumber
-    
-    def clean_house(self):
-        house = self.cleaned_data['house']
-        try:
-            Room.objects.filter(house=house)
-        except Room.DoesNotExist:
-            return house
-        return house
     
     def clean_acreage(self):
         acreage = self.cleaned_data['acreage']
@@ -90,16 +69,26 @@ class DeleteRoomForm(forms.ModelForm):
         room = Room.objects.get(id=id)
         room.delete()
 
+class SearchRoom(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['roomsNumber']
+
+    
 # class GetGuestInRoom(forms.ModelForm):
 #     class Meta:
 #         model = Guests
-#     pass
+#         fields = ['fullname', 'phone', 'date']
+    
+#     def get_guest_in_room(self, id):
+#         room = Room.objects.get(id=id)
+#         Guests.objects.get
 
 #House
 class AddHouse(forms.ModelForm):
     class Meta:
         model = House
-        fields = ['nameHouse', 'address', 'personnel']
+        fields = ['nameHouse', 'address', 'personnel', 'area']
     
     def clean_nameHouse(self):
         nameHouse = self.cleaned_data['nameHouse']
@@ -112,24 +101,33 @@ class AddHouse(forms.ModelForm):
     def clean_address(self):
         address = self.cleaned_data['address']
         if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s[0-9]+),\s(Quan\s[0-9]+),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            raise forms.ValidationError('Địa chỉ bạn nhập không đúng')
+            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường gì, Quận gì, Thành phố gì')
         try:
             House.objects.get(address=address)
         except House.DoesNotExist:
             return address
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
 
+    def clean_area(self):
+        area = self.cleaned_data['area']
+        address = self.cleaned_data['address']
+        find_area = re.search(r'(Quan\s[0-9]+)', address)
+
+        if area != find_area:
+            raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
+        return area
 
     def save(self):
         House.objects.create(nameHouse=self.clean_nameHouse(), 
-                             address=self.cleaned_data['address'], 
-                             personnel=self.cleaned_data['personnel'])
+                             address=self.clean_address(), 
+                             personnel=self.cleaned_data['personnel'],
+                             area=self.cleaned_data['area'])
 
 
 class UpdataInformationHouse(forms.ModelForm):
     class Meta:
         model = House
-        fields = ['nameHouse', 'address', 'personnel']
+        fields = ['nameHouse', 'address', 'personnel', 'area']
 
     def clean_nameHouse(self):
         nameHouse = self.cleaned_data['nameHouse']
@@ -142,7 +140,7 @@ class UpdataInformationHouse(forms.ModelForm):
     def clean_address(self):
         address = self.cleaned_data['address']
         if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s[0-9]+),\s(Quan\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            raise forms.ValidationError('Địa chỉ bạn nhập không đúng')
+            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường gì, Quận gì, Thành phố gì')
         try:
             House.objects.get(address=address)
         except House.DoesNotExist:
@@ -150,34 +148,21 @@ class UpdataInformationHouse(forms.ModelForm):
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
 
     
-    def clean_personnel(self):
-        personnel = self.cleaned_data['personnel']
-        try:
-            House.objects.filter(personnel=personnel)
-        except House.DoesNotExist:
-            return personnel
-        return personnel
-    
     
 class DeleteHouseForm(forms.ModelForm):
     class Meta:
         model = House
-        fields = ['nameHouse']
+        fields = ['id']
     
-    def deleteHouse(self, pk):
-        house = House.objects.get(nameHouse=pk)
+    def deleteHouse(self, id):
+        house = House.objects.get(id=id)
         house.delete()
-
-class GetRoomOfHouse(forms.ModelForm):
+       
+class SearchHouse(forms.ModelForm):
     class Meta:
-        model = Room
-        fields = ['house', 'roomsNumber', 'acreage', 'quantity', 'price', 'interior']
+        model = House
+        fields = ['nameHouse']
 
-    def get_room_of_house(self, nameHouse):
-        house = House.objects.get(nameHouse=nameHouse)
-        room = Room.objects.filter(house=house)
-        return {'inf_room': room}
-        
 #Personnel
 class AddPersonnel(forms.ModelForm):
     class Meta:
@@ -186,6 +171,8 @@ class AddPersonnel(forms.ModelForm):
 
     def clean_id(self):
         id_personnel = self.cleaned_data['id_personnel']
+        if not re.search(r'^(NV)[0-9]+$', id_personnel):
+            raise forms.ValidationError('Mã nhân viên có dạng NV"số". VD: NV1, NV42, ...')
         try:
             Personnel.objects.get(id_personnel=id)
         except Personnel.DoesNotExist:
@@ -221,11 +208,13 @@ class UpdateInformationPersonnel(forms.ModelForm):
         fields = ['id_personnel', 'fullname', 'phone']
 
     def clean_id(self):
-        id = self.cleaned_data['id_personnel']
+        id_personnel = self.cleaned_data['id_personnel']
+        if not re.search(r'^(NV)[0-9]+$', id_personnel):
+            raise forms.ValidationError('Mã nhân viên có dạng NV"số". VD: NV1, NV42, ...')
         try:
-            Personnel.objects.filter(id_personnel=id)
+            Personnel.objects.filter(id_personnel=id_personnel)
         except Personnel.DoesNotExist:
-            return id
+            return id_personnel
         raise forms.ValidationError('Mã nhân viên này đã tồn tại, vui lòng nhập mã khác')
 
     def clean_fullname(self):
@@ -256,6 +245,11 @@ class DeletePersonnel(forms.ModelForm):
     def deletePersonnel(self, id):
         personnel = Personnel.objects.get(id_personnel=id)
         personnel.delete()
+
+class SearchPersonnel(forms.ModelForm):
+    class Meta:
+        model = Personnel
+        fields = ['id_personnel']
 
 #Area
 class AddArea(forms.ModelForm):
@@ -295,3 +289,8 @@ class DeleteArea(forms.ModelForm):
     def deleteArea(self, id):
         area = Area.objects.get(id=id)
         area.delete()
+
+class SearchArea(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = ['nameDistrict']

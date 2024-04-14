@@ -51,7 +51,7 @@
 }
 
 .price-room {
-    margin: 5px;
+    margin: 50px 5px 5px;
 }
 
 .add_guests {
@@ -183,10 +183,3 @@
     font-size: 1.4rem;
 }
 
-.form-house {
-
-}
-
-.form-personnel {
-
-}

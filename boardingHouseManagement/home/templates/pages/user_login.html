@@ -6,34 +6,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'base/css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/room.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
     <title>Đăng nhập</title>
 </head>
 
 <body>
     <div id="model">
-        <form action="" method="POST" class="form">
+        <form action="." method="POST" class="form">
             {% csrf_token %}
             <div class="form-title">
                 <label for="title">Đăng nhập tài khoản</label>
-                <button class="closeTab"><a class="login" href="{% url 'home' %}">X</a></button>
+                <a class="list-item-link login" href="{% url 'home' %}"><button class="closeTab" type="button">X</button></a>
             </div>
             <div class="form-group">
                 <label for="username" class="form-label">Tên Đăng Nhập</label>
-                {{form.username}}
-                {{form.username.errors}}
+                <input type="text" name="username">
             </div>
             <div class="form-group">
                 <label for="password" class="form-label">Mật Khẩu</label>
-                {{form.password}}
-                {{form.password.errors}}
+                <input type="password" name="password">
             </div>
             <div class="form-submit">
-                <input type="hidden" name="next" value="/">
-                <input type="submit" value="Đăng nhập">
-            </div>
-
-            <div class="have_not_account">
-                <h4>Bạn chưa có tài khoản ?<a class="list-item-link" href="{% url 'register' %}">Đăng ký</a></h4>
+                <button class="btn btn-primary" type="submit">Đăng nhập</button>
+                {% if message %}
+                <span>{{message}}</span>
+                {% endif %}
+                <div class="have-not-account">
+                    <h4>Bạn chưa có tài khoản ?</h4>
+                    <a class="list-item-link" href="{% url 'register' %}">Đăng ký</a>
+                </div>
             </div>
         </form>
     </div>

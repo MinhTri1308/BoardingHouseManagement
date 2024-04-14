@@ -17,12 +17,16 @@
         <div class="row">
             <div class="col form-house">
                 <label for="house">Nhà</label>
-                <input class="inp" type="text" name="house" value="{{inf_room.house}}">
-                {% if update_room.house %}
-                <span>{{update_room.house.errors}}</span>
-                {% else %}
-                <input class="inp" type="text" name="house" value="{{update_room.house}}">
-                {% endif %}
+                <select name="house" size="1">
+                    <option value="">------</option>
+                    {% for house in House %}
+                    {% if house.id == inf_room.house.id %}
+                    <option value="{{house.id}}" selected>{{house.nameHouse}}</option>
+                    {% else %}
+                    <option value="{{house.id}}">{{house.nameHouse}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
             </div>
             <div class="col form-room">
                 <label for="roomsNumber">Phòng số</label>

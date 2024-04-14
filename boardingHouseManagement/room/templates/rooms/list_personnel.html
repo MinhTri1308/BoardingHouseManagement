@@ -6,6 +6,13 @@
 <div id="model-room">
     <div class="navbar_room">
         <div class="title-house">Danh sách nhân viên</div>
+        <div class="form-search">
+            <form action="{% url 'search_personnel' %}" method="POST">
+                {% csrf_token %}
+                <input type="search" name="id_personnel">
+                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
+            </form>
+        </div>
         <div class="navbar-item">
             <a class="add_room" href="{% url 'add_personnel' %}"><button class="btn btn-normal">Thêm nhân viên</button></a>
             <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
@@ -15,11 +22,11 @@
         {% for personnel in Personnel %}
         <div class="list-personnel">
             <div class="list-personnel-item">
-                <a class="list-item-link personnel-name" href="{% url 'information_personnel' personnel.fullname %}">{{personnel.fullname}}</a>
+                <a class="list-item-link personnel-name" href="{% url 'information_personnel' personnel.id_personnel %}">{{personnel.fullname}}</a>
                 
                 <div class="interface-personnel">
-                    <a class="add_house" href="{% url 'edit_personnel' personnel.fullname %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_personnel' personnel.fullname %}"><button class="" type="button">Xóa</button></a>
+                    <a class="add_house" href="{% url 'edit_personnel' personnel.id_personnel %}"><button class="" type="button">Sửa</button></a>
+                    <a class="add_house" href="{% url 'delete_personnel' personnel.id_personnel %}"><button class="" type="button">Xóa</button></a>
                 </div>
             </div>
         </div>

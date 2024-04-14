@@ -29,7 +29,7 @@ admin.site.register(House, HouseAdmin)
 
 class PersonnelAdmin(admin.ModelAdmin):
     list_display = ['id_personnel', 'fullname', 'phone']
-    list_filter = ['fullname']
+    list_filter = ['id_personnel' ,'fullname']
     search_fields = ['id_personnel','fullname']
 
 admin.site.register(Personnel, PersonnelAdmin)
