@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="{% static 'base/css/register.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/electricity.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'base/css/room.css' %}" type="text/css">
-    <link rel="stylesheet"
-        href="{% static 'fonts/fontawesome-free-6.4.2-web/fontawesome-free-6.4.2/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/fontawesome-free-6.4.2-web/fontawesome-free-6.4.2/css/all.min.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -81,6 +80,13 @@
                                     <a class="list-item-link" href="{% url 'list_room' %}">
                                         <i class="fa-solid fa-door-closed icon"></i>
                                         Phòng
+                                    </a>
+                                </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_guests' %}">
+                                        {% comment %} {% url 'list_guests' %} {% endcomment %}
+                                        <i class="fa-solid fa-house"></i>
+                                        Khách
                                     </a>
                                 </li>
                                 <li class="list-item">
