@@ -1,6 +1,7 @@
 from django import forms
 import re
 from .models import Room, House, Electricity, Personnel, Area, Guests
+
 #Room
 class AddRoom(forms.ModelForm):
     class Meta:
@@ -163,6 +164,85 @@ class SearchHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse']
 
+
+# Guest
+class AddGuestForm(forms.ModelForm):
+    class Meta:
+        model = Guests
+        fields = ['room','fullname', 'phone', 'date']
+        
+    def clean_fullname(self):
+        fullname = self.cleaned_data['fullname']
+        if not re.search(r'^[A-Z][a-z]+\s(?:[A-Z][a-z]+\s?){1,3}[A-Z][a-z]+$', fullname):
+            raise forms.ValidationError('Tên không có dấu và viết hoa các kí tự đầu')
+        return fullname
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not re.search(r'^(09|03)([0-9]{8})$', phone):
+            raise forms.ValidationError('số điện thoại có 10 số và bắt đầu bằng 09 hoặc 03')
+        try:
+            Guests.objects.get(phone=phone)
+        except Guests.DoesNotExist:
+            return phone
+        raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
+          
+          
+    def check_room(self):
+        room = self.cleaned_data['room']
+        if room:
+            num_guests = Guests.objects.filter(room=room).count()
+            if num_guests >= room.quantity:
+                self.add_error('room', 'Số lượng khách đã đặt phòng đã đạt đến giới hạn tối đa.')
+                # Thêm thông báo lỗi trực tiếp vào trường room của form
+        return room
+
+               
+    def save(self):
+        Guests.objects.create(room=self.cleaned_data['room'],
+                              fullname=self.clean_fullname(),
+                              phone=self.clean_phone(),
+                              date=self.cleaned_data['date'])
+ 
+
+class UpdateGuestForm(forms.ModelForm):
+    class Meta:
+        model = Guests
+        fields = ['room','fullname', 'phone', 'date']
+        
+    def clean_fullname(self):
+        fullname = self.cleaned_data['fullname']
+        if not re.search(r'^[A-Z][a-z]+\s(?:[A-Z][a-z]+\s?){1,3}[A-Z][a-z]+$', fullname):
+            raise forms.ValidationError('Tên không có dấu và viết hoa các kí tự đầu')
+        return fullname
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not re.search(r'^(09|03)([0-9]{8})$', phone):
+            raise forms.ValidationError('số điện thoại có 10 số và bắt đầu bằng 09 hoặc 03')
+        try:
+            Guests.objects.get(phone=phone)
+        except Guests.DoesNotExist:
+            return phone
+        raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
+                    
+               
+class DeleteGuestForm(forms.ModelForm):
+    class Meta:
+        model = Guests
+        fields = ['id']
+        
+    def deleteGuest(self, id):
+        guest = Guests.objects.get(id=id)
+        guest.delete()
+
+class SearchGuest(forms.ModelForm):
+    class Meta:
+        model = Guests
+        fields = ['fullname'] 
+     
+
+
 #Personnel
 class AddPersonnel(forms.ModelForm):
     class Meta:
@@ -198,9 +278,11 @@ class AddPersonnel(forms.ModelForm):
         except Personnel.DoesNotExist:
             return phone
         raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
-
+        
     def save(self):
-        Personnel.objects.create(id_personnel=self.clean_id(), fullname=self.clean_fullname(), phone=self.clean_phone())
+        Personnel.objects.create(id_personnel=self.clean_id(), 
+                                 fullname=self.clean_fullname(), 
+                                 phone=self.clean_phone())
 
 class UpdateInformationPersonnel(forms.ModelForm):
     class Meta:
