@@ -237,3 +237,31 @@ def search_area(request):
             nameDistrict = form.cleaned_data['nameDistrict']
             area = Area.objects.filter(nameDistrict=nameDistrict)
             return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+        
+
+
+#statistical
+def statistical(request):
+    return render(request, 'rooms/list_statistical.html')
+
+def statistical_guest(request):
+    guest = None
+    form = StatisticalGuest()
+    if request.method == 'POST':
+        form = StatisticalGuest(request.POST)
+        if form.is_valid():
+            statistical_guest_month = form.cleaned_data['date']
+            guest = Guests.objects.filter(date=statistical_guest_month)
+    return render(request, 'rooms/information_statistical_guest.html', {'guest': guest})
+
+def statistical_electricity(request):
+    
+    form = StatisticalElectricity()
+    if request.method == 'POST':
+        form = StatisticalElectricity(request.POST)
+        if form.is_valid():
+            statistical_electricity_month = form.cleaned_data['date']
+            electricity = Electricity.objects.filter(date=statistical_electricity_month)
+            return render(request, 'rooms/information_statistical_guest.html', {'electricity': electricity})
+
+

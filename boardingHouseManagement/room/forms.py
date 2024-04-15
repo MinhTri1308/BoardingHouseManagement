@@ -294,3 +294,14 @@ class SearchArea(forms.ModelForm):
     class Meta:
         model = Area
         fields = ['nameDistrict']
+
+#statistical
+class StatisticalGuest(forms.ModelForm):
+    class Meta:
+        model = Guests
+        fields = ['date']
+
+class StatisticalElectricity(forms.ModelForm):
+    class Meta:
+        model = Electricity
+        fields = ['date']

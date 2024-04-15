@@ -1,0 +1,35 @@
+{% extends "pages/base.html" %}
+
+{% block title %}thống kê theo chỉ số điện{% endblock %}
+
+{% block main-content %}
+<div id="model-room">
+    <div class="navbar_room">
+        <div class="title-house">Danh sách thống kê</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'list_statistical' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div>
+        <table style="border: solid 2px red; border-collapse: collapse; width: 100%; text-align: left;">
+            <h2>Danh sách thống kê chỉ số điện</h2>
+            <tr>
+                <th>Hóa đơn</th>
+                <th>Nhà</th>
+                <th>Phòng</th>
+                <th>Chỉ số điện</th>
+                <th>Ngày-tháng</th>
+            </tr>
+            {% for electric in electric %}
+                <tr>
+                    <td><a href="{% url 'statistical' %}"><button title="Xem hóa đơn">icon</button></a></td>
+                    <td>{{electric.room.house.nameHouse}}</td>
+                    <td>{{electric.room}}</td>
+                    <td>{{electric.index_electricity}}</td>
+                    <td>{{electric.date}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock main-content %}

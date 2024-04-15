@@ -1,0 +1,36 @@
+
+{% extends "pages/base.html" %}
+
+{% block title %}thống kê theo khách{% endblock %}
+
+{% block main-content %}
+<div id="model-room">
+    <div class="navbar_room">
+        <div class="title-house">Danh sách thống kê</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'list_statistical' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div>
+        <table style="border: solid 2px red; border-collapse: collapse; width: 100%; text-align: left;">
+            <h2>Danh sách thống kê khách</h2>
+            <tr>
+                <th>Hóa đơn</th>
+                <th>Tên người thuê</th>
+                <th>SĐT</th>
+                <th>Thời gian thuê nhà</th>
+                <th>Phòng</th>
+            </tr>
+            {% for guest in guest %}
+                <tr>
+                    <td><a href="{% url 'statistical' %}"><button title="Xem hóa đơn">icon</button></a></td>
+                    <td>{{guest.fullname}}</td>
+                    <td>{{guest.phone}}</td>
+                    <td>{{guest.date}}</td>
+                    <td>{{guest.room}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock main-content %}
