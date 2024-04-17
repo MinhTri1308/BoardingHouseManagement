@@ -13,8 +13,21 @@
     </div>
     <form action="." method="POST">
         {% csrf_token %}
-        <input type="hidden" name="nameHouse" value="{{ inf_house.nameHouse }}">
+        <input type="hidden" name="id" value="{{ inf_house.id }}">
         <div class="row">
+            <div class="col form-personnel">
+                <label for="area">Khu vực</label>
+                <select name="area" size="1">
+                    <option value="">------</option>
+                    {% for area in Area %}
+                    {% if area.id == inf_house.area.id %}
+                    <option value="{{area.id}}" selected>{{area.nameDistrict}}</option>
+                    {% else %}
+                    <option value="{{area.id}}">{{area.nameDistrict}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
             <div class="col form-house">
                 <label for="nameHouse">Tên nhà</label>
                 <input class="inp" type="text" name="nameHouse" value="{{inf_house.nameHouse}}">
@@ -26,7 +39,17 @@
             </div>
             <div class="col form-address">
                 <label for="personnel">Mã nhân viên</label>
-                <input class="inp" type="text" name="personnel" value="{{inf_house.personnel}}">
+                <select name="personnel" size="1">
+                    <option value="">------</option>
+                    {% for personnel in Personnel %}
+                    {% if personnel.id_personnel == inf_house.personnel.id_personnel %}
+                    <option value="{{personnel.id_personnel}}" selected>{{personnel.fullname}}</option>
+                    {% else %}
+                    <option value="{{personnel.id_personnel}}">{{personnel.fullname}}</option>
+                    {% endif %}
+                    
+                    {% endfor %}
+                </select>
             </div>
             <div class="col form-address">
                 <label for="address">Địa chỉ</label>
@@ -40,7 +63,7 @@
         </div>
         <div class="row">
             <button class="btn btn-primary" type="submit">Lưu</button>
-            <a href="{% url 'delete_house' inf_house.nameHouse %}"><button class="btn btn-normal" type="button">Xóa
+            <a href="{% url 'delete_house' inf_house.id %}"><button class="btn btn-normal" type="button">Xóa
                     nhà</button></a>
         </div>
     </form>

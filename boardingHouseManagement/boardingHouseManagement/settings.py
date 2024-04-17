@@ -39,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'room',
+    'camera',
 
 ]
+
+# AUTH_USER_MODEL = 'home.USER'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

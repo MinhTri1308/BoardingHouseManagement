@@ -1,26 +1,16 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Danh sách nhà{% endblock %}
-
-
 {% block main-content %}
-<div class="model_house">
-    <div class="navbar_room">
-        <div class="title-house">Danh sách nhà</div>
-        <div class="form-search">
-            <form action="{% url 'search_house' %}" method="POST">
-                {% csrf_token %}
-                <input type="search" name="nameHouse">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
-            </form>
-        </div>
-        <div class="navbar-item">
-            <a class="add_house" href="{% url 'add_house' %}"><button class="btn btn-normal">Thêm nhà</button></a>
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
+<div class="model-room">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Danh sách nhà của khu vực {{inf_area.nameDistrict}}</h4>
+        <div class="form-submit">
+            <a class="add_room back" href="{% url 'list_area' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
         </div>
     </div>
     <div class="list-house-container">
-        {% for house in House %}
+        {% for house in house_of_area %}
         <div class="list-house">
             <div class="list-house-item">
                 <div class="link-house">
@@ -37,6 +27,5 @@
         {% endfor %}
     
     </div>
-
 </div>
 {% endblock main-content %}

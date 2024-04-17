@@ -12,7 +12,7 @@ class Personnel(Base):
     id_personnel = models.CharField(primary_key=True, max_length=100, null=False)
 
     def __str__(self):
-        return self.fullname
+        return self.id_personnel
 
 class Area(models.Model):
     nameDistrict = models.CharField(max_length=100)
@@ -23,7 +23,7 @@ class Area(models.Model):
 class House(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='house_area', null=True)
     personnel = models.ForeignKey(Personnel, on_delete=models.SET_NULL, related_name='house', null=True)
-    nameHouse = models.CharField(primary_key=True, max_length=100, null=False)
+    nameHouse = models.CharField(max_length=100)
     address = models.CharField(max_length=200, null=True)
 
     def __str__(self):

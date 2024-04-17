@@ -17,13 +17,12 @@
             <div class="row form-addroom">
                 <div class="col form-house">
                     <label class="form-title-room" for="house">Nhà</label>
-                    <!-- <select name="house" id="nameHouse" size="1">
+                    <select name="house" size="1">
                         <option value="">------</option>
-                        {% for houses in inf_house %}
-                        <option value="{{houses.nameHouse}}">{{houses.nameHouse}}</option>
+                        {% for house in House %}
+                        <option value="{{house.id}}">{{house.nameHouse}}</option>
                         {% endfor %}
-                    </select> -->
-                    <input class="inp" type="text" name="house">
+                    </select>
                 </div>
             </div>
             <div class="row form-addroom">

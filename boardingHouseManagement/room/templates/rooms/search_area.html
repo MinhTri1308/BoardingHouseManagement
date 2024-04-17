@@ -4,23 +4,16 @@
 
 
 {% block main-content %}
-<div class="model_area">
+<div class="model_house">
     <div class="navbar_room">
-        <div class="title-house">Danh sách khu vực</div>
-        <div class="form-search">
-            <form action="{% url 'search_area' %}" method="POST">
-                {% csrf_token %}
-                <input type="search" name="nameDistrict">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
-            </form>
-        </div>
+        <div class="title-house">Danh sách khu vực tìm kiếm</div>
         <div class="navbar-item">
-            <a class="add_house" href="{% url 'add_area' %}"><button class="btn btn-normal">Thêm khu vực</button></a>
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
+            <a class="add_room" href="{% url 'list_area' %}"><button class="btn btn-normal">Trở về</button></a>
         </div>
     </div>
+    {% if search_nameDistrict %}
     <div class="list-house-container">
-        {% for area in Area %}
+        {% for area in search_nameDistrict %}
         <div class="list-house">
             <div class="list-house-item">
                 <a class="list-item-link" href="{% url 'get_house' area.id %}">{{area.nameDistrict}}</a>
@@ -32,8 +25,9 @@
             </div>
         </div>
         {% endfor %}
-    
     </div>
-
+    {% else %}
+    <h2>Không tìm thấy thông tin bạn nhập</h2>
+    {% endif %}
 </div>
 {% endblock main-content %}

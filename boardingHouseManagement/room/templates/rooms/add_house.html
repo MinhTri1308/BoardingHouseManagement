@@ -15,6 +15,18 @@
     <form action="." method="POST">
         {% csrf_token %}
         <div class="row">
+            <div class="col form-personnel">
+                <label for="area">Khu vực</label>
+                <select name="area" size="1">
+                    <option value="">------</option>
+                    {% for area in Area %}
+                    <option value="{{area.id}}">{{area.nameDistrict}}</option>
+                    {% endfor %}
+                </select>
+                {% if new_house.area %}
+                <span>{{new_house.area.errors}}</span>
+                {% endif %}
+            </div>
             <div class="col form-nameHouse">
                 <label for="nameHouse">Tên nhà</label>
                 <input class="inp" type="text" name="nameHouse">
@@ -23,8 +35,13 @@
                 {% endif %}
             </div>
             <div class="col form-personnel">
-                <label for="personnel">Mã nhân viên</label>
-                <input class="inp" type="text" name="personnel">
+                <label for="personnel">Nhân viên</label>
+                <select name="personnel" size="1">
+                    <option value="">------</option>
+                    {% for personnel in Personnel %}
+                    <option value="{{personnel.id_personnel}}">{{personnel.fullname}}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col form-address">
                 <label for="address">Địa chỉ nhà</label>
