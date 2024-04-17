@@ -15,21 +15,25 @@
         <table style="border: solid 2px red; border-collapse: collapse; width: 100%; text-align: left;">
             <h2>Danh sách thống kê khách</h2>
             <tr>
-                <th>Hóa đơn</th>
                 <th>Tên người thuê</th>
                 <th>SĐT</th>
                 <th>Thời gian thuê nhà</th>
                 <th>Phòng</th>
+                <th>Nhà</th>
             </tr>
-            {% for guest in guest %}
-                <tr>
-                    <td><a href="{% url 'statistical' %}"><button title="Xem hóa đơn">icon</button></a></td>
-                    <td>{{guest.fullname}}</td>
-                    <td>{{guest.phone}}</td>
-                    <td>{{guest.date}}</td>
-                    <td>{{guest.room}}</td>
-                </tr>
-            {% endfor %}
+            {% if guest %}
+                {% for guest in guest %}
+                    <tr>
+                        <td><a href="{% url 'show_invoice' guest.id %}"><button title="Xem hóa đơn"><i class="fa-regular fa-eye"></i></button></a>  {{guest.fullname}}</td>
+                        <td>{{guest.phone}}</td>
+                        <td>{{guest.date}}</td>
+                        <td>{{guest.room.roomsNumber}}</td>
+                        <td>{{guest.room.house.nameHouse}}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <h2>không có thống tin khách hàng cho tháng này</h2>
+            {% endif%}
         </table>
     </div>
 </div>

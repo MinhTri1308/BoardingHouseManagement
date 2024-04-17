@@ -109,14 +109,14 @@ class AddHouse(forms.ModelForm):
             return address
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
 
-    def clean_area(self):
-        area = self.cleaned_data['area']
-        address = self.cleaned_data['address']
-        find_area = re.search(r'(Quan\s[0-9]+)', address)
+    # def clean_area(self):
+    #     area = self.cleaned_data['area']
+    #     address = self.cleaned_data['address']
+    #     find_area = re.search(r'(Quan\s[0-9]+)', address)
 
-        if area != find_area:
-            raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
-        return area
+    #     # if area != find_area:
+    #     #     raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
+    #     # return area
 
     def save(self):
         House.objects.create(nameHouse=self.clean_nameHouse(), 
@@ -387,3 +387,21 @@ class StatisticalElectricity(forms.ModelForm):
     class Meta:
         model = Electricity
         fields = ['date']
+
+#electricity
+class ElectricityForm(forms.ModelForm):
+    class Meta:
+        model = Electricity
+        fields = ['date', 'index_electricity','room']
+
+    def clean_index_electricity(self):
+        index_electricity = self.cleaned_data['index_electricity']
+        if index_electricity <= 0:
+            raise forms.ValidationError('Chỉ số điện không được âm')
+        return index_electricity
+
+    def save(self):
+        Electricity.objects.create(room=self.cleaned_data['room'],
+                              index_electricity=self.clean_index_electricity(),
+                              date=self.cleaned_data['date'])
+        

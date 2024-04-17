@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models.functions import ExtractMonth, ExtractYear
 from .models import Room, Electricity, House, Personnel, Area, Guests
 from .forms import *
 # Create your views here.
@@ -129,7 +130,13 @@ def search_nameHouse(request):
 
 #Electricity
 def create_electricity(request):
-    data = {'Electricity': Electricity.objects.all(), 'House': House.objects.all()}
+    data = {'House': House.objects.all(), 'Room': Room.objects.all()}
+    form = ElectricityForm()
+    if request.method == 'POST':
+        form = ElectricityForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('electricity')
     return render(request, 'rooms/electricity.html', data)
 
 def calculate(request):
@@ -148,12 +155,12 @@ def add_guests(request):
     if request.method == 'POST':
         form = AddGuestForm(request.POST)
         if form.is_valid():
-            room_error = form.check_room()  # Gọi check_room sau khi kiểm tra is_valid()
-            if not room_error:
-                form.save()
-                return redirect('list_guests')
+            # room_error = form.check_room()  # Gọi check_room sau khi kiểm tra is_valid()
+            # if not room_error:
+            form.save()
+            return redirect('list_guests')
 
-    return render(request, 'rooms/add_guests.html', {'Room':room ,'new_guest': form, 'room_error': room_error})
+    return render(request, 'rooms/add_guests.html', {'Room':room ,'new_guest': form})
 
 def guests_in_room(request, id):
     room = Room.objects.get(id=id)
@@ -307,14 +314,15 @@ def statistical(request):
     return render(request, 'rooms/list_statistical.html')
 
 def statistical_guest(request):
-    guest = None
     form = StatisticalGuest()
     if request.method == 'POST':
         form = StatisticalGuest(request.POST)
         if form.is_valid():
             statistical_guest_month = form.cleaned_data['date']
-            guest = Guests.objects.filter(date=statistical_guest_month)
-    return render(request, 'rooms/information_statistical_guest.html', {'guest': guest})
+            guest = Guests.objects.filter(date__year=statistical_guest_month.year, date__month=statistical_guest_month.month)
+            guest = guest.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+    # return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
 
 def statistical_electricity(request):
     
@@ -324,6 +332,19 @@ def statistical_electricity(request):
         if form.is_valid():
             statistical_electricity_month = form.cleaned_data['date']
             electricity = Electricity.objects.filter(date=statistical_electricity_month)
-            return render(request, 'rooms/information_statistical_guest.html', {'electricity': electricity})
+
+            electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+    # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+
+def show_invoice(request, id):
+    data = get_object_or_404(Guests, id=id)
+    return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
+    
+def list_bill(request):
+    return render(request,'rooms/list_bill.html')
 
 
+def information_bill(request):
+    data = get_object_or_404(Guests)
+    return render(request,'rooms/information_bill.html', {'bill': data})

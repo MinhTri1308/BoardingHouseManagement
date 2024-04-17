@@ -9,7 +9,8 @@
         <div class="form-search">
             <form action="{% url 'search_guest' %}" method="POST">
                 {% csrf_token %}
-                <input type="search" name="fullname">
+                <label for="">Tìm kiếm</label>
+                <input type="search" name="fullname" >
                 <button class="btn btn-normal" type="submit">Tìm kiếm</button>
             </form>
         </div>

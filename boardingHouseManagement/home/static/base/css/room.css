@@ -183,3 +183,38 @@
     font-size: 1.4rem;
 }
 
+
+/* hóa đơn */
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+.invoice {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.invoice-header {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.invoice-header h2 {
+    margin: 0;
+}
+.invoice-details {
+    margin-bottom: 20px;
+}
+.invoice-details p {
+    margin: 5px 0;
+}
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}

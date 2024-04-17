@@ -23,10 +23,6 @@
             <option value="{{room.id}}">{{room.roomsNumber}}</option>
             {% endfor %}
           </select>
-          {% if room_error %}
-          <span >{{ room_error }}</span> <!-- lỗi -->
-          {% endif %}
-
       </div>
       <div class="col form-nameHouse">
           <label for="fullname">Họ và tên</label>
@@ -45,10 +41,8 @@
       <div class="col form-address">
         <label for="phone">Ngày đăng ký</label>
         <input type="date" name="date" >
-      
+      </div>
     </div>
-  </div>
-
     <button class="btn btn-primary" type="submit">Lưu</button>
   </form>
 {% endblock %}
