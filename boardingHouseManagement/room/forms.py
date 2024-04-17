@@ -203,9 +203,9 @@ class AddGuestForm(forms.ModelForm):
         if room:
             num_guests = Guests.objects.filter(room=room).count()
             if num_guests >= room.quantity:
-                self.add_error('room', 'Số lượng khách đã đặt phòng đã đạt đến giới hạn tối đa.')
+                raise forms.ValidationError('Số lượng khách đã đặt phòng đã đạt đến giới hạn')
                 # Thêm thông báo lỗi trực tiếp vào trường room của form
-        return room
+        # return room
 
                
     def save(self):
@@ -254,11 +254,36 @@ class DeleteGuestForm(forms.ModelForm):
         guest = Guests.objects.get(id=id)
         guest.delete()
 
-class SearchGuest(forms.ModelForm):
+class SearchGuestForm(forms.ModelForm):
     class Meta:
         model = Guests
         fields = ['fullname'] 
      
+class GuestCheckoutForm(forms.ModelForm):
+    room_id = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Guests
+        fields = ['room']
+
+    def checkout_guest(self):
+        room_id = self.cleaned_data['room_id']
+        try:
+            room = Room.objects.get(id=room_id)
+        except Room.DoesNotExist:
+            raise forms.ValidationError("Phòng không tồn tại")
+        # Lấy tất cả khách hàng trong phòng có trạng thái 'checked_in'
+        guests = Guests.objects.filter(room=room, status='checked_in')
+        # Cập nhật trạng thái của tất cả khách hàng trong phòng thành 'checked_out'
+        guests.update(status='checked_out')
+        guests.delete()
+        # Kiểm tra xem phòng còn khách hàng nào không
+        remaining_guests = Guests.objects.filter(room=room, status='checked_in').count()
+        if remaining_guests == 0:
+            # Cập nhật thông tin của phòng để đảm bảo rằng phòng đã trống
+            room.quantity = 0
+            room.save()     
+    
 
 # class GetGuestInRoom(forms.ModelForm):
 #     class Meta:

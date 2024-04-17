@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
+from django.forms import ValidationError
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Room, Electricity, House, Personnel, Area, Guests
 from .forms import *
@@ -110,10 +111,13 @@ def add_guests(request):
     if request.method == 'POST':
         form = AddGuestForm(request.POST)
         if form.is_valid():
-            room_error = form.check_room()  # Gọi check_room sau khi kiểm tra is_valid()
-            if not room_error:
-                form.save()
-                return redirect('list_guests')
+            try:
+                room_error = form.check_room()  # Kiểm tra số lượng khách trong phòng
+                if not room_error:
+                    form.save()
+                    return redirect('list_guests')
+            except ValidationError as e:
+                room_error = e.message
 
     return render(request, 'rooms/add_guests.html', {'Room':room ,'new_guest': form, 'room_error': room_error})
 
@@ -150,15 +154,30 @@ def delete_guest(request, guest_id): # gắn hàm delete
     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
 
 def search_guest(request):
-    form = SearchGuest()
+    form = SearchGuestForm()
     if request.method == 'POST':
-        form = SearchGuest(request.POST)
+        form = SearchGuestForm(request.POST)
         if form.is_valid():
             fullname = form.cleaned_data['fullname'] 
             guest = Guests.objects.filter(fullname=fullname)
             return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
 
+    # Trả về trang hiển thị danh sách phòng
+    rooms = Room.objects.all()
+    return render(request, 'list_room.html', {'rooms': rooms})
 
+def guest_checkout(request, id):
+    room = Room.objects.get(id=id)
+    guests = Guests.objects.filter(room=room)
+    if request.method == 'POST':
+        form = GuestCheckoutForm(request.POST)
+        if form.is_valid():
+            form.checkout_guest()
+            return redirect('list_room') 
+    else:
+        form = GuestCheckoutForm(initial={'room_id': id})
+    
+    return render(request, 'rooms/guest_checkout.html', {'checkout': form, 'room' : room,'guests':guests})
 
 
 #Personnel
