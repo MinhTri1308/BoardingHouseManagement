@@ -331,8 +331,7 @@ def statistical_electricity(request):
         form = StatisticalElectricity(request.POST)
         if form.is_valid():
             statistical_electricity_month = form.cleaned_data['date']
-            electricity = Electricity.objects.filter(date=statistical_electricity_month)
-
+            electricity = Electricity.objects.filter(date__year=statistical_electricity_month.year, date__month=statistical_electricity_month.month)
             electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
             return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
     # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
