@@ -3,30 +3,26 @@
 {% block main-content %}
 
 <div class="form_navbar navbar_room">
-    <h4 class="title-room">khách hàng - Phòng số {{ room.roomsNumber }}</h4>
+    <h4 class="title-room">Thông tin khách hàng - Phòng số {{ room.roomsNumber }}</h4>
     <div class="form-submit">
         <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
     </div>
 </div>
 
 <div id="guests-in-room">
-    <form method="post" action="{% url 'list_room' %}">
-        {% csrf_token %}
+    <div class="col">
         {% for guest in guests %}
-        <div class= "row">
-            <div class="col">
+            <div class="row">
                 <h3>Tên Khách : {{ guest.fullname }}</h3>
-            </div>
-            <input type="hidden" name="guest_id" value="{{ guest.id }}">
-            <input type="hidden" name="room_id" value="{{ room.id }}">
-            <div class="col" style="">
-                <button type="submit" >Trả phòng</button>
-            </div>
-        </div>
-        <br>
+                <h3>Số điện thoại : {{ guest.phone }}</h3>
+                <form method="post" action="{% url 'guest_checkout' room_id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="guest_id" value="{{ guest.id }}">
+                    <button type="submit">Trả phòng</button>
+                </form> 
+            </div><br>
+            {% empty %}
+            <li>Chưa có khách hàng nào.</li>
         {% endfor %}
-    </form>
-</div>
-    {% comment %} class="btn btn-primary" name="guest_id" value="{{ guest.id }}{% endcomment %}
-
+    </div>
 {% endblock main-content %}

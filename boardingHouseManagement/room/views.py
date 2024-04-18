@@ -204,18 +204,24 @@ def search_guest(request):
     rooms = Room.objects.all()
     return render(request, 'list_room.html', {'rooms': rooms})
 
-def guest_checkout(request, id):
-    room = Room.objects.get(id=id)
-    guests = Guests.objects.filter(room=room)
+def guest_checkout(request, room_id):
+    # Lấy danh sách các khách hàng đang ở trong phòng
+    guests = Guests.objects.filter(room_id=room_id)
+
     if request.method == 'POST':
-        form = GuestCheckoutForm(request.POST)
-        if form.is_valid():
-            form.checkout_guest()
-            return redirect('list_room') 
-    else:
-        form = GuestCheckoutForm(initial={'room_id': id})
+        # Xử lý khi người dùng bấm nút trả phòng của một khách hàng cụ thể
+        guest_id = request.POST.get('guest_id')
+        try:
+            guest = Guests.objects.get(id=guest_id)
+            # Cập nhật room_id của khách hàng thành Null 
+            guest.room_id = None # đặt là None thì room sẽ ko lấy đc room_id của khách nên sẽ ko hiện lại trên room
+            guest.save()
+        except Guests.DoesNotExist:
+            pass  # Xử lý nếu không tìm thấy khách hàng
+        # Chuyển hướng người dùng đến trang list_room
+        return redirect('guest_checkout')
     
-    return render(request, 'rooms/guest_checkout.html', {'checkout': form, 'room' : room,'guests':guests})
+    return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
 
 
 #Personnel

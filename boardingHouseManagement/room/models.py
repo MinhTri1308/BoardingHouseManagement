@@ -38,10 +38,8 @@ class Room(models.Model):
     interior = models.TextField()
 
 class Guests(Base):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
     date = models.DateField(null=True)
-    status = models.CharField(max_length=20, default='checked_in')  # Trạng thái của khách, ví dụ: checked_in, checked_out
-    checkout = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True, related_name='checked_out_guests')
 
 class Electricity(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='electricity', null=True)
