@@ -28,10 +28,9 @@
                     Phòng số
                     {{room.roomsNumber}}
                 </a>
-                {% comment %} <button class="add_guests"><a href="{% url 'guests_in_room' room.id %}" class="list-item-link">khách trọ</a></button> {% endcomment %}
+                {% if room.guests_set.all.exists %}
                 <button class="add_guests"><a href="{% url 'guest_checkout' room.id %}" class="list-item-link">Khách trọ</a></button>
-                {% comment %} có khách mới hiện 2 nút   {% endcomment %}
-
+                {% endif %}
                 <h5 class="price-room">
                     <i class="fa-solid fa-money-bill"></i>
                     {% if not room.price %}

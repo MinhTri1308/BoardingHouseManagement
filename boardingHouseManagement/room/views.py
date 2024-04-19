@@ -217,9 +217,8 @@ def guest_checkout(request, room_id):
             guest.room_id = None # đặt là None thì room sẽ ko lấy đc room_id của khách nên sẽ ko hiện lại trên room
             guest.save()
         except Guests.DoesNotExist:
-            pass  # Xử lý nếu không tìm thấy khách hàng
-        # Chuyển hướng người dùng đến trang list_room
-        return redirect('guest_checkout')
+            pass  
+        return redirect('guest_checkout', room_id = room_id)
     
     return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
 
