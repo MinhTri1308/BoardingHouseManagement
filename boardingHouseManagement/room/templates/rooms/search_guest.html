@@ -1,0 +1,35 @@
+{% extends "pages/base.html" %}
+
+
+{% block title %}Danh sách khách{% endblock %}
+{% block main-content %}
+<div id="model-room">
+    <div class="navbar_room">
+        <div class="title-house">Danh sách khách đã tìm kiếm</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
+        </div>
+    </div>
+    {% if search_fullname %}
+    <div class="list-personnel-container">
+
+        {% for guest in search_fullname %}
+        <div class="list-personnel">
+            <div class="list-personnel-item">
+                <a class="list-item-link guest-name" href="{% url 'information_guest' guest.id %}">{{guest.fullname}}</a>
+                
+                <div class="interface-personnel">
+                    <a class="add_house" href="{% url 'edit_guest' guest.id %}"><button class="" type="button">Sửa</button></a>
+                    <a class="add_house" href="{% url 'delete_guest' guest.id %}"><button class="" type="button">Xóa</button></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    
+    </div>
+    {% else %}
+        <h2> không tìm thấy tên bạn đã nhập </h2>
+    {% endif %}
+</div>
+
+{% endblock main-content %}

@@ -6,21 +6,21 @@
 {% block main-content %}
 <div class="model_house">
     <div class="navbar_room">
-        <div class="title-house">Danh sách nhân viên đã tìm kiếm</div>
+        <div class="title-house">Kết quả tìm kiếm</div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'list_personnel' %}"><button class="btn btn-normal">Trở về</button></a>
+            <a class="add_room" href="{% url 'list_personnel' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_id_personnel %}
+    {% if search_personnels %}
     <div class="list-house-container">
-        {% for personnel in search_id_personnel %}
+        {% for ps in search_personnels %}
         <div class="list-personnel">
             <div class="list-personnel-item">
-                <a class="list-item-link personnel-name" href="{% url 'information_personnel' personnel.id_personnel %}">{{personnel.fullname}}</a>
+                <a class="list-item-link personnel-name" href="{% url 'information_personnel' ps.id_personnel %}">{{ps.fullname}}</a>
                 
                 <div class="interface-personnel">
-                    <a class="add_house" href="{% url 'edit_personnel' personnel.id_personnel %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_personnel' personnel.id_personnel %}"><button class="" type="button">Xóa</button></a>
+                    <a class="add_house" href="{% url 'edit_personnel' ps.id_personnel %}"><button class="" type="button">Sửa</button></a>
+                    <a class="add_house" href="{% url 'delete_personnel' ps.id_personnel %}"><button class="" type="button">Xóa</button></a>
                 </div>
             </div>
         </div>
@@ -29,24 +29,6 @@
     {% else %}
     <h2>Không tìm thấy thông tin bạn nhập</h2>
     {% endif %}
-
-    <!-- {% if search_fullname %}
-    <div class="list-house-container">
-        {% for personnel in search_fullname %}
-        <div class="list-personnel">
-            <div class="list-personnel-item">
-                <a class="list-item-link personnel-name" href="{% url 'information_personnel' personnel.id_personnel %}">{{personnel.fullname}}</a>
-                
-                <div class="interface-personnel">
-                    <a class="add_house" href="{% url 'edit_personnel' personnel.id_personnel %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_personnel' personnel.id_personnel %}"><button class="" type="button">Xóa</button></a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-    {% else %}
-    <h2>Không tìm thấy thông tin bạn nhập</h2>
-    {% endif %} -->
+  
 </div>
 {% endblock main-content %}
