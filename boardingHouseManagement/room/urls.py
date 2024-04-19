@@ -41,6 +41,6 @@ urlpatterns = [
     path('information_statiscal_guest/', views.statistical_guest, name='information_statistical_guest'),
     path('information_statiscal_electricity/', views.statistical_electricity, name='information_statistical_electricity'),
     path('<int:id>/invoice/', views.show_invoice, name='show_invoice'),
-    path('list_bill/', views.list_bill, name='list_bill'),
-    path('information_bill/', views.information_bill, name='information_bill'),]
-
+    # path('list_bill/', views.list_bill, name='list_bill'),
+    # path('information_bill/', views.information_bill, name='information_bill'),
+]

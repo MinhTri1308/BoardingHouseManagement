@@ -401,7 +401,7 @@ class ElectricityForm(forms.ModelForm):
         return index_electricity
 
     def save(self):
-        Electricity.objects.create(room=self.cleaned_data['room'],
-                              index_electricity=self.clean_index_electricity(),
-                              date=self.cleaned_data['date'])
+        Electricity.objects.create( room=self.cleaned_data['room'],
+                                    index_electricity=self.clean_index_electricity(),
+                                    date=self.cleaned_data['date'])
         

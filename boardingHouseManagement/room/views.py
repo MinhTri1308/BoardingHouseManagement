@@ -8,7 +8,7 @@ from .forms import *
 
 #Room
 def create_room(request):
-    data = {'Room': Room.objects.all().order_by('roomsNumber')}
+    data = {'Room': Room.objects.all().order_by('id')}
     return render(request, 'rooms/list_room.html', data)
 
 def get_information_room(request, id):
@@ -339,11 +339,14 @@ def statistical_electricity(request):
 def show_invoice(request, id):
     data = get_object_or_404(Guests, id=id)
     return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
-    
-def list_bill(request):
-    return render(request,'rooms/list_bill.html')
 
 
-def information_bill(request):
-    data = get_object_or_404(Guests)
-    return render(request,'rooms/information_bill.html', {'bill': data})
+
+
+# def list_bill(request):
+#     return render(request,'rooms/list_bill.html')
+#
+#
+# def information_bill(request):
+#     data = get_object_or_404(Guests)
+#     return render(request,'rooms/information_bill.html', {'bill': data})
