@@ -8,15 +8,14 @@
   <div class="form_navbar navbar_room">
     <h4 class="title-room">sửa khách</h4>
     <div class="form-submit">
-        <a class="add_room back" href="{% url 'list_guests' %}"><button class="btn btn-normal">Trở về</button></a>
+        <a class="add_room back" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
     </div>
   </div>
   <form method="POST" action=".">
     {% csrf_token %}
-      <!-- Thêm các trường thông tin khách hàng vào form -->
       <div class="row">
         <div class="col form-nameHouse">
-            <label for="room">Phòng</label>
+            <label class="form-title-room" for="room">Phòng</label>
             <select name="room">
               <option value="">--------</option>
               {% for room in Room %}
@@ -30,7 +29,7 @@
             </select>          
         </div>
         <div class="col form-nameHouse">
-            <label for="fullname">Họ và tên</label>
+            <label class="form-title-room" for="fullname">Họ và tên</label>
             <input type="text" name="fullname" value="{{inf_guest.fullname}}">
             {% if update_guest.fullname %}
             <span>{{update_guest.fullname.errors}}</span>
@@ -39,7 +38,7 @@
             {% endif %}
         </div>
         <div class="col form-address">
-            <label for="phone">Số điện thoại</label>
+            <label class="form-title-room" for="phone">Số điện thoại</label>
             <input type="text" name="phone" value="{{inf_guest.phone}}" >
             {% if update_guest.phone %}
             <span>{{update_guest.phone.errors}}</span>
@@ -48,9 +47,8 @@
             {% endif %}
         </div>
         <div class="col form-address">
-          <label for="phone">Ngày sửa</label>
-          <input class="inp" type="date" name="date" value="{{inf_guest.date|date:"Y-m-d"}}">
-          {% comment %}  {% endcomment %}
+          <label class="form-title-room" for="phone">Ngày sửa</label>
+          <input class="inp" type="date" name="date" value="{{inf_guest.date|date:'Y-m-d'}}">
         </div>  
       </div>
     

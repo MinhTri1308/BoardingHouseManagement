@@ -82,6 +82,7 @@ html {
 .app-menu {
     background-color: #38f3fa;
     min-height: 200px;
+    width: 200px;
 }
 
 .list-item {
