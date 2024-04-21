@@ -11,8 +11,16 @@
                 {% csrf_token %}
                 <label for="">Tìm kiếm</label>
                 <input type="search" name="fullname">
+                <label for="">Tìm kiếm</label>
+                <input type="month" name="month_year">
                 <button class="btn btn-normal" type="submit">Tìm kiếm</button>
             </form>
+            {% comment %} <form action="{% url 'search_guest' %}" method="POST">
+                {% csrf_token %}
+                <label for="">Tìm kiếm</label>
+                <input type="month" id="month_year" name="month_year">
+                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
+            </form> {% endcomment %}
         </div>
         <div class="navbar-item">
             <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
@@ -66,8 +74,9 @@
                         <th style="width: 50px;">ID</th>
                         <th style="width: 200px;">Họ tên</th>
                         <th style="width: 150px;">Số điện thoại</th>
+                        <th style="width: 150px;">Ngày đăng kí</th>
                         <th style="width: 100px;">Phòng</th>
-                        <th style="width: 150px;">Nhà</th>
+                        <th style="width: 100px;">Nhà</th>
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
@@ -76,6 +85,7 @@
                     <td style="text-align: center;">{{guest.id}}</td>
                     <td style="text-align: center;">{{guest.fullname}}</td>
                     <td style="text-align: center;">{{guest.phone}}</td>
+                    <td style="text-align: center;">{{guest.date|date:"Y-m-d"}}</td>
                     <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
                     <td style="text-align: center;">{{guest.room.house}}</td>
                     <td style="display: flex; justify-content: center; align-items: center;">
@@ -93,41 +103,5 @@
 </div>
 
 {% endblock main-content %}
-{% extends "pages/base.html" %}
 
 
-{% block title %}Danh sách khách{% endblock %}
-{% block main-content %}
-<div id="model-room">
-    <div class="navbar_room">
-        <div class="title-house">Danh sách khách</div>
-        <div class="form-search">
-            <form action="{% url 'search_guest' %}" method="POST">
-                {% csrf_token %}
-                <input type="search" name="fullname">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
-            </form>
-        </div>
-        <div class="navbar-item">
-            <a class="add_room" href="{% url 'add_guests' %}"><button class="btn btn-normal">Thêm khách</button></a>
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
-        </div>
-    </div>
-    <div class="list-personnel-container">
-        {% for guest in Guests %}
-        <div class="list-personnel">
-            <div class="list-personnel-item">
-                <a class="list-item-link guest-name" href="{% url 'information_guest' guest.id %}">{{guest.fullname}}</a>
-                
-                <div class="interface-personnel">
-                    <a class="add_house" href="{% url 'edit_guest' guest.id %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_guest' guest.id %}"><button class="" type="button">Xóa</button></a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    
-    </div>
-</div>
-
-{% endblock main-content %}

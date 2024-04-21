@@ -1,0 +1,29 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Xem hóa đơn{% endblock %}
+
+{% block main-content %}
+<div>  
+    <div class="navbar_room">
+        <div class="title-house">Thông tin</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'list_statistical' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div>
+        <div style="border: solid 2px red; border-collapse: collapse; width: 100%; text-align: left;">
+            <h1>Thông tin khách</h2>
+            <h3>Tên người thuê: {{g.fullname}}</h3>
+            <h3>SĐT: {{g.phone}}</h3>
+            <h3>Thời gian thuê nhà: {{g.date}}</h3>
+            <h3>khu vực: {{g.room.house.area.nameDistrict}}</h3>
+            <h3>Nhà: {{g.room.house.nameHouse}}</h3>
+            <h3>Địa chỉ nhà trọ: {{g.room.house.address}}</h3>
+            <h3>Phòng: {{g.room.roomsNumber}}</h3>
+            <h3>Tên người quản lí: {{g.room.house.personnel.fullname}}</h3>
+
+        </div>
+    </div>
+
+</div>
+{% endblock main-content %}

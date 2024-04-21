@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 import re
 from .models import Room, House, Electricity, Personnel, Area, Guests
@@ -76,6 +77,15 @@ class SearchRoom(forms.ModelForm):
         fields = ['roomsNumber']
 
     
+# class GetGuestInRoom(forms.ModelForm):
+#     class Meta:
+#         model = Guests
+#         fields = ['fullname', 'phone', 'date']
+    
+#     def get_guest_in_room(self, id):
+#         room = Room.objects.get(id=id)
+#         Guests.objects.get
+
 #House
 class AddHouse(forms.ModelForm):
     class Meta:
@@ -93,14 +103,14 @@ class AddHouse(forms.ModelForm):
             return address
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
 
-    def clean_area(self):
-        area = self.cleaned_data['area']
-        address = self.cleaned_data['address']
-        find_area = re.search(r'(Quan\s[0-9]+)', address)
+    # def clean_area(self):
+    #     area = self.cleaned_data['area']
+    #     address = self.cleaned_data['address']
+    #     find_area = re.search(r'(Quan\s[0-9]+)', address)
 
-        if area != find_area:
-            raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
-        return area
+    #     # if area != find_area:
+    #     #     raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
+    #     # return area
 
     def save(self):
         House.objects.create(nameHouse=self.cleaned_data['nameHouse'], 
@@ -156,11 +166,6 @@ class SearchHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse']
 
-    def get_room_of_house(self, nameHouse):
-        house = House.objects.get(nameHouse=nameHouse)
-        room = Room.objects.filter(house=house)
-        return {'inf_room': room}
-        
 
 # Guest
 class AddGuestForm(forms.ModelForm):
@@ -200,15 +205,7 @@ class AddGuestForm(forms.ModelForm):
                               fullname=self.clean_fullname(),
                               phone=self.clean_phone(),
                               date=self.cleaned_data['date'])
-
-    # def save(self, commit=True):
-    #     guest = super().save(commit=False)
-    #     guest.fullname = self.cleaned_data['fullname']
-    #     guest.phone = self.cleaned_data['phone']
-    #     if commit:
-    #         guest.save()
-    #     return guest   
-        
+ 
 
 class UpdateGuestForm(forms.ModelForm):
     class Meta:
@@ -244,19 +241,14 @@ class DeleteGuestForm(forms.ModelForm):
 class SearchGuestForm(forms.ModelForm):
     class Meta:
         model = Guests
-        fields = ['fullname'] 
+        fields = ['fullname','date'] 
      
-# class GuestCheckoutForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date'].widget = forms.SelectDateWidget(months=None, years=range(2000, datetime.datetime.now().year + 1))
 
 
 
-
-# class GetGuestInRoom(forms.ModelForm):
-#     class Meta:
-#         model = Guests
-#     pass
-        
-        
 #Personnel
 class AddPersonnel(forms.ModelForm):
     class Meta:

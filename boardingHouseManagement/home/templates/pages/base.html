@@ -82,19 +82,6 @@
                                 </li>
                                 <li class="list-item">
                                     <a class="list-item-link" href="{% url 'list_guests' %}">
-                                        {% comment %} {% url 'list_guests' %} {% endcomment %}
-                                        <i class="fa-solid fa-house"></i>
-                                        Khách
-                                    </a>
-                                </li>
-                                <li class="list-item">
-                                    <a class="list-item-link" href="{% url 'list_guests' %}">
-                                        <i class="fa-solid fa-house"></i>
-                                        Khách
-                                    </a>
-                                </li>
-                                <li class="list-item">
-                                    <a class="list-item-link" href="{% url 'list_guests' %}">
                                         <i class="fa-solid fa-user-check"></i>
                                         Khách
                                     </a>
@@ -115,7 +102,7 @@
                                         Nhân viên
                                     </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="#">
+                                <li class="list-item"><a class="list-item-link" href="{% url 'list_statistical' %}">
                                         <i class="fa fa-users"></i>
                                         Thống kê
                                     </a>

@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models.functions import ExtractMonth, ExtractYear
 from .models import Room, Electricity, House, Personnel, Area, Guests
 from .forms import *
+import datetime
 # Create your views here.
 
 
@@ -181,19 +182,40 @@ def delete_guest(request, guest_id): # gắn hàm delete
             return redirect('list_guests') 
     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
 
+# def search_guest(request):
+#     form = SearchGuestForm()
+#     if request.method == 'POST':
+#         form = SearchGuestForm(request.POST)
+#         if form.is_valid():
+#             fullname = form.cleaned_data['fullname']
+#             guest = Guests.objects.filter(fullname=fullname)
+#             return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+#     # Trả về trang hiển thị danh sách phòng
+#     rooms = Room.objects.all()
+#     return render(request, 'list_room.html', {'rooms': rooms})
+
 def search_guest(request):
     form = SearchGuestForm()
+    guests = Guests.objects.all()  # Bắt đầu với tất cả các khách hàng
     if request.method == 'POST':
         form = SearchGuestForm(request.POST)
         if form.is_valid():
-            fullname = form.cleaned_data['fullname'] 
-            guest = Guests.objects.filter(fullname=fullname)
-            return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+            fullname = form.cleaned_data['fullname']
+            month_year = form.cleaned_data['date']
+            guests = Guests.objects.all()
+            if fullname:
+                guests = guests.filter(fullname=fullname)
+            elif month_year:
+                guests = guests.filter(date__year=month_year.year, date__month=month_year.month)
+            if guests.exists():  # Kiểm tra nếu không có kết quả từ truy vấn
+                guests = Guests.objects.none()  # Gán một queryset trống
+            
+        return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guests})
     # Trả về trang hiển thị danh sách phòng
     rooms = Room.objects.all()
     return render(request, 'list_room.html', {'rooms': rooms})
 
-def guest_checkout(request, room_id):
+def guest_checkout(request, room_id): 
     # Lấy danh sách các khách hàng đang ở trong phòng
     guests = Guests.objects.filter(room_id=room_id)
 
@@ -386,4 +408,44 @@ def search_area(request):
             nameDistrict = form.cleaned_data['nameDistrict']
             area = Area.objects.filter(nameDistrict=nameDistrict)
             return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+        
 
+
+#statistical
+def statistical(request):
+    return render(request, 'rooms/list_statistical.html')
+
+def statistical_guest(request):
+    form = StatisticalGuest()
+    if request.method == 'POST':
+        form = StatisticalGuest(request.POST)
+        if form.is_valid():
+            statistical_guest_month = form.cleaned_data['date']
+            guest = Guests.objects.filter(date__year=statistical_guest_month.year, date__month=statistical_guest_month.month)
+            guest = guest.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+    # return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+
+def statistical_electricity(request):
+    
+    form = StatisticalElectricity()
+    if request.method == 'POST':
+        form = StatisticalElectricity(request.POST)
+        if form.is_valid():
+            statistical_electricity_month = form.cleaned_data['date']
+            electricity = Electricity.objects.filter(date__year=statistical_electricity_month.year, date__month=statistical_electricity_month.month)
+            electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+    # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+
+def show_invoice(request, id):
+    data = get_object_or_404(Guests, id=id)
+    return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
+    
+def list_bill(request):
+    return render(request,'rooms/list_bill.html')
+
+
+def information_bill(request):
+    data = get_object_or_404(Guests)
+    return render(request,'rooms/information_bill.html', {'bill': data})

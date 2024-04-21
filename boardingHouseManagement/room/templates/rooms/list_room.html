@@ -19,33 +19,7 @@
         </div>
     </div>
     <div class="list-room-container">
-        {% for room in Room %}
-
-        <div class="list-room">
-            <div class="list-room-item">
-                <a title="Thông tin phòng" class="list-item-link information-room" href="{% url 'information_room' room.id %}">
-                    <i class="fa-solid fa-eye"></i>
-                    Phòng số
-                    {{room.roomsNumber}}
-                </a>
-                {% if room.guests_set.all.exists %}
-                <button class="add_guests"><a href="{% url 'guest_checkout' room.id %}" class="list-item-link">Khách trọ</a></button>
-                {% endif %}
-                <h5 class="price-room">
-                    <i class="fa-solid fa-money-bill"></i>
-                    {% if not room.price %}
-                    <span class="not_prive">Phòng hiện tại đang cập nhật giá tiền phù hợp</span>
-                    {% else %}
-                    {{room.price}} triệu VNĐ
-                    {% endif %}
-
-                </h5>
-                <div class="interface-room">
-                    <a class="list-item-link" href="{% url 'edit_room' room.id %}"><button type="button"
-                            class="edit_room">Sửa</button></a>
-                    <a class="list-item-link" href="{% url 'delete_room' room.id %}"><button type="button"
-                            class="delete_room">Xóa</button></a>
-                </div>
+       
         <div class="form-add-room">
             <div class="form-newroom">
                 <form action="." method="POST">
@@ -136,12 +110,16 @@
                     <td style="display: flex; justify-content: center; align-items: center;">
                         <a class="list-item-link edit-room" href="{% url 'edit_room' room.id %}"><button class="" type="button">Sửa</button></a>
                         <a class="list-item-link edit-room" href="{% url 'delete_room' room.id %}"><button class="" type="button">Xóa</button></a>
+                        {% comment %} nút xem thông tin khách trong phòng ở đây ?{% endcomment %}
+                        {% if room.guests_set.all.exists %}
+                            <a class="list-item-link edit-room" href="{% url 'guest_checkout' room.id %}" ><button class="" type="button">Khách trọ</button></a>
+                        {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}
             </table>
         </div>
-
     </div>
 </div>
 
