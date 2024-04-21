@@ -49,7 +49,7 @@ def search_roomsNumber(request):
         if form.is_valid():
             roomsNumber = form.cleaned_data['roomsNumber']
             room = Room.objects.filter(roomsNumber=roomsNumber)
-            return render(request, 'rooms/search_room.html', {'search_room': form, 'search_roomsNumber': room})
+    return render(request, 'rooms/search_room.html', {'search_room': form, 'search_roomsNumber': room})
 
 
 def get_guest(request, id):
@@ -75,7 +75,7 @@ def create_house(request):
         if form.is_valid():
             form.save()
             return redirect('list_house')
-    return render(request, 'rooms/list_house.html', {'House': house,'new_house': form, 'Personnel': personnel, 'Area': area})
+    return render(request, 'rooms/list_house.html', {'House': house, 'new_house': form, 'Personnel': personnel, 'Area': area})
 
 def get_information_house(request, id):
     house = get_object_or_404(House, id=id)
@@ -116,7 +116,7 @@ def search_nameHouse(request):
         form = SearchHouse(request.POST)
         if form.is_valid():
             nameHouse = form.cleaned_data['nameHouse']
-            house = House.objects.filter(nameHouse=nameHouse)
+            house = House.objects.filter(nameHouse__icontains=nameHouse)
             return render(request, 'rooms/search_house.html', {'search_house': form, 'search_nameHouse': house})
 
 #Electricity
@@ -130,10 +130,31 @@ def create_electricity(request):
             return redirect('list_electricity')
     return render(request, 'rooms/list_electricity.html', {'new_electricity': form,'Electricity': electricity, 'House': House.objects.all(), 'Room': Room.objects.all()})
 
-def calculate(request):
-    house = House.objects.all()
+def edit_electricity(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
     room = Room.objects.all()
-    return render(request, 'rooms/calculate.html', {'inf_house': house, 'inf_room': room})
+    form = UpdateElectricity()
+    if request.method == 'POST':
+        form = UpdateElectricity(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_electricity')
+    return render(request, 'rooms/edit_electricity.html', {'update_electricity': form, 'inf_electricity': electricity, 'Room': room})
+
+def delete_electricity(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
+    form = DeleteElectricity()
+    if request.method == 'POST':
+        form = DeleteElectricity(request.POST)
+        if form.is_valid():
+            form.deleteElectricity(id)
+            return redirect('list_electricity')
+    return render(request, 'rooms/delete_electricity.html', {'delete_electricity': form, 'inf_electricity': electricity})
+
+def calculate(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
+    room = Room.objects.all()
+    return render(request, 'rooms/calculate.html', {'Room': room, 'inf_electricity': electricity})
 
 #Guest
 def create_guests(request):
@@ -169,7 +190,7 @@ def edit_guest(request, guest_id):
 
 
 
-def delete_guest(request, guest_id): # gắn hàm delete
+def delete_guest(request, guest_id):
     guest = get_object_or_404(Guests, id=guest_id) 
     form = DeleteGuestForm(instance=guest)
     if request.method == 'POST':
@@ -185,8 +206,8 @@ def search_guest(request):
         form = SearchGuest(request.POST)
         if form.is_valid():
             fullname = form.cleaned_data['fullname'] 
-            guest = Guests.objects.filter(fullname=fullname)
-            return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+            guest = Guests.objects.filter(fullname__icontains=fullname)
+    return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
 
 
 
@@ -280,5 +301,5 @@ def search_area(request):
         form = SearchArea(request.POST)
         if form.is_valid():
             nameDistrict = form.cleaned_data['nameDistrict']
-            area = Area.objects.filter(nameDistrict=nameDistrict)
-            return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+            area = Area.objects.filter(nameDistrict__icontains=nameDistrict)
+    return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})

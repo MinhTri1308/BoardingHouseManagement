@@ -33,15 +33,28 @@
     top: 40px;
 }
 
-.display-body-table-container {
+.display-body-table-container-admin-room {
     background-color: rgb(250, 248, 250);
     padding-top: 45px;
     border-radius: 7px;
     position: absolute;
-    top: 310px;
+    top: 137px;
     display: flex;
     width: 100%;
-    bottom: 161px;
+    bottom: 233px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-room {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 16px;
+    display: flex;
+    width: 100%;
+    bottom: 400px;
     overflow-y: scroll;
     box-shadow: 1px 1px 8px grey;
 }
@@ -51,10 +64,23 @@
     padding-top: 45px;
     border-radius: 7px;
     position: absolute;
-    top: 50px;
+    top: 85px;
     display: flex;
     width: 100%;
     bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-admin-guest {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 80px;
+    display: flex;
+    width: 100%;
+    bottom: 240px;
     overflow-y: scroll;
     box-shadow: 1px 1px 8px grey;
 }
@@ -64,10 +90,23 @@
     padding-top: 45px;
     border-radius: 7px;
     position: absolute;
-    top: 65px;
+    top: 17px;
     display: flex;
     width: 100%;
-    bottom: 238px;
+    bottom: 350px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-search-personnel {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 15px;
+    display: flex;
+    width: 100%;
+    bottom: 400px;
     overflow-y: scroll;
     box-shadow: 1px 1px 8px grey;
 }
@@ -85,7 +124,7 @@
     box-shadow: 1px 1px 8px grey;
 }
 
-.display-body-table-container-house {
+.display-body-table-container-admin-house {
     background-color: rgb(250, 248, 250);
     padding-top: 45px;
     border-radius: 7px;
@@ -98,15 +137,28 @@
     box-shadow: 1px 1px 8px grey;
 }
 
+.display-body-table-container-house {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 20px;
+    display: flex;
+    width: 100%;
+    bottom: 330px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
 .display-body-table-container-electricity {
     background-color: rgb(250, 248, 250);
     padding-top: 45px;
     border-radius: 7px;
     position: absolute;
-    top: 120px;
+    top: 82px;
     display: flex;
     width: 100%;
-    bottom: 238px;
+    bottom: 260px;
     overflow-y: scroll;
     box-shadow: 1px 1px 8px grey;
 }
@@ -123,6 +175,12 @@
     overflow: hidden;
     height: 100px;
     border-bottom: 1px solid grey;
+}
+
+.td-item {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
 }
 
 .list-room {
@@ -245,6 +303,10 @@
     display: flex;
 }
 
+.form-interior {
+    display: flex;
+}
+
 .link-house {
     display: flex;
     justify-content: center;
@@ -282,6 +344,12 @@
     margin-right: 5px;
 }
 
+/* .delete-room {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
 .notification {
     margin-bottom: 10px;
     text-align: center;
@@ -300,6 +368,14 @@
 .submit {
     display: flex;
     justify-content: center;
+}
+
+.submit-room {
+    margin-top: 25px;
+}
+
+.submit-house {
+    margin-left: 250px;
 }
 
 .form-nameDistrict {

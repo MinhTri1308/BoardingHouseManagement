@@ -21,7 +21,9 @@ urlpatterns = [
     path('house/<int:id>/edit_house/', views.edit_house, name='edit_house'),
     path('house/<int:id>/delete_house/', views.delete_house, name='delete_house'),
     path('electricity/', views.create_electricity, name='list_electricity'),
-    path('calculate/', views.calculate, name='calculate'),
+    path('electricity/<int:id>.edit_electricity/', views.edit_electricity, name='edit_electricity'),
+    path('electricity/<int:id>/delete_electricity/', views.delete_electricity, name='delete_electricity'),
+    path('electricity/<int:id>/calculate', views.calculate, name='calculate'),
     path('personnel/', views.create_personnel, name='list_personnel'),
     path('personnel/search_personnel/', views.search_personnel, name='search_personnel'),
     path('personnel/<str:id_personnel>/', views.get_information_personnel, name='information_personnel'),
@@ -32,10 +34,5 @@ urlpatterns = [
     path('area/<int:id>/get_house', views.get_house, name='get_house'),
     path('area/<int:id>/edit_area/', views.edit_area, name='edit_area'),
     path('area/<int:id>/delete_area/', views.delete_area, name='delete_area'),
-    path('list_statistical/', views.statistical, name='list_statistical'),
-    path('information_statiscal_guest/', views.statistical_guest, name='information_statistical_guest'),
-    path('information_statiscal_electricity/', views.statistical_electricity, name='information_statistical_electricity'),
-    path('<int:id>/invoice/', views.show_invoice, name='show_invoice'),
-    path('list_bill/', views.list_bill, name='list_bill'),
-    path('information_bill/', views.information_bill, name='information_bill'),]
+]
 

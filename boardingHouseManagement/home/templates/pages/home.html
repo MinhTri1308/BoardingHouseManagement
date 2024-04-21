@@ -4,15 +4,7 @@
 
 {% block main-content %}
 <div class="home-container">
-    <label for="area" class="title-area">Khu vực: </label>
-    <select class="select-area" name="area" size="1">
-        {% for area in Area %}
-        <option value="">Quận/Huyện</option>
-        <option value="{{area.nameDistrict}}">{{area.nameDistrict}}</option>
-        {% endfor %}
-    </select>
     <div class="home-status">
-        <div class="current-house" style="font-size: 1.4rem;">Nhà</div>
         <fieldset class="field_status">
             <legend class="title-status">
                 Trạng thái
@@ -20,11 +12,10 @@
             <div class="field_container">
                 <ul class="field_list list-container">
                     <li class="list-item-room">
-                        <a class="list-item-link rented-room"
-                            href="#">Phòng đang thuê</a>
+                        <a class="list-item-link rented-room" href="{% url 'rooms_with_guests' %}">Phòng đang thuê</a>
                     </li>
                     <li class="list-item-room">
-                        <a class="list-item-link empty-room" href="#">Phòng trống</a>
+                        <a class="list-item-link empty-room" href="{% url 'empty_rooms' %}">Phòng trống</a>
                     </li>
                 </ul>
             </div>

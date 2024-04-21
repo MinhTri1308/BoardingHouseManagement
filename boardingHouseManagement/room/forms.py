@@ -27,6 +27,13 @@ class AddRoom(forms.ModelForm):
             raise forms.ValidationError('Giá phòng không được âm')
         return price
     
+    def clean_house(self):
+        room = self.cleaned_data['roomsNumber']
+        house = House.objects.filter(room=room).count()
+        if house > 2:
+            raise forms.ValidationError('Một nhà không thể có 2 phòng trùng số')
+        return house
+    
     def save(self):
         Room.objects.create(
             house=self.cleaned_data['house'],
@@ -82,6 +89,11 @@ class AddHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse', 'address', 'personnel', 'area']
     
+    def clean_nameHouse(self):
+        nameHouse = self.cleaned_data['nameHouse']
+        if not re.search(r'^\w+$', nameHouse):
+            raise forms.ValidationError("Tên nhà có kí tự đặc biệt")
+        return nameHouse
 
     def clean_address(self):
         address = self.cleaned_data['address']
@@ -94,19 +106,20 @@ class AddHouse(forms.ModelForm):
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
 
     def clean_area(self):
-        area = self.cleaned_data['area']
         address = self.cleaned_data['address']
-        find_area = re.search(r'(Quan\s[0-9]+)', address)
-
-        if area != find_area:
-            raise forms.ValidationError('Khu vực bạn chọn không khớp với địa chỉ nhà, vui lòng chọn lại')
+        area = self.cleaned_data['area']
+        if area:
+            address_parts = address.split(', ')
+            address_district = address_parts[-2]
+            if address_district != area.nameDistrict:
+                raise forms.ValidationError('Khu vực của nhà không khớp với khu vực đã chọn')
         return area
 
     def save(self):
-        House.objects.create(nameHouse=self.cleaned_data['nameHouse'], 
-                             address=self.cleaned_data['address'], 
+        House.objects.create(nameHouse=self.clean_nameHouse(), 
+                             address=self.cleaned_data['address'],
                              personnel=self.cleaned_data['personnel'],
-                             area=self.cleaned_data['area'])
+                             area=self.clean_area())
 
 
 class UpdataInformationHouse(forms.ModelForm):
@@ -116,7 +129,7 @@ class UpdataInformationHouse(forms.ModelForm):
 
     def clean_nameHouse(self):
         nameHouse = self.cleaned_data['nameHouse']
-        if not re.search(r'^\w+$', nameHouse):
+        if not re.search(r'^\w+', nameHouse):
             raise forms.ValidationError("Tên nhà có kí tự đặc biệt")
         return nameHouse
         
@@ -156,10 +169,6 @@ class SearchHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse']
 
-    def get_room_of_house(self, nameHouse):
-        house = House.objects.get(nameHouse=nameHouse)
-        room = Room.objects.filter(house=house)
-        return {'inf_room': room}
         
 
 # Guest
@@ -191,14 +200,6 @@ class AddGuestForm(forms.ModelForm):
                               phone=self.clean_phone(),
                               date=self.cleaned_data['date'])
 
-    # def save(self, commit=True):
-    #     guest = super().save(commit=False)
-    #     guest.fullname = self.cleaned_data['fullname']
-    #     guest.phone = self.cleaned_data['phone']
-    #     if commit:
-    #         guest.save()
-    #     return guest   
-        
 
 class UpdateGuestForm(forms.ModelForm):
     class Meta:
@@ -310,8 +311,6 @@ class SearchPersonnel(forms.ModelForm):
         model = Personnel
         fields = ['fullname']
 
-    def search(self):
-        fullname = self.cleaned_data['fullname']
         
 #Area
 class AddArea(forms.ModelForm):
@@ -319,10 +318,10 @@ class AddArea(forms.ModelForm):
         model = Area
         fields = ['nameDistrict']
     
-    def clean_district(self):
+    def clean_nameDistrict(self):
         discrict = self.cleaned_data['nameDistrict']
-        if not re.search(r'((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+)))', discrict):
-            raise forms.ValidationError('Khu vực')
+        if not re.search(r'^((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+)))$', discrict):
+            raise forms.ValidationError('Khu vực có định dạng: Quan Abc Cde, Quan 1, Huyen 1, Huyen Abc Cde')
         try:
             Area.objects.get(nameDistrict=discrict)
         except Area.DoesNotExist:
@@ -337,8 +336,10 @@ class UpdateArea(forms.ModelForm):
         model = Area
         fields = ['nameDistrict']
     
-    def clean_district(self):
+    def clean_nameDistrict(self):
         discrict = self.cleaned_data['nameDistrict']
+        if not re.search(r'^((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+)))$', discrict):
+            raise forms.ValidationError('Khu vực có định dạng: Quan Abc Cde, Quan 1, Huyen 1, Huyen Abc Cde')
         try:
             Area.objects.get(nameDistrict=discrict)
         except Area.DoesNotExist:
@@ -370,7 +371,7 @@ class StatisticalElectricity(forms.ModelForm):
         model = Electricity
         fields = ['date']
 
-#electricity
+#Electricity
 class ElectricityForm(forms.ModelForm):
     class Meta:
         model = Electricity
@@ -387,3 +388,32 @@ class ElectricityForm(forms.ModelForm):
                               index_electricity=self.clean_index_electricity(),
                               date=self.cleaned_data['date'])
         
+class UpdateElectricity(forms.ModelForm):
+    class Meta:
+        model = Electricity
+        fields = ['room', 'index_electricity', 'date' ]
+    
+    def clean_index_electricity(self):
+        index_electricity = self.cleaned_data['index_electricity']
+        if index_electricity <= 0:
+            raise forms.ValidationError('Chỉ số điện không được âm')
+        return index_electricity
+
+class DeleteElectricity(forms.ModelForm):
+    class Meta:
+        model = Electricity
+        fields = ['id']
+    
+    def deleteElectricity(self, id):
+        index_electricity = Electricity.objects.get(id=id)
+        index_electricity.delete()
+
+class CalcutatorElectricity(forms.ModelForm):
+    class Meta:
+        model = Electricity
+        fields = ['date', 'index_electricity', 'room']
+    
+    def calculate(self):
+        wifi = 100
+        water = 100
+        pass
