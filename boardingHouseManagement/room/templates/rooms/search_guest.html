@@ -1,6 +1,5 @@
 {% extends "pages/base.html" %}
 
-
 {% block title %}Danh sách khách{% endblock %}
 {% block main-content %}
 <div id="model-room">
@@ -10,13 +9,12 @@
             <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_fullname %}
+    {% if search_guests %}
     <div class="list-personnel-container">
-
-        {% for guest in search_fullname %}
+        {% for guest in search_guests %}
         <div class="list-personnel">
             <div class="list-personnel-item">
-                <a class="list-item-link guest-name" href="{% url 'information_guest' guest.id %}">{{guest.fullname}}</a>
+                <a class="list-item-link guest-name" href="{% url 'information_guest' guest.id %}">{{ guest.fullname }}</a>
                 
                 <div class="interface-personnel">
                     <a class="add_house" href="{% url 'edit_guest' guest.id %}"><button class="" type="button">Sửa</button></a>
@@ -25,11 +23,9 @@
             </div>
         </div>
         {% endfor %}
-    
     </div>
     {% else %}
-        <h2> không tìm thấy tên bạn đã nhập </h2>
+        <h2>Không tìm thấy khách hàng phù hợp</h2>
     {% endif %}
 </div>
-
 {% endblock main-content %}

@@ -146,8 +146,13 @@ def create_guests(request):
     if request.method == 'POST':
         form = AddGuestForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('list_guests')
+            try:
+                form.check_room()  # Kiểm tra số lượng khách trong phòng
+                form.save()
+                return redirect('list_guests')
+            except ValidationError as e:
+                form.add_error(None, e)  # Thêm lỗi vào form để hiển thị trên template
+    
     return render(request, 'rooms/list_guests.html', {'Guests': guest, 'Room':room ,'new_guest': form})
 
 def guests_in_room(request, id):
@@ -182,39 +187,6 @@ def delete_guest(request, guest_id): # gắn hàm delete
             return redirect('list_guests') 
     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
 
-# def search_guest(request):
-#     form = SearchGuestForm()
-#     if request.method == 'POST':
-#         form = SearchGuestForm(request.POST)
-#         if form.is_valid():
-#             fullname = form.cleaned_data['fullname']
-#             guest = Guests.objects.filter(fullname=fullname)
-#             return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
-#     # Trả về trang hiển thị danh sách phòng
-#     rooms = Room.objects.all()
-#     return render(request, 'list_room.html', {'rooms': rooms})
-
-def search_guest(request):
-    form = SearchGuestForm()
-    guests = Guests.objects.all()  # Bắt đầu với tất cả các khách hàng
-    if request.method == 'POST':
-        form = SearchGuestForm(request.POST)
-        if form.is_valid():
-            fullname = form.cleaned_data['fullname']
-            month_year = form.cleaned_data['date']
-            guests = Guests.objects.all()
-            if fullname:
-                guests = guests.filter(fullname=fullname)
-            elif month_year:
-                guests = guests.filter(date__year=month_year.year, date__month=month_year.month)
-            if guests.exists():  # Kiểm tra nếu không có kết quả từ truy vấn
-                guests = Guests.objects.none()  # Gán một queryset trống
-            
-        return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guests})
-    # Trả về trang hiển thị danh sách phòng
-    rooms = Room.objects.all()
-    return render(request, 'list_room.html', {'rooms': rooms})
-
 def guest_checkout(request, room_id): 
     # Lấy danh sách các khách hàng đang ở trong phòng
     guests = Guests.objects.filter(room_id=room_id)
@@ -232,59 +204,64 @@ def guest_checkout(request, room_id):
         return redirect('guest_checkout', room_id = room_id)
     return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
 
-#Guest # current
-# def create_guests(request):
-#     data = {'Guests': Guests.objects.all()}
-#     return render(request, 'rooms/list_guests.html', data)
-
-# def add_guests(request):
-#     room = Room.objects.all()
-#     form = AddGuestForm()
-#     room_error = None
+# def search_guest(request):
+#     form = SearchGuestForm()
 #     if request.method == 'POST':
-#         form = AddGuestForm(request.POST)
+#         form = SearchGuestForm(request.POST)
 #         if form.is_valid():
-#             try:
-#                 room_error = form.check_room()  # Kiểm tra số lượng khách trong phòng
-#                 if not room_error:
-#                     form.save()
-#                     return redirect('list_guests')
-#             except ValidationError as e:
-#                 room_error = e.message
-
-#     return render(request, 'rooms/add_guests.html', {'Room':room ,'new_guest': form, 'room_error': room_error})
-
-# def guests_in_room(request, id):
-#     room = Room.objects.get(id=id)
-#     guests = Guests.objects.filter(room=room)
-#     return render(request, 'rooms/guests_in_room.html', {'room': room, 'guests': guests})
-
-# def information_guest(request, id):
-#     guests = get_object_or_404(Guests, id=id)
-#     return render(request, 'rooms/information_guest.html', {'inf_guest': guests})
-
-# def edit_guest(request, guest_id):
-#     room = Room.objects.all()                 
-#     guest = get_object_or_404(Guests, id=guest_id)
-#     form = UpdateGuestForm(instance=guest)
-#     if request.method == 'POST':
-#         form = UpdateGuestForm(request.POST, instance=guest)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('list_guests')
-#     return render(request, 'rooms/edit_guest.html', {'Room':room,'update_guest': form, 'inf_guest': guest})
+#             fullname = form.cleaned_data['fullname']
+#             guest = Guests.objects.filter(fullname=fullname)
+#             return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+    # Trả về trang hiển thị danh sách phòng
+    # rooms = Room.objects.all()
+    # return render(request, 'list_room.html', {'rooms': rooms})
 
 
 
-# def delete_guest(request, guest_id): # gắn hàm delete
-#     guest = get_object_or_404(Guests, id=guest_id) 
-#     form = DeleteGuestForm(instance=guest)
-#     if request.method == 'POST':
-#         form = DeleteGuestForm(request.POST, instance=guest)
-#         if form.is_valid():
-#             form.deleteGuest(guest_id)
-#             return redirect('list_guests') 
-#     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
+# Search Guest
+def search_fullname_guest(request):
+    form = SearchGuestForm()
+    guests = []
+    if request.method == 'POST':
+        form = SearchGuestForm(request.POST)
+        if form.is_valid():
+            fullname = form.cleaned_data['fullname']
+            # date = form.cleaned_data['date']
+            # Extract year and month from the provided date
+            # year = date.year
+            # month = date.month
+            # Query the Guests model based on fullname, year, and month
+            guest = Guests.objects.filter(fullname__icontains=fullname)
+            # guests = Guests.objects.filter(date__year=year, date__month=month)
+    return render(request, 'rooms/search_guest.html', {'search_form': form, 'search_guests': guests})
+
+# end search guest
+
+
+'''
+def search_guest(request):
+    form = SearchGuestForm()
+    guests = Guests.objects.all()  # Bắt đầu với tất cả các khách hàng
+
+    if request.method == 'POST':
+        form = SearchGuestForm(request.POST)
+        if form.is_valid():
+            fullname = form.cleaned_data['fullname']
+            month_year = form.cleaned_data['date']
+            
+            if fullname:# Lọc khách hàng theo tên nếu được cung cấp
+                guests = guests.filter(fullname__icontains=fullname)
+            
+            elif month_year:# Lọc khách hàng theo tháng-năm nếu được cung cấp
+                guests = guests.filter(date__year=month_year.year, date__month=month_year.month)
+            
+            # Trả về trang kết quả tìm kiếm
+            return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guests})
+    # Trả về trang hiển thị danh sách phòng nếu không có dữ liệu POST hoặc dữ liệu không hợp lệ
+    rooms = Room.objects.all()
+    return render(request, 'list_room.html', {'rooms': rooms})
+
+# end search guest
 
 # def search_guest(request):
 #     form = SearchGuestForm()
@@ -299,23 +276,7 @@ def guest_checkout(request, room_id):
 #     rooms = Room.objects.all()
 #     return render(request, 'list_room.html', {'rooms': rooms})
 
-# def guest_checkout(request, room_id):
-#     # Lấy danh sách các khách hàng đang ở trong phòng
-#     guests = Guests.objects.filter(room_id=room_id)
-
-#     if request.method == 'POST':
-#         # Xử lý khi người dùng bấm nút trả phòng của một khách hàng cụ thể
-#         guest_id = request.POST.get('guest_id')
-#         try:
-#             guest = Guests.objects.get(id=guest_id)
-#             # Cập nhật room_id của khách hàng thành Null 
-#             guest.room_id = None # đặt là None thì room sẽ ko lấy đc room_id của khách nên sẽ ko hiện lại trên room
-#             guest.save()
-#         except Guests.DoesNotExist:
-#             pass  
-#         return redirect('guest_checkout', room_id = room_id)
-#     return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
-
+'''
 
 #Personnel
 def create_personnel(request):

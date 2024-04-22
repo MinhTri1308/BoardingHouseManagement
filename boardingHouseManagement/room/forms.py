@@ -190,14 +190,12 @@ class AddGuestForm(forms.ModelForm):
         raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
           
           
-    def check_room(self):
+    def clean_room(self):
         room = self.cleaned_data['room']
         if room:
             num_guests = Guests.objects.filter(room=room).count()
             if num_guests >= room.quantity:
                 raise forms.ValidationError('Số lượng khách đã đặt phòng đã đạt đến giới hạn')
-                # Thêm thông báo lỗi trực tiếp vào trường room của form
-        # return room
 
                
     def save(self):
@@ -237,16 +235,13 @@ class DeleteGuestForm(forms.ModelForm):
     def deleteGuest(self, id):
         guest = Guests.objects.get(id=id)
         guest.delete()
-
-class SearchGuestForm(forms.ModelForm):
+         
+    
+class SearchGuestForm(forms.ModelForm): 
     class Meta:
         model = Guests
-        fields = ['fullname','date'] 
-     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['date'].widget = forms.SelectDateWidget(months=None, years=range(2000, datetime.datetime.now().year + 1))
-
+        fields = ['fullname'] 
+    #  ','date'
 
 
 #Personnel
