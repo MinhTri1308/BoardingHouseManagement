@@ -9,8 +9,8 @@ urlpatterns = [
     path('<int:id>/editroom/', views.edit_room, name='edit_room'),
     path('<int:id>/deleteroom/', views.delete_room, name='delete_room'),
     path('guest/', views.create_guests, name='list_guests'),
-    # path('guest/add_guests/', views.add_guests, name='add_guests'),
-    path('guest/search_guest', views.search_fullname_guest, name='search_guest'),
+    path('guest/search_guest/', views.search_fullname_guest, name='search_guests'),
+    path('guest/search_guest_date/', views.search_date_guest, name='search_date'),
     path('<int:id>/guests_in_room/', views.guests_in_room, name='guests_in_room'),
     path('guest/<int:id>/', views.information_guest, name='information_guest'),
     path('guest/edit_guest/<int:guest_id>/', views.edit_guest, name='edit_guest'),
@@ -23,7 +23,9 @@ urlpatterns = [
     path('house/<int:id>/edit_house/', views.edit_house, name='edit_house'),
     path('house/<int:id>/delete_house/', views.delete_house, name='delete_house'),
     path('electricity/', views.create_electricity, name='list_electricity'),
-    path('calculate/', views.calculate, name='calculate'),
+    path('electricity/<int:id>.edit_electricity/', views.edit_electricity, name='edit_electricity'),
+    path('electricity/<int:id>/delete_electricity/', views.delete_electricity, name='delete_electricity'),
+    path('electricity/<int:id>/calculate', views.calculate, name='calculate'),
     path('personnel/', views.create_personnel, name='list_personnel'),
     path('personnel/search_personnel/', views.search_personnel, name='search_personnel'),
     path('personnel/<str:id_personnel>/', views.get_information_personnel, name='information_personnel'),
@@ -35,9 +37,6 @@ urlpatterns = [
     path('area/<int:id>/edit_area/', views.edit_area, name='edit_area'),
     path('area/<int:id>/delete_area/', views.delete_area, name='delete_area'),
     path('list_statistical/', views.statistical, name='list_statistical'),
-    path('information_statiscal_guest/', views.statistical_guest, name='information_statistical_guest'),
-    path('information_statiscal_electricity/', views.statistical_electricity, name='information_statistical_electricity'),
-    path('<int:id>/invoice/', views.show_invoice, name='show_invoice'),
-    path('list_bill/', views.list_bill, name='list_bill'),
-    path('information_bill/', views.information_bill, name='information_bill'),]
+    # path('informati')
+]
 

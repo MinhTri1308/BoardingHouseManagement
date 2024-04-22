@@ -68,9 +68,11 @@
                     <td style="text-align: center;">{{personnel.id_personnel}}</td>
                     <td style="text-align: center;">{{personnel.fullname}}</td>
                     <td style="text-align: center;">{{personnel.phone}}</td>
-                    <td style="display: flex; justify-content: center; align-items: center;">
-                        <a class="list-item-link edit-room" href="{% url 'edit_personnel' personnel.id_personnel %}"><button class="" type="button">Sửa</button></a>
-                        <a class="list-item-link edit-room" href="{% url 'delete_personnel' personnel.id_personnel %}"><button class="" type="button">Xóa</button></a>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room" href="{% url 'edit_personnel' personnel.id_personnel %}"><button type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_personnel' personnel.id_personnel %}"><button type="button">Xóa</button></a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

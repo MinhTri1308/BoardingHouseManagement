@@ -12,22 +12,35 @@
         </div>
     </div>
     {% if search_nameDistrict %}
-    <div class="list-house-container">
-        {% for area in search_nameDistrict %}
-        <div class="list-house">
-            <div class="list-house-item">
-                <a class="list-item-link" href="{% url 'get_house' area.id %}">{{area.nameDistrict}}</a>
-                
-                <div class="interface-house">
-                    <a class="add_house" href="{% url 'edit_area' area.id %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_area' area.id %}"><button class="" type="button">Xóa</button></a>
-                </div>
-            </div>
+    <div class="list-room-container">
+        {% if user.username == 'admin' %}
+        <div class="display-body-table-container-area">
+            <table class="display-table">
+                <tbody>
+                    <tr>
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 200px;">Quận/Huyện</th>
+                        <th style="width: 150px;">Thao tác</th>
+                    </tr>
+                </tbody>
+                {% for area in search_nameDistrict %}
+                <tr>
+                    <td style="text-align: center;">{{area.id}}</td>
+                    <td style="text-align: center;">{{area.nameDistrict}}</td>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room" href="{% url 'edit_area' area.id %}"><button class="" type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_area' area.id %}"><button class="" type="button">Xóa</button></a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
-        {% endfor %}
+        {% endif %}
     </div>
     {% else %}
-    <h2>Không tìm thấy thông tin bạn nhập</h2>
+    <h2 style="text-align: center;">Không tìm thấy thông tin bạn nhập</h2>
     {% endif %}
 </div>
 {% endblock main-content %}

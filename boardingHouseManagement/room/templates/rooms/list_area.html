@@ -1,6 +1,6 @@
 {% extends "pages/base.html" %}
 
-{% block title %}Danh sách nhà{% endblock %}
+{% block title %}Danh sách khu vực{% endblock %}
 
 
 {% block main-content %}
@@ -26,10 +26,11 @@
                     {% csrf_token %}
                     <div class="row form-item">
                         <div class="col form-nameDistrict">
-                            <label class="form-title-room" for="nameHouse">Tên khu vực</label>
+                            <label class="form-title-room" for="nameHouse">Tên Quận/Huyện</label>
                             <input class="inp" type="text" name="nameDistrict">
-                            {% if new_area.nameDistrict %}
-                            <span>{{new_area.nameDistrict.errors}}</span>
+                            <br>
+                            {% if add_area.nameDistrict %}
+                            <span>{{add_area.nameDistrict.errors}}</span>
                             {% endif %}
                         </div>
                         <div class="col">
@@ -38,7 +39,6 @@
                             </div>
                         </div>
                     </div>
-                    
                 </form>
             </div>
         </div>
@@ -56,9 +56,11 @@
                 <tr>
                     <td style="text-align: center;">{{area.id}}</td>
                     <td style="text-align: center;">{{area.nameDistrict}}</td>
-                    <td style="display: flex; justify-content: center; align-items: center;">
-                        <a class="list-item-link edit-room" href="{% url 'edit_area' area.id %}"><button class="" type="button">Sửa</button></a>
-                        <a class="list-item-link edit-room" href="{% url 'delete_area' area.id %}"><button class="" type="button">Xóa</button></a>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room" href="{% url 'edit_area' area.id %}"><button class="" type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_area' area.id %}"><button class="" type="button">Xóa</button></a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

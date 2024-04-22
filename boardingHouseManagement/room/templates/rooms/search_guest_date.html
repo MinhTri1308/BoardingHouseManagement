@@ -9,7 +9,7 @@
             <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_guests %}
+    {% if search_date %}
     <div class="list-room-container">
         {% if user.username == 'admin' %}
         <div class="display-body-table-container-admin-guest">
@@ -17,7 +17,7 @@
                 <tbody>
                     <tr>
                         {% if user.username == 'admin' %}
-                        <th style="width: 50px;">ID</th>
+                        {% comment %} <th style="width: 50px;">ID</th> {% endcomment %}
                         <th style="width: 200px;">Họ tên</th>
                         <th style="width: 150px;">Số điện thoại</th>
                         <th style="width: 100px;">Phòng</th>
@@ -31,10 +31,10 @@
                         {% endif %}
                     </tr>
                 </tbody>
-                {% for guest in search_guests %}
+                {% for guest in search_date %}
                 <tr>
                     {% if user.username == 'admin' %}
-                    <td style="text-align: center;">{{guest.id}}</td>
+                    {% comment %} <td style="text-align: center;">{{guest.id}}</td> {% endcomment %}
                     <td style="text-align: center;">{{guest.fullname}}</td>
                     <td style="text-align: center;">{{guest.phone}}</td>
                     <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
@@ -77,7 +77,7 @@
                         {% endif %}
                     </tr>
                 </tbody>
-                {% for guest in search_guests %}
+                {% for guest in search_date %}
                 <tr>
                     {% if user.username == 'admin' %}
                     <td style="text-align: center;">{{guest.id}}</td>
@@ -106,7 +106,7 @@
         {% endif %}
     </div>
     {% else %}
-        <h2 style="text-align: center;"> không tìm thấy tên bạn đã nhập </h2>
+        <h2 style="text-align: center;"> không tìm thấy ngày bạn đã chọn </h2>
     {% endif %}
 </div>
 {% endblock main-content %}

@@ -1,24 +1,21 @@
 {% extends "pages/base.html" %}
 
+{% block title %}Danh sách các phòng trống{% endblock %}
 
-{% block title %}Danh sách phòng{% endblock %}
 {% block main-content %}
-<div id="model-room">
+<div class="room-status">
     <div class="navbar_room">
-        <div class="title-house">Danh sách phòng đã tìm kiếm</div>
+        <div class="title-house">Các phòng trống</div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở
-                    về</button></a>
+            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_roomsNumber %}
     <div class="list-room-container">
         {% if user.username == 'admin' %}
         <div class="display-body-table-container-room">
             <table class="display-table">
                 <tbody>
                     <tr>
-
                         <th style="width: 50px;">ID</th>
                         <th style="width: 200px;">Số phòng</th>
                         <th style="width: 150px;">Diện tích</th>
@@ -30,7 +27,7 @@
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
-                {% for room in search_roomsNumber %}
+                {% for room in empty_rooms %}
                 <tr>
                     <td style="text-align: center;">{{room.id}}</td>
                     <td style="text-align: center;">{{room.roomsNumber}}</td>
@@ -66,7 +63,7 @@
                         <th style="width: 250px;">Chủ nhà</th>
                     </tr>
                 </tbody>
-                {% for room in search_roomsNumber %}
+                {% for room in empty_rooms %}
                 <tr>
                     <td style="text-align: center;">{{room.roomsNumber}}</td>
                     <td style="text-align: center;">{{room.acreage}}</td>
@@ -81,9 +78,5 @@
         </div>
         {% endif %}
     </div>
-    {% else %}
-    <h2 style="text-align: center;">Không tìm thấy phòng bạn nhập</h2>
-    {% endif %}
 </div>
-
-{% endblock main-content %}
+{% endblock %}

@@ -12,48 +12,30 @@
         </div>
     </div>
     <div class="list-room-container">
-        <div class="row form-item">
-            <div class="col room-list">
-                <ul class="list-container">
-                    <li><label for="">Danh sách nhà</label></li>
-                    <li><select size="1">
-                            <option value="">------</option>
-                            {% for house in House %}
-                            <option value="{{house.id}}">{{house.nameHouse}}</option>
-                            {% endfor %}
-                        </select>
-                    </li>
-                </ul>
-            </div>
-        </div>
         <div class="form-add-electricity">
             <div class="form-newroom">
                 <form action="." method="POST">
                     {% csrf_token %}
                     <div class="row form-item">
                         <div class="col room-list">
-                            <ul class="list-container">
-                                <li><label for="">Danh sách phòng<label></li>
-                                <li><select name="room" size="1">
+                            <label for="">Danh sách phòng<label>
+                                    <select name="room" size="1">
                                         <option value="">Phòng số</option>
                                         {% for room in Room %}
                                         <option value="{{room.id}}">{{room.roomsNumber}}</option>
                                         {% endfor %}
                                     </select>
-                                </li>
-                            </ul>
                         </div>
                         <div class="col old-electricity">
-                            <ul class="list-container">
-                                <li><label for="">Chỉ số điện</label></li>
-                                <li><input class="inp" type="text" name="index_electricity"></li>
-                            </ul>
+                            <label for="">Chỉ số điện</label></li>
+                            <input class="inp" type="text" name="index_electricity">
+                            {% if update_electricity.index_electricity %}
+                            <span>{{update_electricity.index_electricity.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="col month-year">
-                            <ul class="list-container">
-                                <li><label for="">Thời gian</label></li>
-                                <li><input class="inp" type="date" name="date"></li>
-                            </ul>
+                            <label for="">Thời gian</label>
+                            <input class="inp" type="date" name="date">
                         </div>
                         <button class="btn btn-primary" type="submit">Lưu</button>
                     </div>
@@ -68,6 +50,7 @@
                         <th style="width: 50px;">ID</th>
                         <th style="width: 200px;">Chỉ số điện</th>
                         <th style="width: 150px;">Phòng</th>
+                        <th style="width: 150px;">Nhà</th>
                         <th style="width: 150px;">Thời gian</th>
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
@@ -77,10 +60,18 @@
                     <td style="text-align: center;">{{electricity.id}}</td>
                     <td style="text-align: center;">{{electricity.index_electricity}}</td>
                     <td style="text-align: center;">{{electricity.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{electricity.room.house.nameHouse}}</td>
                     <td style="text-align: center;">{{electricity.date|date:"d-m-Y"}}</td>
-                    <td style="display: flex; justify-content: center; align-items: center;">
-                        <a class="list-item-link edit-room" href="#"><button class="" type="button">Sửa</button></a>
-                        <a class="list-item-link edit-room" href="#"><button class="" type="button">Xóa</button></a>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room"
+                                href="{% url 'edit_electricity' electricity.id %}"><button
+                                    type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room"
+                                href="{% url 'delete_electricity' electricity.id %}"><button
+                                    type="button">Xóa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'calculate' electricity.id %}"><button>Tính tiền</button></a>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}

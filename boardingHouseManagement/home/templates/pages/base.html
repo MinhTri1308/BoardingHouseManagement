@@ -33,15 +33,15 @@
                         <ul class="header_navber-user--list">
                             {% if user.username %}
                             <h4 class="text">Xin chào, {{user.username}}</h4>
-                            <li class=""><a href="{% url 'logout' %}"
-                                    class="list-item-link header_navbar-item">Đăng xuất</a>
+                            <li class=""><a href="{% url 'logout' %}" class="list-item-link header_navbar-item">Đăng
+                                    xuất</a>
                             </li>
 
                             {% else %}
                             <li class=""><a class="list-item-link header_navbar-item header_navbar-item--separate"
-                                    href="{% url 'choice_register' %}">Đăng ký</a></li>
+                                    href="{% url 'user_register' %}">Đăng ký</a></li>
                             <li class=""><a class="list-item-link header_navbar-item"
-                                    href="{% url 'choice_login' %}">Đăng nhập</a></li>
+                                    href="{% url 'user_login' %}">Đăng nhập</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -55,6 +55,7 @@
                     <div class="col l-2">
                         <div class="app-menu">
                             <ul class="nav list-container">
+                                {% if user.username == 'admin' %}
                                 <li class="list-item">
                                     <a class="list-item-link" href="{% url 'home' %}">
                                         <i class="fa-solid fa-house"></i>
@@ -74,7 +75,6 @@
                                     </a>
                                 </li>
                                 <li class="list-item">
-
                                     <a class="list-item-link" href="{% url 'list_room' %}">
                                         <i class="fa-solid fa-door-closed icon"></i>
                                         Phòng
@@ -92,11 +92,6 @@
                                         Chỉ số điện
                                     </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="{% url 'calculate' %}">
-                                        <i class="fa-solid fa-calculator"></i>
-                                        Tính toán
-                                    </a>
-                                </li>
                                 <li class="list-item"><a class="list-item-link" href="{% url 'list_personnel' %}">
                                         <i class="fa-solid fa-user-tie"></i>
                                         Nhân viên
@@ -112,11 +107,32 @@
                                         Nhận diện
                                     </a>
                                 </li>
-                                <li class="list-item"><a class="list-item-link" href="{% url 'list_bill' %}">
-                                        <i class="fa fa-users"></i>
-                                        Hóa đơn
+                                {% else %}
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                        Trang chủ
                                     </a>
                                 </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_house' %}">
+                                        <i class="fa-solid fa-house-user"></i>
+                                        Nhà
+                                    </a>
+                                </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_room' %}">
+                                        <i class="fa-solid fa-door-closed icon"></i>
+                                        Phòng
+                                    </a>
+                                </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_guests' %}">
+                                        <i class="fa-solid fa-user-check"></i>
+                                        Khách
+                                    </a>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
