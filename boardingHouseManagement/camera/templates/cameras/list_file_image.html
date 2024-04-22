@@ -32,20 +32,14 @@
                     console.error('Error accessing camera:', err);
                 });
 
-            video.addEventListener('play', () => {
-                setInterval(() => {
-                    context.drawImage(video, 0, 0, 640, 480);
-                    const imageData = canvas.toDataURL('image/jpeg');
-                    sendData(imageData);
-                }, 1000);
-            });
+            //video.addEventListener('play', () => {
+            //    setInterval(() => {
+            //        context.drawImage(video, 0, 0, 640, 480);
+            //        const imageData = canvas.toDataURL('image/jpeg');
+            //        sendData(imageData);
+            //    }, 1000);
+            //});
 
-            function sendData(imageData) {
-                // Sử dụng Ajax để gửi dữ liệu ảnh đến Django view
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', '/detect-face/', true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(JSON.stringify({ image_data: imageData }));
         </script>
     </div>
 </div>

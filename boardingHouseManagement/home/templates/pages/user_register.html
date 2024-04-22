@@ -16,7 +16,7 @@
         <form action="." method="POST" class="form">
             {% csrf_token %}
             <div class="form-title">
-                <label for="title">Đăng ký tài khoản</label>
+                <label for="title">Đăng ký tài khoản khách hàng</label>
                 <a class="list-item-link register" href="{% url 'home' %}"><button class="closeTab"
                         type="button">X</button></a>
             </div>
@@ -42,11 +42,6 @@
 
             <div class="form-submit">
                 <button class="btn btn-primary" type="submit">Đăng ký</button>
-                {% if success %}
-                <div class="success-message">
-                    Bạn đã đăng ký thành công!
-                </div>
-                {% endif %}
                 <div class="have-account">
                     <h4>Bạn đã có tài khoản ?</h4>
                     <a class="list-item-link" href="{% url 'choice_login' %}">Đăng nhập</a>

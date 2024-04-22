@@ -22,8 +22,7 @@
 
 .list-room-container {
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
+    height: 756px;
 }
 
 .list-room-container::before {
@@ -32,6 +31,98 @@
     left: 0;
     right: 0;
     top: 40px;
+}
+
+.display-body-table-container {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 310px;
+    display: flex;
+    width: 100%;
+    bottom: 161px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-area {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 50px;
+    display: flex;
+    width: 100%;
+    bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-guest {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 65px;
+    display: flex;
+    width: 100%;
+    bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-personnel {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 75px;
+    display: flex;
+    width: 100%;
+    bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-house {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 120px;
+    display: flex;
+    width: 100%;
+    bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-body-table-container-electricity {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 120px;
+    display: flex;
+    width: 100%;
+    bottom: 238px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
+.display-table {
+    width: 100%;
+    border-spacing: 8px;
+    font-size: 20px;
+    /* table-layout: fixed; */
+    border-collapse: collapse;
+}
+
+.display-table td {
+    overflow: hidden;
+    height: 100px;
+    border-bottom: 1px solid grey;
 }
 
 .list-room {
@@ -51,7 +142,7 @@
 }
 
 .price-room {
-    margin: 50px 5px 5px;
+    margin: 35px 5px 5px;
 }
 
 .add_guests {
@@ -64,18 +155,14 @@
     text-decoration: none;
 }
 
-.edit_room {
-    width: 50px;
+.edit-room {
+    padding-right: 5px;
 }
 
 .delete_room {
     width: 50px;
 }
 
-.list-house-container {
-    display: flex;
-    flex-wrap: wrap;
-}
 
 .list-house-form {
     display: flex;
@@ -93,29 +180,25 @@
     height: 65px;
 }
 
-.list-personnel-container {
-    display: flex;
-    flex-wrap: wrap;
-}
 
 .list-personnel {
-    width: 150px;
+    width: 170px;
     margin: 4px 4px;
 }
 
 .list-personnel-item {
     border: 1px solid rgb(161, 158, 158);
     border-radius: 2px;
-    width: 145px;
+    min-width: 150px;
     height: 65px;
-} 
+}
 
 .btn {
     min-width: 124px;
     height: 34px;
     outline: none;
     cursor: pointer;
-    color: #767676;
+    color: #7a7878;
 
 }
 
@@ -175,14 +258,65 @@
     border: 1px solid #918f8f;
 }
 
+.form-new-area {
+    border: 1px solid #918f8f;
+    width: 500px;
+}
+
+.form-new-house {
+    border: 1px solid #918f8f;
+    width: 700px;
+}
+
 .form-addroom {
     margin-bottom: 10px;
 }
 
-.form-title-room{
-    font-size: 1.4rem;
+.form-add-area {
+    display: flex;
+    justify-content: center;
 }
 
+<<<<<<< HEAD
+=======
+.form-title-room {
+    font-size: 1.4rem;
+    margin-right: 5px;
+}
+
+.notification {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+
+.form-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    width: 500px;
+    height: 100px;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+}
+
+.form-nameDistrict {
+    display: flex;
+    align-items: center;
+}
+
+.form-item {
+    padding: 5px;
+}
+
+.btn-submit {
+    margin: 25px 0 0 15px;
+}
+>>>>>>> 22ea4afb7a5fb1ff6559c28b124a237c0c533beb
 
 /* hóa đơn */
 .container {

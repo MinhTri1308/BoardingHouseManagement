@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'base/css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/room.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/style.css' %}">
+    <title>Login Choice</title>
+</head>
+<body>
+    <div class="model-login">
+        <div class="navbar_room">
+            <div class="title-house">Chọn loại người dùng</div>
+            <div class="navbar-item">
+                <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
+            </div>
+        </div>
+        <div class="choice-item">
+            <a class="list-item-link" href="{% url 'user_register' %}">
+                <i class="fa-solid fa-user"></i>
+                Đăng ký với tư cách người dùng
+            </a>
+            <a class="list-item-link" href="{% url 'personnel_register' %}">
+                <i class="fa-solid fa-user-tie"></i>
+                Đăng ký với tư cách nhân viên
+            </a>
+        </div>
+    </div>
+</body>
+</html>

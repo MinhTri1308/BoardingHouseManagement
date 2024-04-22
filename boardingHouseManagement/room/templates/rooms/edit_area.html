@@ -7,16 +7,16 @@
     <div class="form_navbar navbar_room">
         <h4 class="title-room">Sửa nhà</h4>
         <div class="form-submit">
-            <a class="add_room back" href="{% url 'list_house' %}"><button class="btn btn-normal" type="button">Trở
+            <a class="add_room back" href="{% url 'list_area' %}"><button class="btn btn-normal" type="button">Trở
                     về</button></a>
         </div>
     </div>
     <form action="." method="POST">
         {% csrf_token %}
-        <input type="hidden" name="nameDistrict" value="{{inf_area.nameDistrict}}">
+        <input type="hidden" name="id" value="{{inf_area.id}}">
         <div class="row">
             <div class="col form-house">
-                <label for="nameDistrict">Tên nhà</label>
+                <label class="form-title-room" for="nameDistrict">Tên nhà</label>
                 <input class="inp" type="text" name="nameDistrict" value="{{inf_area.nameDistrict}}">
                 {% if update_area.nameDistrict %}
                 <span>{{update_area.nameDistrict.errors}}</span>

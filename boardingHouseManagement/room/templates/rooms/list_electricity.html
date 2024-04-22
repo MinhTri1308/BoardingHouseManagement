@@ -1,0 +1,91 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Nhập chỉ số điện{% endblock %}
+
+
+{% block main-content %}
+<div id="model-electricity">
+    <div class="form_navbar navbar_room">
+        <h4 class="title-room">Nhập chỉ số điện</h4>
+        <div class="form-submit">
+            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div class="list-room-container">
+        <div class="row form-item">
+            <div class="col room-list">
+                <ul class="list-container">
+                    <li><label for="">Danh sách nhà</label></li>
+                    <li><select size="1">
+                            <option value="">------</option>
+                            {% for house in House %}
+                            <option value="{{house.id}}">{{house.nameHouse}}</option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-add-electricity">
+            <div class="form-newroom">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <div class="row form-item">
+                        <div class="col room-list">
+                            <ul class="list-container">
+                                <li><label for="">Danh sách phòng<label></li>
+                                <li><select name="room" size="1">
+                                        <option value="">Phòng số</option>
+                                        {% for room in Room %}
+                                        <option value="{{room.id}}">{{room.roomsNumber}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col old-electricity">
+                            <ul class="list-container">
+                                <li><label for="">Chỉ số điện</label></li>
+                                <li><input class="inp" type="text" name="index_electricity"></li>
+                            </ul>
+                        </div>
+                        <div class="col month-year">
+                            <ul class="list-container">
+                                <li><label for="">Thời gian</label></li>
+                                <li><input class="inp" type="date" name="date"></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="display-body-table-container-electricity">
+            <table class="display-table">
+                <tbody>
+                    <tr>
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 200px;">Chỉ số điện</th>
+                        <th style="width: 150px;">Phòng</th>
+                        <th style="width: 150px;">Thời gian</th>
+                        <th style="width: 150px;">Thao tác</th>
+                    </tr>
+                </tbody>
+                {% for electricity in Electricity %}
+                <tr>
+                    <td style="text-align: center;">{{electricity.id}}</td>
+                    <td style="text-align: center;">{{electricity.index_electricity}}</td>
+                    <td style="text-align: center;">{{electricity.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{electricity.date|date:"d-m-Y"}}</td>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                        <a class="list-item-link edit-room" href="#"><button class="" type="button">Sửa</button></a>
+                        <a class="list-item-link edit-room" href="#"><button class="" type="button">Xóa</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

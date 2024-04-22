@@ -5,7 +5,6 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="{% static 'bootstrap-5.3.2-dist/css/bootstrap-grid.css' %}" type="text/css"> -->
     <link rel="stylesheet" href="{% static 'base/css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'base/css/grid.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'base/css/register.css' %}">
@@ -35,14 +34,14 @@
                             {% if user.username %}
                             <h4 class="text">Xin chào, {{user.username}}</h4>
                             <li class=""><a href="{% url 'logout' %}"
-                                    class="list-item-link header_navbar-item">Đăngxuất</a>
+                                    class="list-item-link header_navbar-item">Đăng xuất</a>
                             </li>
 
                             {% else %}
                             <li class=""><a class="list-item-link header_navbar-item header_navbar-item--separate"
-                                    href="{% url 'register' %}">Đăng ký</a></li>
+                                    href="{% url 'choice_register' %}">Đăng ký</a></li>
                             <li class=""><a class="list-item-link header_navbar-item"
-                                    href="{% url 'choice_login' %}">Đăngnhập</a></li>
+                                    href="{% url 'choice_login' %}">Đăng nhập</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -83,12 +82,12 @@
                                 </li>
                                 <li class="list-item">
                                     <a class="list-item-link" href="{% url 'list_guests' %}">
-                                        <i class="fa-solid fa-house"></i>
+                                        <i class="fa-solid fa-user-check"></i>
                                         Khách
                                     </a>
                                 </li>
                                 <li class="list-item">
-                                    <a class="list-item-link" href="{% url 'electricity' %}">
+                                    <a class="list-item-link" href="{% url 'list_electricity' %}">
                                         <i class="fa-solid fa-bolt"></i>
                                         Chỉ số điện
                                     </a>
@@ -99,7 +98,7 @@
                                     </a>
                                 </li>
                                 <li class="list-item"><a class="list-item-link" href="{% url 'list_personnel' %}">
-                                        <i class="fa fa-users"></i>
+                                        <i class="fa-solid fa-user-tie"></i>
                                         Nhân viên
                                     </a>
                                 </li>
@@ -109,15 +108,15 @@
                                     </a>
                                 </li>
                                 <li class="list-item"><a class="list-item-link" href="{% url 'list_file_image' %}">
-                                        <i class="fa fa-users"></i>
+                                        <i class="fa-solid fa-camera"></i>
                                         Nhận diện
                                     </a>
                                 </li>
-<!--                                <li class="list-item"><a class="list-item-link" href="#">-->
-<!--                                        <i class="fa fa-users"></i>-->
-<!--                                        Hóa đơn-->
-<!--                                    </a>-->
-<!--                                </li>-->
+                                <li class="list-item"><a class="list-item-link" href="#">
+                                        <i class="fa fa-users"></i>
+                                        Hóa đơn
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

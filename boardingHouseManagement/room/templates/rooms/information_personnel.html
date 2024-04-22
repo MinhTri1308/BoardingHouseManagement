@@ -6,13 +6,20 @@
     <div class="navbar_room">
         <div class="title-house">Thông tin của nhân viên {{inf_personnel.fulname}}</div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'add_room' %}"><button class="btn btn-normal">Thêm phòng</button></a>
-            <a class="add_room" href="{% url 'list_personnel' %}"><button class="btn btn-normal">Trở về</button></a>
+            <a class="add_room" href="{% url 'list_personnel' %}"><button class="btn btn-normal" type="button">Trở
+                    về</button></a>
         </div>
     </div>
     <h2>Mã nhân viên: {{inf_personnel.id_personnel}}</h2>
     <h2>Tên nhân viên: {{inf_personnel.fullname}}</h2>
-    <h2>Nhà quản lý: {{house_manager.nameHouse}}</h2>
+    <h2>Các nhà quản lý:
+        <div style="display: flex;">
+            {% for house in house_manager %}
+            <h3>{{house.nameHouse}},</h3>
+            {% endfor %}
+        </div>
+    </h2>
+
     <h3>Số điện thoại: {{inf_personnel.phone}} </h3>
 </div>
 

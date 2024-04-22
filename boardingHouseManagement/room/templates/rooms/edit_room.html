@@ -16,7 +16,7 @@
         <input type="hidden" name="id" value="{{ inf_room.id }}">
         <div class="row">
             <div class="col form-house">
-                <label for="house">Nhà</label>
+                <label class="form-title-room" for="house">Nhà</label>
                 <select name="house" size="1">
                     <option value="">------</option>
                     {% for house in House %}
@@ -29,7 +29,7 @@
                 </select>
             </div>
             <div class="col form-room">
-                <label for="roomsNumber">Phòng số</label>
+                <label class="form-title-room" for="roomsNumber">Phòng số</label>
                 <input class="inp" type="text" name="roomsNumber" value="{{inf_room.roomsNumber}}">
                 {% if update_room.roomsNumber %}
                 <span>{{update_room.roomsNumber.errors}}</span>
@@ -38,7 +38,7 @@
                 {% endif %}
             </div>
             <div class="col form-acreage">
-                <label for="acreage">Diện tích phòng</label>
+                <label class="form-title-room" for="acreage">Diện tích phòng</label>
                 <input class="inp" name="acreage" type="text" value="{{inf_room.acreage}}">
                 {% if update_room.acreage %}
                 <span>{{update_room.acreage.errors}}</span>
@@ -49,7 +49,7 @@
         </div>
         <div class="row">
             <div class="col form-price">
-                <label for="price">Giá phòng</label>
+                <label class="form-title-room" for="price">Giá phòng</label>
                 <input class="inp" name="price" type="text" value="{{inf_room.price}}">
                 {% if update_room.price %}
                 <span>{{update_room.price.errors}}</span>
@@ -58,7 +58,7 @@
                 {% endif %}
             </div>
             <div class="col form-quantity">
-                <label for="quantity">Số người tối đa</label>
+                <label class="form-title-room" for="quantity">Số người tối đa</label>
                 <input class="inp" name="quantity" type="text" value="{{inf_room.quantity}}">
                 {% if update_room.quantity %}
                 <span>{{update_room.quantity.errors}}</span>
@@ -69,7 +69,7 @@
         </div>
         <div class="row">
             <div class="col form-interior">
-                <label for="interior">Nội thất của phòng</label>
+                <label class="form-title-room" for="interior">Nội thất của phòng</label>
                 <textarea class="inp" name="interior" cols="30" rows="10">{{inf_room.interior}}</textarea>
             </div>
         </div>

@@ -16,7 +16,7 @@
         <input type="hidden" name="id" value="{{ inf_house.id }}">
         <div class="row">
             <div class="col form-personnel">
-                <label for="area">Khu vực</label>
+                <label class="form-title-room" for="area">Khu vực</label>
                 <select name="area" size="1">
                     <option value="">------</option>
                     {% for area in Area %}
@@ -29,7 +29,7 @@
                 </select>
             </div>
             <div class="col form-house">
-                <label for="nameHouse">Tên nhà</label>
+                <label class="form-title-room" for="nameHouse">Tên nhà</label>
                 <input class="inp" type="text" name="nameHouse" value="{{inf_house.nameHouse}}">
                 {% if update_house.nameHouse %}
                 <span>{{update_house.nameHouse.errors}}</span>
@@ -38,7 +38,7 @@
                 {% endif %}
             </div>
             <div class="col form-address">
-                <label for="personnel">Mã nhân viên</label>
+                <label class="form-title-room" for="personnel">Mã nhân viên</label>
                 <select name="personnel" size="1">
                     <option value="">------</option>
                     {% for personnel in Personnel %}
@@ -52,7 +52,7 @@
                 </select>
             </div>
             <div class="col form-address">
-                <label for="address">Địa chỉ</label>
+                <label class="form-title-room" for="address">Địa chỉ</label>
                 <input class="inp inp-address" type="text" name="address" value="{{inf_house.address}}">
                 {% if update_house.address %}
                 <span>{{update_house.address.errors}}</span>

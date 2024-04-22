@@ -12,29 +12,8 @@
         </div>
     </div>
     <div>
-        <table style="border: solid 2px red; border-collapse: collapse; width: 100%; text-align: left;">
-            <h2>Danh sách thống kê khách</h2>
-            <tr>
-                <th>Tên người thuê</th>
-                <th>SĐT</th>
-                <th>Thời gian thuê nhà</th>
-                <th>Phòng</th>
-                <th>Nhà</th>
-            </tr>
-            {% if guest %}
-                {% for guest in guest %}
-                    <tr>
-                        <td><a href="{% url 'show_invoice' guest.id %}"><button title="Xem hóa đơn"><i class="fa-regular fa-eye"></i></button></a>  {{guest.fullname}}</td>
-                        <td>{{guest.phone}}</td>
-                        <td>{{guest.date}}</td>
-                        <td>{{guest.room.roomsNumber}}</td>
-                        <td>{{guest.room.house.nameHouse}}</td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                    <h2>không có thống tin khách hàng cho tháng này</h2>
-            {% endif%}
-        </table>
+        <h2>Danh sách thống kê khách</h2>
+        <h2>Thống kê khách thuê phòng theo tháng ... là: </h2>
     </div>
 </div>
 {% endblock main-content %}
