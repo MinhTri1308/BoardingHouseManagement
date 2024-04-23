@@ -388,14 +388,6 @@ class ElectricityForm(forms.ModelForm):
 
         return index_electricity
     
-    def clean_index_electricity_in_date(self):
-        room = self.cleaned_data['room']
-        date = self.cleaned_data['date']
-
-        if room and date:
-            data_less_than = Electricity.objects.filter(date_lt=date)
-            index_electricity = self.cleaned_data['index_electricity']
-            pass
 
     def save(self):
         Electricity.objects.create(room=self.cleaned_data['room'],

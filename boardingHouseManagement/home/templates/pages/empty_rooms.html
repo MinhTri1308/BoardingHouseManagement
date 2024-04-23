@@ -24,6 +24,7 @@
                         <th style="width: 400px; text-align: left;">Nội thất</th>
                         <th style="width: 150px;">Tên nhà</th>
                         <th style="width: 250px;">Nhân viên</th>
+                        <th style="width: 250px;">Số điện thoại</th>
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
@@ -37,6 +38,7 @@
                     <td style="line-height: 25px;">{{room.interior}}</td>
                     <td style="text-align: center;">{{room.house}}</td>
                     <td style="text-align: center;">{{room.house.personnel.fullname}}</td>
+                    <td style="text-align: center;">{{room.house.personnel.phone}}</td>
                     <td>
                         <div class="td-item">
                             <a class="list-item-link edit-room" href="{% url 'edit_room' room.id %}"><button
@@ -61,6 +63,7 @@
                         <th style="width: 300px; text-align: center;">Nội thất</th>
                         <th style="width: 150px;">Tên nhà</th>
                         <th style="width: 250px;">Chủ nhà</th>
+                        <th style="width: 250px;">Số điện thoại</th>
                     </tr>
                 </tbody>
                 {% for room in empty_rooms %}
@@ -72,6 +75,7 @@
                     <td style="line-height: 25px;">{{room.interior}}</td>
                     <td style="text-align: center;">{{room.house}}</td>
                     <td style="text-align: center;">{{room.house.personnel.fullname}}</td>
+                    <td style="text-align: center;">{{room.house.personnel.phone}}</td>
                 </tr>
                 {% endfor %}
             </table>

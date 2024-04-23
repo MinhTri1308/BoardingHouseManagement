@@ -83,6 +83,7 @@
                         <th style="width: 200px;">Tên nhà</th>
                         <th style="width: 300px;">Địa chỉ</th>
                         <th style="width: 100px;">Nhân viên</th>
+                        <th style="width: 100px;">Số điện thoại</th>
                         <th style="width: 100px;">Khu vực</th>
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
@@ -93,6 +94,7 @@
                     <td style="text-align: center;">{{house.nameHouse}}</td>
                     <td style="text-align: center; line-height: 25px;">{{house.address}}</td>
                     <td style="text-align: center; line-height: 25px;">{{house.personnel.fullname}}</td>
+                    <td style="text-align: center; line-height: 25px;">{{house.personnel.phone}}</td>
                     <td style="text-align: center;">{{house.area}}</td>
                     <td>
                         <div class="td-item">
@@ -118,6 +120,7 @@
                         <th style="width: 100px;">Tên nhà</th>
                         <th style="width: 300px;">Địa chỉ</th>
                         <th style="width: 100px;">Chủ nhà</th>
+                        <th style="width: 100px;">Số điện thoại</th>
                         <th style="width: 100px;">Khu vực</th>
                     </tr>
                 </tbody>
@@ -126,6 +129,7 @@
                     <td style="text-align: center;">{{house.nameHouse}}</td>
                     <td style="text-align: center; line-height: 25px;">{{house.address}}</td>
                     <td style="text-align: center; line-height: 25px;">{{house.personnel.fullname}}</td>
+                    <td style="text-align: center; line-height: 25px;">{{house.personnel.phone}}</td>
                     <td style="text-align: center;">{{house.area}}</td>
                 </tr>
                 {% endfor %}
