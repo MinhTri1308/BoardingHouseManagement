@@ -1,6 +1,9 @@
+from django.http import Http404, HttpResponse
+from django.forms import ValidationError
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Room, Electricity, House, Personnel, Area, Guests
 from .forms import *
+import datetime
 # Create your views here.
 
 
@@ -157,8 +160,13 @@ def create_guests(request):
     if request.method == 'POST':
         form = AddGuestForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('list_guests')
+            try:
+                form.check_room()  # Kiểm tra số lượng khách trong phòng
+                form.save()
+                return redirect('list_guests')
+            except ValidationError as e:
+                form.add_error(None, e)  # Thêm lỗi vào form để hiển thị trên template
+    
     return render(request, 'rooms/list_guests.html', {'Guests': guest, 'Room':room ,'new_guest': form})
 
 def guests_in_room(request, id):
@@ -190,17 +198,37 @@ def delete_guest(request, guest_id):
             return redirect('list_guests') 
     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
 
-def search_guest(request):
-    form = SearchGuest()
+def guest_checkout(request, room_id): 
+    # Lấy danh sách các khách hàng đang ở trong phòng
+    guests = Guests.objects.filter(room_id=room_id)
+
     if request.method == 'POST':
-        form = SearchGuest(request.POST)
+        # Xử lý khi người dùng bấm nút trả phòng của một khách hàng cụ thể
+        guest_id = request.POST.get('guest_id')
+        try:
+            guest = Guests.objects.get(id=guest_id)
+            # Cập nhật room_id của khách hàng thành Null 
+            guest.room_id = None # đặt là None thì room sẽ ko lấy đc room_id của khách nên sẽ ko hiện lại trên room
+            guest.save()
+        except Guests.DoesNotExist:
+            pass  
+        return redirect('guest_checkout', room_id = room_id)
+    return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
+
+
+
+# Search Guest
+def search_fullname_guest(request):
+    form = SearchGuestByFullnameForm()
+    # guests = []
+    if request.method == 'POST':
+        form = SearchGuestByFullnameForm(request.POST)
         if form.is_valid():
-            fullname = form.cleaned_data['fullname'] 
-            guest = Guests.objects.filter(fullname__icontains=fullname)
-    return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+            fullname = form.cleaned_data['fullname']
+            guests = Guests.objects.filter(fullname__icontains=fullname)
+    return render(request, 'rooms/search_guest.html', {'search_form': form, 'search_guests': guests})
 
-
-
+            
 
 #Personnel
 def create_personnel(request):
@@ -293,3 +321,46 @@ def search_area(request):
             nameDistrict = form.cleaned_data['nameDistrict']
             area = Area.objects.filter(nameDistrict__icontains=nameDistrict)
     return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+            # area = Area.objects.filter(nameDistrict=nameDistrict)
+            # return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+        
+
+
+#statistical
+def statistical(request):
+    return render(request, 'rooms/list_statistical.html')
+
+def statistical_guest(request):
+    form = StatisticalGuest()
+    if request.method == 'POST':
+        form = StatisticalGuest(request.POST)
+        if form.is_valid():
+            statistical_guest_month = form.cleaned_data['date']
+            guest = Guests.objects.filter(date__year=statistical_guest_month.year, date__month=statistical_guest_month.month)
+            guest = guest.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+    # return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+
+def statistical_electricity(request):
+    
+    form = StatisticalElectricity()
+    if request.method == 'POST':
+        form = StatisticalElectricity(request.POST)
+        if form.is_valid():
+            statistical_electricity_month = form.cleaned_data['date']
+            electricity = Electricity.objects.filter(date__year=statistical_electricity_month.year, date__month=statistical_electricity_month.month)
+            electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
+            return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+    # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+
+def show_invoice(request, id):
+    data = get_object_or_404(Guests, id=id)
+    return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
+    
+def list_bill(request):
+    return render(request,'rooms/list_bill.html')
+
+
+def information_bill(request):
+    data = get_object_or_404(Guests)
+    return render(request,'rooms/information_bill.html', {'bill': data})

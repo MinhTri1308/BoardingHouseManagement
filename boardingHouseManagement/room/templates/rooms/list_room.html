@@ -19,6 +19,7 @@
         </div>
     </div>
     <div class="list-room-container">
+
         <div class="form-add-room">
             {% if user.username == 'admin' %}
             <div class="form-newroom">
@@ -109,7 +110,7 @@
                     <td style="text-align: center;">{{room.acreage}}</td>
                     <td style="text-align: center;">{{room.price}}</td>
                     <td style="text-align: center;">{{room.quantity}}</td>
-                    <td style="line-height: 25px;">{{room.interior}}</td>
+                    <td style="line-height: 25px; text-align: center;">{{room.interior}}</td>
                     <td style="text-align: center;">{{room.house}}</td>
                     <td style="text-align: center;">{{room.house.personnel.fullname}}</td>
                     <td style="text-align: center;">{{room.house.personnel.phone}}</td>
@@ -121,8 +122,11 @@
                                     type="button">Xóa</button></a>
                             <a class="list-item-link edit-room" href="{% url 'calculate_bill' room.id %}"><button
                                     type="button">Tính tiền</button></a>
+                            {% if room.guest.all %}
+                            <a class="list-item-link edit-room" href="{% url 'guest_checkout' room.id %}"><button
+                                    class="" type="button">Khách trọ</button></a>
+                            {% endif %}
                         </div>
-                    </td>
                 </tr>
                 {% endfor %}
             </table>

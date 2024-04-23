@@ -39,7 +39,7 @@ class Room(models.Model):
     interior = models.TextField()
 
 class Guests(Base):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, related_name='guest')
     date = models.DateField(null=True)
 
 class Electricity(models.Model):

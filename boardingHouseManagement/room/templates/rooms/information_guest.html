@@ -1,0 +1,19 @@
+{% comment %} {% extends "pages/base.html" %}
+
+{% block title %}Thông tin của khách {{guest.fulname}}{% endblock %}
+{% block main-content %}
+<div class="model-guest">
+    <div class="navbar_room">
+        <div class="title-house">Thông tin của khách {{inf_guest.fulname}}</div>
+        <div class="navbar-item">
+            <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
+        </div>
+    </div>
+    <h2>Tên khách: {{inf_guest.fullname}}</h2>
+    <h2>Phòng đang ở: {{inf_guest.room.roomsNumber}}</h2>
+    <h2>Số điện thoại: {{inf_guest.phone}} </h2>
+    <h2>Ngày đăng kí: {{inf_guest.date|date:"Y-m-d"}}</h2>
+</div>
+
+
+{% endblock main-content %} {% endcomment %}

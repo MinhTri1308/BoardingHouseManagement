@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 import re
 from .models import Room, House, Electricity, Personnel, Area, Guests
@@ -86,6 +87,15 @@ class SearchRoom(forms.ModelForm):
         fields = ['roomsNumber']
 
     
+# class GetGuestInRoom(forms.ModelForm):
+#     class Meta:
+#         model = Guests
+#         fields = ['fullname', 'phone', 'date']
+    
+#     def get_guest_in_room(self, id):
+#         room = Room.objects.get(id=id)
+#         Guests.objects.get
+
 #House
 class AddHouse(forms.ModelForm):
     class Meta:
@@ -173,6 +183,10 @@ class SearchHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse']
 
+    def get_room_of_house(self, nameHouse):
+        house = House.objects.get(nameHouse=nameHouse)
+        room = Room.objects.filter(house=house)
+        return {'inf_room': room}
         
 
 # Guest
@@ -196,6 +210,15 @@ class AddGuestForm(forms.ModelForm):
         except Guests.DoesNotExist:
             return phone
         raise forms.ValidationError('số điện thoại bạn nhập đã tồn tại')
+          
+          
+    def clean_room(self):
+        room = self.cleaned_data['room']
+        if room:
+            num_guests = Guests.objects.filter(room=room).count()
+            if num_guests >= room.quantity:
+                raise forms.ValidationError('Số lượng khách đã đặt phòng đã đạt đến giới hạn')
+        return room
 
                
     def save(self):
@@ -235,14 +258,15 @@ class DeleteGuestForm(forms.ModelForm):
     def deleteGuest(self, id):
         guest = Guests.objects.get(id=id)
         guest.delete()
-
-class SearchGuest(forms.ModelForm):
+         
+    
+class SearchGuestByFullnameForm(forms.ModelForm): 
     class Meta:
         model = Guests
         fields = ['fullname'] 
-     
         
-        
+
+    
 #Personnel
 class AddPersonnel(forms.ModelForm):
     class Meta:

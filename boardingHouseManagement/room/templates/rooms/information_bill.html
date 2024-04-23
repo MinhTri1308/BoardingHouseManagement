@@ -1,0 +1,97 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Hóa đơn{% endblock %}
+
+{% block main-content %}
+
+<style>
+    
+    /* hóa đơn */
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+    .invoice {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .invoice-header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    .invoice-header h2 {
+        margin: 0;
+    }
+    .invoice-details {
+        margin-bottom: 20px;
+    }
+    .invoice-details p {
+        margin: 5px 0;
+    }
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .invoice-table th,
+    .invoice-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+</style>
+
+<div>  
+    <div class="navbar_room">
+        <div class="title-house">Hóa đơn</div>
+        <div class="navbar-item">
+            <a class="add_room" href="#"><button class="btn btn-normal">Trở về</button></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="invoice">
+            <div class="invoice-header">
+                <h2>Hóa đơn tiền điện</h2>
+            </div>
+            <div class="invoice-details">
+                <p><strong>Khách hàng:</strong> John Doe</p>
+                <p><strong>Địa chỉ:</strong> 123 ABC Street, XYZ City</p>
+                <p><strong>Ngày lập hóa đơn:</strong> 14/04/2024</p>
+            </div>
+            <table class="invoice-table">
+                <thead>
+                    <tr>
+                        <th>Tháng/Năm</th>
+                        <th>Số kWh tiêu thụ</th>
+                        <th>Giá tiền (VNĐ)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>03/2024</td>
+                        <td>150</td>
+                        <td>200,000</td>
+                    </tr>
+                    <tr>
+                        <td>04/2024</td>
+                        <td>170</td>
+                        <td>220,000</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>Tổng cộng:</strong></td>
+                        <td>420,000</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="invoice-footer">
+                <p><strong>Phương thức thanh toán:</strong> Chuyển khoản</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock main-content %}

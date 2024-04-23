@@ -7,12 +7,13 @@
     <div class="navbar_room">
         <div class="title-house">Danh sách khách</div>
         <div class="form-search">
-            <form action="{% url 'search_guest' %}" method="POST">
+            <form action="{% url 'search_guests' %}" method="POST">
                 {% csrf_token %}
-                <label for="" class="form-title-room">Tìm kiếm</label>
+                <label for="fullname" class="form-title-room">Tìm kiếm</label>
                 <input type="search" name="fullname">
                 <button class="btn btn-normal" type="submit">Tìm kiếm</button>
             </form>
+          
         </div>
         <div class="navbar-item">
             <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
@@ -28,11 +29,14 @@
                         <div class="col form-nameHouse">
                             <label class="form-title-room" for="room">Phòng</label>
                             <select name="room">
-                                <option value="">----------</option>
+                                <option value="">------</option>
                                 {% for room in Room %}
                                 <option value="{{room.id}}">{{room.roomsNumber}}(Nhà{{room.house}})</option>
                                 {% endfor %}
                             </select>
+                            {% if new_guest.room %}
+                            <span>{{ new_guest.room.errors }}</span> 
+                            {% endif %}
                         </div>
                         <div class="col form-nameHouse">
                             <label class="form-title-room" for="fullname">Họ và tên</label>
@@ -73,7 +77,7 @@
                         <th style="width: 150px;">Số điện thoại</th>
                         <th style="width: 150px;">Ngày đăng ký</th>
                         <th style="width: 100px;">Phòng</th>
-                        <th style="width: 150px;">Nhà</th>
+                        <th style="width: 100px;">Nhà</th>
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
@@ -124,3 +128,5 @@
 </div>
 
 {% endblock main-content %}
+
+

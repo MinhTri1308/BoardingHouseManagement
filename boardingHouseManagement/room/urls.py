@@ -2,19 +2,16 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('', views.create_room, name='list_room'),
-    # path('<int:id>/', views.get_information_room, name='information_room'),
     path('search_room/', views.search_roomsNumber, name='search_room'),
     path('<int:id>/editroom/', views.edit_room, name='edit_room'),
     path('<int:id>/deleteroom/', views.delete_room, name='delete_room'),
-    #path('calculate_electricity/', views.calculate_electricity, name='calculate_electricity'),
-    # path('calculate/', views.calculate, name='calculate'),
     path('calculate_bill/<int:room_id>/', views.calculate_bill, name='calculate_bill'),
-    #path('calculate_electricity/', views.calculate_electricity_bill, name='calculate'),
     path('guest/', views.create_guests, name='list_guests'),
-    path('guest/search_guest', views.search_guest, name='search_guest'),
+    path('guest/search_guest/', views.search_fullname_guest, name='search_guests'),
     path('<int:id>/guests_in_room/', views.guests_in_room, name='guests_in_room'),
     path('guest/edit_guest/<int:guest_id>/', views.edit_guest, name='edit_guest'),
     path('guest/delete_guest/<int:guest_id>/', views.delete_guest, name='delete_guest'),
+    path('guest/<int:room_id>/guest_checkout', views.guest_checkout, name='guest_checkout'),
     path('house/', views.create_house, name='list_house'),
     path('house/search_house/', views.search_nameHouse, name='search_house'),
     path('house/<int:id>/get_rooms/', views.get_rooms, name='get_rooms'),
@@ -33,5 +30,6 @@ urlpatterns = [
     path('area/<int:id>/get_house', views.get_house_of_area, name='get_house_of_area'),
     path('area/<int:id>/edit_area/', views.edit_area, name='edit_area'),
     path('area/<int:id>/delete_area/', views.delete_area, name='delete_area'),
+    path('list_statistical/', views.statistical, name='list_statistical'),
 ]
 

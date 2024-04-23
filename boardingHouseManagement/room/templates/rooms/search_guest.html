@@ -1,6 +1,5 @@
 {% extends "pages/base.html" %}
 
-
 {% block title %}Danh sách khách{% endblock %}
 {% block main-content %}
 <div id="model-room">
@@ -10,31 +9,23 @@
             <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_fullname %}
+    {% if search_guests %}
     <div class="list-room-container">
         {% if user.username == 'admin' %}
         <div class="display-body-table-container-admin-guest">
             <table class="display-table">
                 <tbody>
                     <tr>
-                        {% if user.username == 'admin' %}
                         <th style="width: 50px;">ID</th>
                         <th style="width: 200px;">Họ tên</th>
                         <th style="width: 150px;">Số điện thoại</th>
                         <th style="width: 100px;">Phòng</th>
                         <th style="width: 150px;">Nhà</th>
                         <th style="width: 150px;">Thao tác</th>
-                        {% else %}
-                        <th style="width: 200px;">Họ tên</th>
-                        <th style="width: 150px;">Số điện thoại</th>
-                        <th style="width: 100px;">Phòng</th>
-                        <th style="width: 150px;">Nhà</th>
-                        {% endif %}
                     </tr>
                 </tbody>
-                {% for guest in search_fullname %}
+                {% for guest in search_guests %}
                 <tr>
-                    {% if user.username == 'admin' %}
                     <td style="text-align: center;">{{guest.id}}</td>
                     <td style="text-align: center;">{{guest.fullname}}</td>
                     <td style="text-align: center;">{{guest.phone}}</td>
@@ -48,12 +39,6 @@
                                     type="button">Xóa</button></a>
                         </div>
                     </td>
-                    {% else %}
-                    <td style="text-align: center;">{{guest.fullname}}</td>
-                    <td style="text-align: center;">{{guest.phone}}</td>
-                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
-                    <td style="text-align: center;">{{guest.room.house}}</td>
-                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
@@ -63,24 +48,16 @@
             <table class="display-table">
                 <tbody>
                     <tr>
-                        {% if user.username == 'admin' %}
                         <th style="width: 50px;">ID</th>
                         <th style="width: 200px;">Họ tên</th>
                         <th style="width: 150px;">Số điện thoại</th>
                         <th style="width: 100px;">Phòng</th>
                         <th style="width: 150px;">Nhà</th>
                         <th style="width: 150px;">Thao tác</th>
-                        {% else %}
-                        <th style="width: 200px;">Họ tên</th>
-                        <th style="width: 150px;">Số điện thoại</th>
-                        <th style="width: 100px;">Phòng</th>
-                        <th style="width: 150px;">Nhà</th>
-                        {% endif %}
                     </tr>
                 </tbody>
-                {% for guest in search_fullname %}
+                {% for guest in search_guests %}
                 <tr>
-                    {% if user.username == 'admin' %}
                     <td style="text-align: center;">{{guest.id}}</td>
                     <td style="text-align: center;">{{guest.fullname}}</td>
                     <td style="text-align: center;">{{guest.phone}}</td>
@@ -94,12 +71,6 @@
                                     type="button">Xóa</button></a>
                         </div>
                     </td>
-                    {% else %}
-                    <td style="text-align: center;">{{guest.fullname}}</td>
-                    <td style="text-align: center;">{{guest.phone}}</td>
-                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
-                    <td style="text-align: center;">{{guest.room.house}}</td>
-                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
@@ -110,5 +81,4 @@
         <h2 style="text-align: center;"> không tìm thấy tên bạn đã nhập </h2>
     {% endif %}
 </div>
-
 {% endblock main-content %}
