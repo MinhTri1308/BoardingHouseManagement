@@ -108,6 +108,25 @@
                                         Nhận diện
                                     </a>
                                 </li>
+                                {% elif not user.username %}
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                        Trang chủ
+                                    </a>
+                                </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_house' %}">
+                                        <i class="fa-solid fa-house-user"></i>
+                                        Nhà
+                                    </a>
+                                </li>
+                                <li class="list-item">
+                                    <a class="list-item-link" href="{% url 'list_room' %}">
+                                        <i class="fa-solid fa-door-closed icon"></i>
+                                        Phòng
+                                    </a>
+                                </li>
                                 {% else %}
                                 <li class="list-item">
                                     <a class="list-item-link" href="{% url 'home' %}">

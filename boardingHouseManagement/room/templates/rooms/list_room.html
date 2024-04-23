@@ -11,11 +11,11 @@
                 {% csrf_token %}
                 <label for="" class="form-title-room">Tìm kiếm</label>
                 <input type="search" name="roomsNumber">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
+                <button class="btn" type="submit">Tìm kiếm</button>
             </form>
         </div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
+            <a class="add_room" href="{% url 'home' %}"><button class="btn" type="button">Trở về</button></a>
         </div>
     </div>
     <div class="list-room-container">
@@ -94,8 +94,8 @@
                         <th style="width: 200px;">Số phòng</th>
                         <th style="width: 150px;">Diện tích(m²)</th>
                         <th style="width: 100px; line-height: 25px;">Giá(triệu VNĐ)</th>
-                        <th style="width: 100px;">Số lượng</th>
-                        <th style="width: 400px; text-align: left;">Nội thất</th>
+                        <th style="width: 100px;">Số người</th>
+                        <th style="width: 400px; text-align: center;">Nội thất</th>
                         <th style="width: 150px;">Tên nhà</th>
                         <th style="width: 250px;">Nhân viên</th>
                         <th style="width: 150px;">Thao tác</th>
@@ -117,6 +117,8 @@
                                     type="button">Sửa</button></a>
                             <a class="list-item-link edit-room" href="{% url 'delete_room' room.id %}"><button
                                     type="button">Xóa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'calculate_bill' room.id %}"><button
+                                    type="button">Tính tiền</button></a>
                         </div>
                     </td>
                 </tr>

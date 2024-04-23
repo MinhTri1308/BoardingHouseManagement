@@ -256,8 +256,6 @@
     height: 34px;
     outline: none;
     cursor: pointer;
-    color: #7a7878;
-
 }
 
 .btn.btn-primary {
@@ -327,7 +325,7 @@
 
 .form-new-house {
     border: 1px solid #918f8f;
-    width: 700px;
+    width: 800px;
 }
 
 .form-addroom {

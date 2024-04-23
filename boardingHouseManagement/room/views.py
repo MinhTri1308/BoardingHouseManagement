@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models.functions import ExtractMonth, ExtractYear
 from .models import Room, Electricity, House, Personnel, Area, Guests
 from .forms import *
 # Create your views here.
@@ -17,9 +16,6 @@ def create_room(request):
             return redirect('list_room')
     return render(request, 'rooms/list_room.html', {'Room': room, 'House': house, 'new_room': form})
 
-def get_information_room(request, id):
-    information_room = get_object_or_404(Room, id=id)
-    return render(request, 'rooms/information_room.html', {'inf_room': information_room})
 
 def edit_room(request, id):
     house = House.objects.all()
@@ -52,18 +48,6 @@ def search_roomsNumber(request):
     return render(request, 'rooms/search_room.html', {'search_room': form, 'search_roomsNumber': room})
 
 
-def get_guest(request, id):
-    room = Room.objects.get(id=id)
-    guest = Guests.objects.filter(room=room)
-    return render(request, 'rooms/list_guest_of_room.html', {'inf_room': room, 'guest_of_room': guest})
-
-def not_find_guest(request, id):
-    room = Room.objects.get(id=id)
-    guest = Guests.objects.filter(room=room)
-    if not guest:
-        return render(request, 'rooms/list_room_not_guest.html', {'inf_room': room, 'room_not_guest': guest})
-
-
 #House
 def create_house(request):
     house = House.objects.all()
@@ -77,10 +61,6 @@ def create_house(request):
             return redirect('list_house')
     return render(request, 'rooms/list_house.html', {'House': house, 'new_house': form, 'Personnel': personnel, 'Area': area})
 
-def get_information_house(request, id):
-    house = get_object_or_404(House, id=id)
-    return render(request, 'rooms/information_house.html', {'inf_house': house})
-
 
 def get_rooms(request, id):
     house = House.objects.get(id=id)
@@ -92,9 +72,9 @@ def edit_house(request, id):
     area = Area.objects.all()
     personnel = Personnel.objects.all()
     house = get_object_or_404(House, id=id)
-    form = UpdataInformationHouse(instance=house)
+    form = UpdateInformationHouse(instance=house)
     if request.method == 'POST':
-        form = UpdataInformationHouse(request.POST, instance=house)
+        form = UpdateInformationHouse(request.POST, instance=house)
         if form.is_valid():
             form.save()
             return redirect('list_house')
@@ -117,7 +97,7 @@ def search_nameHouse(request):
         if form.is_valid():
             nameHouse = form.cleaned_data['nameHouse']
             house = House.objects.filter(nameHouse__icontains=nameHouse)
-            return render(request, 'rooms/search_house.html', {'search_house': form, 'search_nameHouse': house})
+    return render(request, 'rooms/search_house.html', {'search_house': form, 'search_nameHouse': house})
 
 #Electricity
 def create_electricity(request):
@@ -133,9 +113,9 @@ def create_electricity(request):
 def edit_electricity(request, id):
     electricity = get_object_or_404(Electricity, id=id)
     room = Room.objects.all()
-    form = UpdateElectricity()
+    form = UpdateElectricity(instance=electricity)
     if request.method == 'POST':
-        form = UpdateElectricity(request.POST)
+        form = UpdateElectricity(request.POST, instance=electricity)
         if form.is_valid():
             form.save()
             return redirect('list_electricity')
@@ -143,18 +123,31 @@ def edit_electricity(request, id):
 
 def delete_electricity(request, id):
     electricity = get_object_or_404(Electricity, id=id)
-    form = DeleteElectricity()
+    form = DeleteElectricity(instance=electricity)
     if request.method == 'POST':
-        form = DeleteElectricity(request.POST)
+        form = DeleteElectricity(request.POST, instance=electricity)
         if form.is_valid():
             form.deleteElectricity(id)
             return redirect('list_electricity')
     return render(request, 'rooms/delete_electricity.html', {'delete_electricity': form, 'inf_electricity': electricity})
 
-def calculate(request, id):
-    electricity = get_object_or_404(Electricity, id=id)
-    room = Room.objects.all()
-    return render(request, 'rooms/calculate.html', {'Room': room, 'inf_electricity': electricity})
+def calculate_bill(request, room_id):
+    # Lấy chỉ số điện của hai tháng gần nhất của phòng đó
+    electricity_readings = Electricity.objects.filter(room=room_id).order_by('-date')[:2]
+    if len(electricity_readings) < 2:
+        return render(request, 'rooms/calculate_bill.html', {'message': 'Không có đủ dữ liệu để tính toán tiền điện cho phòng này.'})
+    
+    last_reading = electricity_readings[0].index_electricity
+    second_last_reading = electricity_readings[1].index_electricity
+    electricity = (last_reading - second_last_reading) * 3.5
+    
+    room = Room.objects.get(pk=room_id)
+    water = room.quantity * 100
+    wifi = 100
+    room_price = room.price * 1000000
+    total = electricity + water + wifi + room_price 
+    
+    return render(request, 'rooms/calculate_bill.html', {'room_bill': room_price, 'electricity_bill': electricity, 'water_bill': water, 'wifi_bill': wifi, 'total_bill': total})
 
 #Guest
 def create_guests(request):
@@ -173,9 +166,6 @@ def guests_in_room(request, id):
     guests = Guests.objects.filter(room=room)
     return render(request, 'rooms/guests_in_room.html', {'room': room, 'guests': guests})
 
-def information_guest(request, id):
-    guests = get_object_or_404(Guests, id=id)
-    return render(request, 'rooms/information_guest.html', {'inf_guest': guests})
 
 def edit_guest(request, guest_id):
     room = Room.objects.all()                 
@@ -223,11 +213,11 @@ def create_personnel(request):
             return redirect('list_personnel')
     return render(request, 'rooms/list_personnel.html', {'Personnel': personnel, 'new_personnel': form})
 
-def get_information_personnel(request, id_personnel):
-    personnel = get_object_or_404(Personnel, id_personnel=id_personnel)
-    house = personnel.managed_houses()
-    return render(request, 'rooms/information_personnel.html', {'inf_personnel': personnel, 'house_manager': house})
 
+def get_house_of_personnel(request, id_personnel):
+    personnel = Personnel.objects.get(id_personnel=id_personnel)
+    houses = House.objects.filter(personnel=personnel)
+    return render(request, 'rooms/list_house_of_personnel.html', {'inf_personnel': personnel, 'house_of_personnel': houses})
 
 def edit_personnel(request, id_personnel):
     personnel = get_object_or_404(Personnel, id_personnel=id_personnel)
@@ -270,7 +260,7 @@ def create_area(request):
             return redirect('list_area')
     return render(request, 'rooms/list_area.html', {'Area': area, 'add_area': form})
 
-def get_house(request, id):
+def get_house_of_area(request, id):
     area = Area.objects.get(id=id)
     house = House.objects.filter(area=area)
     return render(request, 'rooms/list_house_of_area.html', {'inf_area': area, 'house_of_area': house})

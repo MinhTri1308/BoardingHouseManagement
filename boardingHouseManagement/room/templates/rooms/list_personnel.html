@@ -11,11 +11,11 @@
                 {% csrf_token %}
                 <label for="">Tìm kiếm</label>
                 <input type="search" name="fullname">
-                <button class="btn btn-normal" type="submit">Tìm kiếm</button>
+                <button class="btn" type="submit">Tìm kiếm</button>
             </form>
         </div>
         <div class="navbar-item">
-            <a class="add_room" href="{% url 'home' %}"><button class="btn btn-normal">Trở về</button></a>
+            <a class="add_room" href="{% url 'home' %}"><button class="btn">Trở về</button></a>
         </div>
     </div>
     <div class="list-room-container">
@@ -72,6 +72,9 @@
                         <div class="td-item">
                             <a class="list-item-link edit-room" href="{% url 'edit_personnel' personnel.id_personnel %}"><button type="button">Sửa</button></a>
                             <a class="list-item-link edit-room" href="{% url 'delete_personnel' personnel.id_personnel %}"><button type="button">Xóa</button></a>
+                            {% if personnel.house.all %}
+                            <a class="list-item-link edit-room" href="{% url 'get_house_of_personnel' personnel.id_personnel %}"><button type="button">Nhà</button></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

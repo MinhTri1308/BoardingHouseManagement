@@ -14,8 +14,6 @@ class Personnel(Base):
     def __str__(self):
         return self.id_personnel
     
-    def managed_houses(self):
-        return self.house.all()
 
 class Area(models.Model):
     nameDistrict = models.CharField(max_length=100)

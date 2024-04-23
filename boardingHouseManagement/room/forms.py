@@ -8,6 +8,15 @@ class AddRoom(forms.ModelForm):
         model = Room
         fields = ['house', 'roomsNumber', 'acreage', 'quantity', 'price', 'interior']
 
+    def clean_roomsNumber(self):
+        house=self.cleaned_data['house']
+        roomsNumber = self.cleaned_data['roomsNumber']
+        if roomsNumber and house:
+            existing_room = Room.objects.filter(house=house, roomsNumber=roomsNumber).exists()
+            if existing_room:
+                raise forms.ValidationError('Nhà này đã có số phòng này rồi, vui lòng chọn số phòng khác.')
+        return roomsNumber
+
     
     def clean_acreage(self):
         acreage = self.cleaned_data['acreage']
@@ -27,12 +36,6 @@ class AddRoom(forms.ModelForm):
             raise forms.ValidationError('Giá phòng không được âm')
         return price
     
-    def clean_house(self):
-        room = self.cleaned_data['roomsNumber']
-        house = House.objects.filter(room=room).count()
-        if house > 2:
-            raise forms.ValidationError('Một nhà không thể có 2 phòng trùng số')
-        return house
     
     def save(self):
         Room.objects.create(
@@ -97,8 +100,8 @@ class AddHouse(forms.ModelForm):
 
     def clean_address(self):
         address = self.cleaned_data['address']
-        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s[0-9]+),\s(Quan\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường gì, Quận gì, Thành phố gì')
+        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s([0-9]+|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Quan\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
+            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường, Quận, Thành phố')
         try:
             House.objects.get(address=address)
         except House.DoesNotExist:
@@ -122,21 +125,22 @@ class AddHouse(forms.ModelForm):
                              area=self.clean_area())
 
 
-class UpdataInformationHouse(forms.ModelForm):
+class UpdateInformationHouse(forms.ModelForm):
     class Meta:
         model = House
-        fields = ['nameHouse', 'address', 'personnel', 'area']
+        fields = ['area', 'nameHouse', 'personnel', 'address']
 
     def clean_nameHouse(self):
         nameHouse = self.cleaned_data['nameHouse']
-        if not re.search(r'^\w+', nameHouse):
+        if not re.search(r'^\w+$', nameHouse):
             raise forms.ValidationError("Tên nhà có kí tự đặc biệt")
         return nameHouse
         
     def clean_address(self):
         address = self.cleaned_data['address']
-        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s[0-9]+),\s((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường gì, Quận gì, Thành phố gì')
+        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s([0-9]+|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
+            # raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường, Quận, Thành phố')
+            raise forms.ValidationError('Address invalid')
         try:
             House.objects.get(address=address)
         except House.DoesNotExist:
@@ -381,7 +385,17 @@ class ElectricityForm(forms.ModelForm):
         index_electricity = self.cleaned_data['index_electricity']
         if index_electricity <= 0:
             raise forms.ValidationError('Chỉ số điện không được âm')
+
         return index_electricity
+    
+    def clean_index_electricity_in_date(self):
+        room = self.cleaned_data['room']
+        date = self.cleaned_data['date']
+
+        if room and date:
+            data_less_than = Electricity.objects.filter(date_lt=date)
+            index_electricity = self.cleaned_data['index_electricity']
+            pass
 
     def save(self):
         Electricity.objects.create(room=self.cleaned_data['room'],
@@ -391,13 +405,15 @@ class ElectricityForm(forms.ModelForm):
 class UpdateElectricity(forms.ModelForm):
     class Meta:
         model = Electricity
-        fields = ['room', 'index_electricity', 'date' ]
+        fields = ['index_electricity', 'date']
     
     def clean_index_electricity(self):
         index_electricity = self.cleaned_data['index_electricity']
         if index_electricity <= 0:
             raise forms.ValidationError('Chỉ số điện không được âm')
         return index_electricity
+    
+    
 
 class DeleteElectricity(forms.ModelForm):
     class Meta:
@@ -408,12 +424,5 @@ class DeleteElectricity(forms.ModelForm):
         index_electricity = Electricity.objects.get(id=id)
         index_electricity.delete()
 
-class CalcutatorElectricity(forms.ModelForm):
-    class Meta:
-        model = Electricity
-        fields = ['date', 'index_electricity', 'room']
+
     
-    def calculate(self):
-        wifi = 100
-        water = 100
-        pass
