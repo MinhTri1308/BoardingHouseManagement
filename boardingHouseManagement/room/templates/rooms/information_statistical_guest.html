@@ -12,8 +12,12 @@
         </div>
     </div>
     <div>
-        <h2>Danh sách thống kê khách</h2>
-        <h2>Thống kê khách thuê phòng theo tháng ... là: </h2>
+        {% if from_month %}
+            <h2>Thống kê khách thuê phòng từ tháng {{ from_month }} đến tháng {{ to_month }} là: {{ percent }}% </h2>
+        {% else %}
+            <h2>Thống kê khách thuê phòng từ tháng None đến tháng None là: None </h2>
+        {% endif %}
     </div>
+
 </div>
 {% endblock main-content %}

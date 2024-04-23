@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models.functions import ExtractMonth, ExtractYear
 from .models import Room, Electricity, House, Personnel, Area, Guests
+from django.db.models import Sum
 from .forms import *
+from datetime import datetime
 # Create your views here.
 
 
@@ -49,7 +51,7 @@ def search_roomsNumber(request):
         if form.is_valid():
             roomsNumber = form.cleaned_data['roomsNumber']
             room = Room.objects.filter(roomsNumber=roomsNumber)
-            return render(request, 'rooms/search_room.html', {'search_room': form, 'search_roomsNumber': room})
+    return render(request, 'rooms/search_room.html', {'search_room': form, 'search_roomsNumber': room})
 
 
 def get_guest(request, id):
@@ -75,7 +77,7 @@ def create_house(request):
         if form.is_valid():
             form.save()
             return redirect('list_house')
-    return render(request, 'rooms/list_house.html', {'House': house,'new_house': form, 'Personnel': personnel, 'Area': area})
+    return render(request, 'rooms/list_house.html', {'House': house, 'new_house': form, 'Personnel': personnel, 'Area': area})
 
 def get_information_house(request, id):
     house = get_object_or_404(House, id=id)
@@ -116,7 +118,7 @@ def search_nameHouse(request):
         form = SearchHouse(request.POST)
         if form.is_valid():
             nameHouse = form.cleaned_data['nameHouse']
-            house = House.objects.filter(nameHouse=nameHouse)
+            house = House.objects.filter(nameHouse__icontains=nameHouse)
             return render(request, 'rooms/search_house.html', {'search_house': form, 'search_nameHouse': house})
 
 #Electricity
@@ -130,10 +132,31 @@ def create_electricity(request):
             return redirect('list_electricity')
     return render(request, 'rooms/list_electricity.html', {'new_electricity': form,'Electricity': electricity, 'House': House.objects.all(), 'Room': Room.objects.all()})
 
-def calculate(request):
-    house = House.objects.all()
+def edit_electricity(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
     room = Room.objects.all()
-    return render(request, 'rooms/calculate.html', {'inf_house': house, 'inf_room': room})
+    form = UpdateElectricity()
+    if request.method == 'POST':
+        form = UpdateElectricity(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_electricity')
+    return render(request, 'rooms/edit_electricity.html', {'update_electricity': form, 'inf_electricity': electricity, 'Room': room})
+
+def delete_electricity(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
+    form = DeleteElectricity()
+    if request.method == 'POST':
+        form = DeleteElectricity(request.POST)
+        if form.is_valid():
+            form.deleteElectricity(id)
+            return redirect('list_electricity')
+    return render(request, 'rooms/delete_electricity.html', {'delete_electricity': form, 'inf_electricity': electricity})
+
+def calculate(request, id):
+    electricity = get_object_or_404(Electricity, id=id)
+    room = Room.objects.all()
+    return render(request, 'rooms/calculate.html', {'Room': room, 'inf_electricity': electricity})
 
 #Guest
 def create_guests(request):
@@ -224,7 +247,7 @@ def edit_guest(request, guest_id):
 
 
 
-def delete_guest(request, guest_id): # gắn hàm delete
+def delete_guest(request, guest_id):
     guest = get_object_or_404(Guests, id=guest_id) 
     form = DeleteGuestForm(instance=guest)
     if request.method == 'POST':
@@ -240,8 +263,8 @@ def search_guest(request):
         form = SearchGuest(request.POST)
         if form.is_valid():
             fullname = form.cleaned_data['fullname'] 
-            guest = Guests.objects.filter(fullname=fullname)
-            return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
+            guest = Guests.objects.filter(fullname__icontains=fullname)
+    return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
 
 
 
@@ -335,49 +358,93 @@ def search_area(request):
         form = SearchArea(request.POST)
         if form.is_valid():
             nameDistrict = form.cleaned_data['nameDistrict']
-            area = Area.objects.filter(nameDistrict=nameDistrict)
-            return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
-        
+            area = Area.objects.filter(nameDistrict__icontains=nameDistrict)
+    return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
+
 
 
 #statistical
 def statistical(request):
     return render(request, 'rooms/list_statistical.html')
 
+# def statistical_guest(request):
+#     # form = StatisticalGuest()
+#     # guest = []
+#     if request.method == 'POST':
+#         # form = StatisticalGuest(request.POST)
+#         # if form.is_valid():
+#             from_month = request.POST.get('from_month')
+#             to_month = request.POST.get('to_month')
+#             guest = Guests.objects.filter(date__month__range=[from_month, to_month])
+#             return render(request, 'rooms/information_statistical_guest.html', {'from_month': from_month, 'to_month': to_month, 'guest': guest})
+#     return render(request, 'rooms/information_statistical_guest.html')
+
 def statistical_guest(request):
-    form = StatisticalGuest()
     if request.method == 'POST':
-        form = StatisticalGuest(request.POST)
-        if form.is_valid():
-            statistical_guest_month = form.cleaned_data['date']
-            guest = Guests.objects.filter(date__year=statistical_guest_month.year, date__month=statistical_guest_month.month)
-            guest = guest.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
-            return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
-    # return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+        from_month = request.POST.get('from_month')
+        to_month = request.POST.get('to_month')
+        
+        # Xử lý dữ liệu từ các biến from_month và to_month nếu cần
+        percen = calculate_percentage(from_month, to_month)
+        return render(request, 'rooms/information_statistical_guest.html', {'from_month': from_month, 'to_month': to_month, 'percent': percen})
+    else:
+        return render(request, 'rooms/information_statistical_guest.html', {'from_month': None, 'to_month': None})
+
+def calculate_percentage(from_month, to_month):
+    # Chuyển đổi chuỗi tháng thành datetime
+    from_date = datetime.strptime(from_month, '%Y-%m')
+    to_date = datetime.strptime(to_month, '%Y-%m')
+
+    # Tính số tháng giữa from_month và to_month
+    num_months = (to_date.year - from_date.year) * 12 + (to_date.month - from_date.month) + 1
+    
+    # Lấy tổng số người từ CSDL từ from_month đến to_month
+    total_guests = Guests.objects.filter(date__month__range=[from_date.month, to_date.month]).count()
+
+    # Tính phần trăm của mỗi tháng
+    percentage = (total_guests / (num_months * 50)) * 100
+
+    return percentage
 
 def statistical_electricity(request):
-    
-    form = StatisticalElectricity()
     if request.method == 'POST':
-        form = StatisticalElectricity(request.POST)
-        if form.is_valid():
-            statistical_electricity_month = form.cleaned_data['date']
-            electricity = Electricity.objects.filter(date__year=statistical_electricity_month.year, date__month=statistical_electricity_month.month)
-            electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
-            return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
-    # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+        from_month_electricity = request.POST.get('from_month_electricity')
+
+        total_electricity = calculate_percentage_electricity(from_month_electricity)
+
+        # Truyền total_electricity vào context khi render template
+        return render(request, 'rooms/information_statistical_electricity.html', {'from_month': from_month_electricity, 'total_electricity': total_electricity})
+    else:
+        return render(request, 'rooms/information_statistical_electricity.html', {'from_month': None, 'to_month': None, 'total_electricity': None})
+
+
+def calculate_percentage_electricity(from_month_electricity):
+    # Chuyển đổi chuỗi tháng thành datetime
+    from_date = datetime.strptime(from_month_electricity, '%Y-%m')
+
+    # Lấy tổng lượng điện tiêu thụ của tháng trước
+    total_this_month = Electricity.objects.filter(date__month=from_date.month).aggregate(total=Sum('index_electricity'))
+
+    # print("Total this month:", total_this_month)  # Kiểm tra tổng lượng điện tiêu thụ của tháng này
+    # print("Total previous month:", total_previous_month)  # Kiểm tra tổng lượng điện tiêu thụ của tháng trước
+
+    if total_this_month['total'] is None :
+        # Handle case when no data is found
+        return None
+
+    total = total_this_month['total']
+
+    return total
+
 
 def show_invoice(request, id):
     data = get_object_or_404(Guests, id=id)
     return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
+    
+def list_bill(request):
+    return render(request,'rooms/list_bill.html')
 
 
-
-
-# def list_bill(request):
-#     return render(request,'rooms/list_bill.html')
-#
-#
-# def information_bill(request):
-#     data = get_object_or_404(Guests)
-#     return render(request,'rooms/information_bill.html', {'bill': data})
+def information_bill(request):
+    data = get_object_or_404(Guests)
+    return render(request,'rooms/information_bill.html', {'bill': data})

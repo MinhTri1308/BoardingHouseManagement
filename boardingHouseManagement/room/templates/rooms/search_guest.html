@@ -11,24 +11,103 @@
         </div>
     </div>
     {% if search_fullname %}
-    <div class="list-personnel-container">
-
-        {% for guest in search_fullname %}
-        <div class="list-personnel">
-            <div class="list-personnel-item">
-                <a class="list-item-link guest-name" href="{% url 'information_guest' guest.id %}">{{guest.fullname}}</a>
-                
-                <div class="interface-personnel">
-                    <a class="add_house" href="{% url 'edit_guest' guest.id %}"><button class="" type="button">Sửa</button></a>
-                    <a class="add_house" href="{% url 'delete_guest' guest.id %}"><button class="" type="button">Xóa</button></a>
-                </div>
-            </div>
+    <div class="list-room-container">
+        {% if user.username == 'admin' %}
+        <div class="display-body-table-container-admin-guest">
+            <table class="display-table">
+                <tbody>
+                    <tr>
+                        {% if user.username == 'admin' %}
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 200px;">Họ tên</th>
+                        <th style="width: 150px;">Số điện thoại</th>
+                        <th style="width: 100px;">Phòng</th>
+                        <th style="width: 150px;">Nhà</th>
+                        <th style="width: 150px;">Thao tác</th>
+                        {% else %}
+                        <th style="width: 200px;">Họ tên</th>
+                        <th style="width: 150px;">Số điện thoại</th>
+                        <th style="width: 100px;">Phòng</th>
+                        <th style="width: 150px;">Nhà</th>
+                        {% endif %}
+                    </tr>
+                </tbody>
+                {% for guest in search_fullname %}
+                <tr>
+                    {% if user.username == 'admin' %}
+                    <td style="text-align: center;">{{guest.id}}</td>
+                    <td style="text-align: center;">{{guest.fullname}}</td>
+                    <td style="text-align: center;">{{guest.phone}}</td>
+                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{guest.room.house}}</td>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room" href="{% url 'edit_guest' guest.id %}"><button
+                                    type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_guest' guest.id %}"><button
+                                    type="button">Xóa</button></a>
+                        </div>
+                    </td>
+                    {% else %}
+                    <td style="text-align: center;">{{guest.fullname}}</td>
+                    <td style="text-align: center;">{{guest.phone}}</td>
+                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{guest.room.house}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
         </div>
-        {% endfor %}
-    
+        {% else %}
+        <div class="display-body-table-container-guest">
+            <table class="display-table">
+                <tbody>
+                    <tr>
+                        {% if user.username == 'admin' %}
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 200px;">Họ tên</th>
+                        <th style="width: 150px;">Số điện thoại</th>
+                        <th style="width: 100px;">Phòng</th>
+                        <th style="width: 150px;">Nhà</th>
+                        <th style="width: 150px;">Thao tác</th>
+                        {% else %}
+                        <th style="width: 200px;">Họ tên</th>
+                        <th style="width: 150px;">Số điện thoại</th>
+                        <th style="width: 100px;">Phòng</th>
+                        <th style="width: 150px;">Nhà</th>
+                        {% endif %}
+                    </tr>
+                </tbody>
+                {% for guest in search_fullname %}
+                <tr>
+                    {% if user.username == 'admin' %}
+                    <td style="text-align: center;">{{guest.id}}</td>
+                    <td style="text-align: center;">{{guest.fullname}}</td>
+                    <td style="text-align: center;">{{guest.phone}}</td>
+                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{guest.room.house}}</td>
+                    <td>
+                        <div class="td-item">
+                            <a class="list-item-link edit-room" href="{% url 'edit_guest' guest.id %}"><button
+                                    type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_guest' guest.id %}"><button
+                                    type="button">Xóa</button></a>
+                        </div>
+                    </td>
+                    {% else %}
+                    <td style="text-align: center;">{{guest.fullname}}</td>
+                    <td style="text-align: center;">{{guest.phone}}</td>
+                    <td style="text-align: center;">{{guest.room.roomsNumber}}</td>
+                    <td style="text-align: center;">{{guest.room.house}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
     </div>
     {% else %}
-        <h2> không tìm thấy tên bạn đã nhập </h2>
+        <h2 style="text-align: center;"> không tìm thấy tên bạn đã nhập </h2>
     {% endif %}
 </div>
 

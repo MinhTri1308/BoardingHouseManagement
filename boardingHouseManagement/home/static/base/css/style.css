@@ -56,7 +56,7 @@ html {
     position: absolute;
     border-left: 1px solid #FB9086;
     height: 12px;
-    right: 247px;
+    right: 100px;
     top: 19px;
     /* transform dùng để di chuyển theo trục và ta chọn theo trục Y trong TH này */
     transform: translateY(-50%);
@@ -103,6 +103,7 @@ html {
 }
 
 .app__container {
+    max-width: 1500px;
     margin-top: 20px;
 }
 
