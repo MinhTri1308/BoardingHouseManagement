@@ -29,8 +29,11 @@
                     <td style="text-align: center;">{{area.nameDistrict}}</td>
                     <td>
                         <div class="td-item">
-                            <a class="list-item-link edit-room" href="{% url 'edit_area' area.id %}"><button class="" type="button">Sửa</button></a>
-                            <a class="list-item-link edit-room" href="{% url 'delete_area' area.id %}"><button class="" type="button">Xóa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'edit_area' area.id %}"><button type="button">Sửa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'delete_area' area.id %}"><button type="button">Xóa</button></a>
+                            {% if area.house_area.all %}
+                            <a class="list-item-link edit-room" href="{% url 'get_house_of_area' area.id %}"><button type="button">Nhà</button></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

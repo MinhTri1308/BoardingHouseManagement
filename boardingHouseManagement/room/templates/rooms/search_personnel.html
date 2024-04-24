@@ -32,6 +32,9 @@
                         <div class="td-item">
                             <a class="list-item-link edit-room" href="{% url 'edit_personnel' personnel.id_personnel %}"><button type="button">Sửa</button></a>
                             <a class="list-item-link edit-room" href="{% url 'delete_personnel' personnel.id_personnel %}"><button type="button">Xóa</button></a>
+                            {% if personnel.house.all %}
+                            <a class="list-item-link edit-room" href="{% url 'get_house_of_personnel' personnel.id_personnel %}"><button type="button">Nhà</button></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

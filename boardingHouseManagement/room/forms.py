@@ -1,7 +1,6 @@
-import datetime
 from django import forms
 import re
-from .models import Room, House, Electricity, Personnel, Area, Guests
+from .models import *
 
 #Room
 class AddRoom(forms.ModelForm):
@@ -86,15 +85,6 @@ class SearchRoom(forms.ModelForm):
         model = Room
         fields = ['roomsNumber']
 
-    
-# class GetGuestInRoom(forms.ModelForm):
-#     class Meta:
-#         model = Guests
-#         fields = ['fullname', 'phone', 'date']
-    
-#     def get_guest_in_room(self, id):
-#         room = Room.objects.get(id=id)
-#         Guests.objects.get
 
 #House
 class AddHouse(forms.ModelForm):
@@ -110,16 +100,18 @@ class AddHouse(forms.ModelForm):
 
     def clean_address(self):
         address = self.cleaned_data['address']
-        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s([0-9]+|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Quan\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường, Quận, Thành phố')
-        try:
-            House.objects.get(address=address)
-        except House.DoesNotExist:
-            return address
-        raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
+        if address:
+            if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Quan\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
+                raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường, Quận, Thành phố')
+            try:
+                House.objects.filter(address=address)
+            except House.DoesNotExist:
+                return address
+            raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
+        raise forms.ValidationError('Không nhận được dữ liệu nhập vào')
 
     def clean_area(self):
-        address = self.cleaned_data['address']
+        address = self.clean_address()
         area = self.cleaned_data['area']
         if area:
             address_parts = address.split(', ')
@@ -129,10 +121,10 @@ class AddHouse(forms.ModelForm):
         return area
 
     def save(self):
-        House.objects.create(nameHouse=self.clean_nameHouse(), 
+        House.objects.create(nameHouse=self.cleaned_data['nameHouse'], 
                              address=self.cleaned_data['address'],
                              personnel=self.cleaned_data['personnel'],
-                             area=self.clean_area())
+                             area=self.cleaned_data['area'])
 
 
 class UpdateInformationHouse(forms.ModelForm):
@@ -148,11 +140,10 @@ class UpdateInformationHouse(forms.ModelForm):
         
     def clean_address(self):
         address = self.cleaned_data['address']
-        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s([0-9]+|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
-            # raise forms.ValidationError('Địa chỉ viết không dấu và có dạng: số nhà, tên Đường, Phường, Quận, Thành phố')
-            raise forms.ValidationError('Address invalid')
+        if not re.search(r'^([0-9A-Z]+|[0-9A-Z]+\/[0-9]+),\s((\w+\s\w+\s\w+\s\w+)|(\w+\s\w+\s\w+)|(\w+\s\w+)),\s(Phuong\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+))),\s(Thanh\spho\s(([A-Z][a-z]+\s[A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+\s[A-Z][a-z]+)|([A-Z][a-z]+)))$', address):
+            raise forms.ValidationError('Địa chỉ không hợp lệ')
         try:
-            House.objects.get(address=address)
+            House.objects.filter(address=address)
         except House.DoesNotExist:
             return address
         raise forms.ValidationError('Địa chỉ bạn nhập đã có nhà ròi, vui lòng nhập địa chỉ khác')
@@ -183,10 +174,6 @@ class SearchHouse(forms.ModelForm):
         model = House
         fields = ['nameHouse']
 
-    def get_room_of_house(self, nameHouse):
-        house = House.objects.get(nameHouse=nameHouse)
-        room = Room.objects.filter(house=house)
-        return {'inf_room': room}
         
 
 # Guest
@@ -367,7 +354,7 @@ class UpdateArea(forms.ModelForm):
     def clean_nameDistrict(self):
         discrict = self.cleaned_data['nameDistrict']
         if not re.search(r'^((Quan|Huyen)\s(([0-9]+)|([A-Z][a-z]+\s[A-Z][a-z]+)))$', discrict):
-            raise forms.ValidationError('Khu vực có định dạng: Quan Abc Cde, Quan 1, Huyen 1, Huyen Abc Cde')
+            raise forms.ValidationError('Khu vực có định dạng: Quan Tan Phu, Quan 1, Huyen 1, Huyen Binh Chanh')
         try:
             Area.objects.get(nameDistrict=discrict)
         except Area.DoesNotExist:
@@ -411,7 +398,6 @@ class ElectricityForm(forms.ModelForm):
             raise forms.ValidationError('Chỉ số điện không được âm')
 
         return index_electricity
-    
 
     def save(self):
         Electricity.objects.create(room=self.cleaned_data['room'],

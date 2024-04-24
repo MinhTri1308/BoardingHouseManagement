@@ -46,6 +46,12 @@
                                     type="button">Sửa</button></a>
                             <a class="list-item-link edit-room" href="{% url 'delete_room' room.id %}"><button
                                     type="button">Xóa</button></a>
+                            <a class="list-item-link edit-room" href="{% url 'calculate_bill' room.id %}"><button
+                                    type="button">Tính tiền</button></a>
+                            {% if room.guest.all %}
+                            <a class="list-item-link edit-room" href="{% url 'guest_checkout' room.id %}"><button
+                                    type="button">Khách trọ</button></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

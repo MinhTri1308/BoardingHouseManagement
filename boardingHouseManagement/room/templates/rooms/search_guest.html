@@ -9,7 +9,7 @@
             <a class="add_room" href="{% url 'list_guests' %}"><button class="btn btn-normal" type="button">Trở về</button></a>
         </div>
     </div>
-    {% if search_guests %}
+    {% if search_fullname %}
     <div class="list-room-container">
         {% if user.username == 'admin' %}
         <div class="display-body-table-container-admin-guest">
@@ -24,7 +24,7 @@
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
-                {% for guest in search_guests %}
+                {% for guest in search_fullname %}
                 <tr>
                     <td style="text-align: center;">{{guest.id}}</td>
                     <td style="text-align: center;">{{guest.fullname}}</td>
@@ -56,7 +56,7 @@
                         <th style="width: 150px;">Thao tác</th>
                     </tr>
                 </tbody>
-                {% for guest in search_guests %}
+                {% for guest in search_fullname %}
                 <tr>
                     <td style="text-align: center;">{{guest.id}}</td>
                     <td style="text-align: center;">{{guest.fullname}}</td>

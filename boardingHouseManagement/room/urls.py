@@ -7,11 +7,11 @@ urlpatterns = [
     path('<int:id>/deleteroom/', views.delete_room, name='delete_room'),
     path('calculate_bill/<int:room_id>/', views.calculate_bill, name='calculate_bill'),
     path('guest/', views.create_guests, name='list_guests'),
-    path('guest/search_guest/', views.search_fullname_guest, name='search_guests'),
+    path('guest/search_guest/', views.search_guest, name='search_guests'),
     path('<int:id>/guests_in_room/', views.guests_in_room, name='guests_in_room'),
     path('guest/edit_guest/<int:guest_id>/', views.edit_guest, name='edit_guest'),
     path('guest/delete_guest/<int:guest_id>/', views.delete_guest, name='delete_guest'),
-    path('guest/<int:room_id>/guest_checkout', views.guest_checkout, name='guest_checkout'),
+    path('guest/<int:room_id>/guest_checkout/', views.get_guest, name='guest_checkout'),
     path('house/', views.create_house, name='list_house'),
     path('house/search_house/', views.search_nameHouse, name='search_house'),
     path('house/<int:id>/get_rooms/', views.get_rooms, name='get_rooms'),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('area/<int:id>/edit_area/', views.edit_area, name='edit_area'),
     path('area/<int:id>/delete_area/', views.delete_area, name='delete_area'),
     path('list_statistical/', views.statistical, name='list_statistical'),
-]
+    path('information_statiscal_guest/', views.statistical_guest, name='information_statistical_guest'),
+    path('information_statiscal_electricity/', views.statistical_electricity, name='information_statistical_electricity'),
+    ]
 

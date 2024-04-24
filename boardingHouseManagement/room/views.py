@@ -1,16 +1,16 @@
-from django.http import Http404, HttpResponse
 from django.forms import ValidationError
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Room, Electricity, House, Personnel, Area, Guests
+from .models import *
+from django.db.models import Sum
 from .forms import *
-import datetime
+from datetime import datetime
 # Create your views here.
 
 
 #Room
 def create_room(request):
     room = Room.objects.all().order_by('id')
-    house = House.objects.all().order_by('id')
+    house = House.objects.all()
     form = AddRoom()
     if request.method == 'POST':
         form = AddRoom(request.POST)
@@ -53,16 +53,13 @@ def search_roomsNumber(request):
 
 #House
 def create_house(request):
-    house = House.objects.all()
-    area = Area.objects.all()
-    personnel = Personnel.objects.all()
     form = AddHouse()
     if request.method == 'POST':
         form = AddHouse(request.POST)
         if form.is_valid():
             form.save()
             return redirect('list_house')
-    return render(request, 'rooms/list_house.html', {'House': house, 'new_house': form, 'Personnel': personnel, 'Area': area})
+    return render(request, 'rooms/list_house.html', {'new_house': form, 'House': House.objects.all().order_by('id'), 'Personnel': Personnel.objects.all(), 'Area': Area.objects.all()})
 
 
 def get_rooms(request, id):
@@ -161,7 +158,7 @@ def create_guests(request):
         form = AddGuestForm(request.POST)
         if form.is_valid():
             try:
-                form.check_room()  # Kiểm tra số lượng khách trong phòng
+                form.clean_room()  # Kiểm tra số lượng khách trong phòng
                 form.save()
                 return redirect('list_guests')
             except ValidationError as e:
@@ -188,7 +185,7 @@ def edit_guest(request, guest_id):
 
 
 
-def delete_guest(request, guest_id):
+def delete_guest(request, guest_id): # gắn hàm delete
     guest = get_object_or_404(Guests, id=guest_id) 
     form = DeleteGuestForm(instance=guest)
     if request.method == 'POST':
@@ -198,7 +195,7 @@ def delete_guest(request, guest_id):
             return redirect('list_guests') 
     return render(request, 'rooms/delete_guest.html',{'delete_guest': form,'inf_guest': guest})
 
-def guest_checkout(request, room_id): 
+def get_guest(request, room_id): 
     # Lấy danh sách các khách hàng đang ở trong phòng
     guests = Guests.objects.filter(room_id=room_id)
 
@@ -213,26 +210,22 @@ def guest_checkout(request, room_id):
         except Guests.DoesNotExist:
             pass  
         return redirect('guest_checkout', room_id = room_id)
-    return render(request, 'rooms/guest_checkout.html', {'guests':guests,'room_id' : room_id,})
+    return render(request, 'rooms/list_guest_of_room.html', {'guests':guests,'room_id' : room_id,})
 
-
-
-# Search Guest
-def search_fullname_guest(request):
+def search_guest(request):
     form = SearchGuestByFullnameForm()
-    # guests = []
     if request.method == 'POST':
         form = SearchGuestByFullnameForm(request.POST)
         if form.is_valid():
-            fullname = form.cleaned_data['fullname']
-            guests = Guests.objects.filter(fullname__icontains=fullname)
-    return render(request, 'rooms/search_guest.html', {'search_form': form, 'search_guests': guests})
+            fullname = form.cleaned_data['fullname'] 
+            guest = Guests.objects.filter(fullname__icontains=fullname)
+    return render(request, 'rooms/search_guest.html', {'search_guest': form, 'search_fullname': guest})
 
-            
+     
 
 #Personnel
 def create_personnel(request):
-    personnel = Personnel.objects.all()
+    personnel = Personnel.objects.all().order_by('id_personnel')
     form = AddPersonnel()
     if request.method == 'POST':
         form = AddPersonnel(request.POST)
@@ -321,46 +314,70 @@ def search_area(request):
             nameDistrict = form.cleaned_data['nameDistrict']
             area = Area.objects.filter(nameDistrict__icontains=nameDistrict)
     return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
-            # area = Area.objects.filter(nameDistrict=nameDistrict)
-            # return render(request, 'rooms/search_area.html', {'search_area': form, 'search_nameDistrict': area})
-        
+
 
 
 #statistical
 def statistical(request):
     return render(request, 'rooms/list_statistical.html')
 
+
 def statistical_guest(request):
-    form = StatisticalGuest()
     if request.method == 'POST':
-        form = StatisticalGuest(request.POST)
-        if form.is_valid():
-            statistical_guest_month = form.cleaned_data['date']
-            guest = Guests.objects.filter(date__year=statistical_guest_month.year, date__month=statistical_guest_month.month)
-            guest = guest.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
-            return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
-    # return render(request, 'rooms/information_statistical_guest.html', {'guest': guest, 'form': form})
+        from_month = request.POST.get('from_month')
+        to_month = request.POST.get('to_month')
+        
+        # Xử lý dữ liệu từ các biến from_month và to_month nếu cần
+        percen = calculate_percentage(from_month, to_month)
+        return render(request, 'rooms/information_statistical_guest.html', {'from_month': from_month, 'to_month': to_month, 'percent': percen})
+    else:
+        return render(request, 'rooms/information_statistical_guest.html', {'from_month': None, 'to_month': None})
+
+def calculate_percentage(from_month, to_month):
+    # Chuyển đổi chuỗi tháng thành datetime
+    from_date = datetime.strptime(from_month, '%Y-%m')
+    to_date = datetime.strptime(to_month, '%Y-%m')
+
+    # Tính số tháng giữa from_month và to_month
+    num_months = (to_date.year - from_date.year) * 12 + (to_date.month - from_date.month) + 1
+    
+    # Lấy tổng số người từ CSDL từ from_month đến to_month
+    total_guests = Guests.objects.filter(date__month__range=[from_date.month, to_date.month]).count()
+
+    # Tính phần trăm của mỗi tháng
+    percentage = (total_guests / (num_months * 50)) * 100
+
+    return percentage
 
 def statistical_electricity(request):
-    
-    form = StatisticalElectricity()
     if request.method == 'POST':
-        form = StatisticalElectricity(request.POST)
-        if form.is_valid():
-            statistical_electricity_month = form.cleaned_data['date']
-            electricity = Electricity.objects.filter(date__year=statistical_electricity_month.year, date__month=statistical_electricity_month.month)
-            electricity = electricity.annotate(month=ExtractMonth('date'), year=ExtractYear('date'))
-            return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
-    # return render(request, 'rooms/information_statistical_electricity.html', {'electricity': electricity, 'form': form})
+        from_month_electricity = request.POST.get('from_month_electricity')
 
-def show_invoice(request, id):
-    data = get_object_or_404(Guests, id=id)
-    return render(request, 'rooms/invoice.html', {'show_table': True,'g': data })
+        total_electricity = calculate_percentage_electricity(from_month_electricity)
+
+        # Truyền total_electricity vào context khi render template
+        return render(request, 'rooms/information_statistical_electricity.html', {'from_month': from_month_electricity, 'total_electricity': total_electricity})
+    else:
+        return render(request, 'rooms/information_statistical_electricity.html', {'from_month': None, 'to_month': None, 'total_electricity': None})
+
+
+def calculate_percentage_electricity(from_month_electricity):
+    # Chuyển đổi chuỗi tháng thành datetime
+    from_date = datetime.strptime(from_month_electricity, '%Y-%m')
+
+    # Lấy tổng lượng điện tiêu thụ của tháng trước
+    total_this_month = Electricity.objects.filter(date__month=from_date.month).aggregate(total=Sum('index_electricity'))
+
+    # print("Total this month:", total_this_month)  # Kiểm tra tổng lượng điện tiêu thụ của tháng này
+    # print("Total previous month:", total_previous_month)  # Kiểm tra tổng lượng điện tiêu thụ của tháng trước
+
+    if total_this_month['total'] is None :
+        # Handle case when no data is found
+        return None
+
+    total = total_this_month['total']
+
+    return total
+
+
     
-def list_bill(request):
-    return render(request,'rooms/list_bill.html')
-
-
-def information_bill(request):
-    data = get_object_or_404(Guests)
-    return render(request,'rooms/information_bill.html', {'bill': data})

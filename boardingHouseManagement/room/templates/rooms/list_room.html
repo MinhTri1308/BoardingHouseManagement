@@ -19,7 +19,6 @@
         </div>
     </div>
     <div class="list-room-container">
-
         <div class="form-add-room">
             {% if user.username == 'admin' %}
             <div class="form-newroom">
@@ -48,7 +47,6 @@
                             {% if new_room.acreage %}
                             <span>{{new_room.acreage.errors}}</span>
                             {% endif %}
-                            <div class="comment-acreage">m²</div>
                         </div>
                         <div class="col form-price">
                             <label class="form-title-room" for="price">Giá phòng</label>
@@ -124,7 +122,7 @@
                                     type="button">Tính tiền</button></a>
                             {% if room.guest.all %}
                             <a class="list-item-link edit-room" href="{% url 'guest_checkout' room.id %}"><button
-                                    class="" type="button">Khách trọ</button></a>
+                                    type="button">Khách trọ</button></a>
                             {% endif %}
                         </div>
                 </tr>

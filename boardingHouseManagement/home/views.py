@@ -40,9 +40,9 @@ def logout_view(request):
 
 
 def rooms_with_guests(request):
-    rooms_with_guests = Room.objects.filter(guests__isnull=False)
+    rooms_with_guests = Room.objects.filter(guest__isnull=False)
     return render(request, 'pages/rooms_with_guests.html', {'rooms_with_guests': rooms_with_guests})
 
 def empty_rooms(request):
-    empty_rooms = Room.objects.filter(guests__isnull=True)
+    empty_rooms = Room.objects.filter(guest__isnull=True)
     return render(request, 'pages/empty_rooms.html', {'empty_rooms': empty_rooms})
