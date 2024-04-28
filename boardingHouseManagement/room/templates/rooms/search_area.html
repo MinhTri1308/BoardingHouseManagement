@@ -13,8 +13,7 @@
     </div>
     {% if search_nameDistrict %}
     <div class="list-room-container">
-        {% if user.username == 'admin' %}
-        <div class="display-body-table-container-area">
+        <div class="display-body-table-container-admin-area">
             <table class="display-table">
                 <tbody>
                     <tr>
@@ -40,7 +39,6 @@
                 {% endfor %}
             </table>
         </div>
-        {% endif %}
     </div>
     {% else %}
     <h2 style="text-align: center;">Không tìm thấy thông tin bạn nhập</h2>

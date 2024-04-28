@@ -140,6 +140,8 @@ def calculate_bill(request, room_id):
     last_reading = electricity_readings[0].index_electricity
     second_last_reading = electricity_readings[1].index_electricity
     electricity = (last_reading - second_last_reading) * 3.5
+    if electricity < 0:
+        electricity = electricity * (-1)
     
     room = Room.objects.get(pk=room_id)
     water = room.quantity * 100
@@ -147,7 +149,7 @@ def calculate_bill(request, room_id):
     room_price = room.price * 1000000
     total = electricity + water + wifi + room_price 
     
-    return render(request, 'rooms/calculate_bill.html', {'room_bill': room_price, 'electricity_bill': electricity, 'water_bill': water, 'wifi_bill': wifi, 'total_bill': total})
+    return render(request, 'rooms/calculate_bill.html', {'room_house': room.house, 'room_number': room.roomsNumber, 'room_bill': room_price, 'electricity_bill': electricity, 'water_bill': water, 'wifi_bill': wifi, 'total_bill': total})
 
 #Guest
 def create_guests(request):

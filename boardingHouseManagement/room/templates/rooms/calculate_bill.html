@@ -3,7 +3,7 @@
 {% block main-content %}
 <div class="model-money">
     <div class="navbar_room">
-        <div class="title-house">Tiền điện của phòng</div>
+        <div class="title-house">Tiền điện của phòng {{room_number}} - Nhà {{room_house}}</div>
         <div class="navbar-item">
             <a class="add_room" href="{% url 'list_room' %}"><button class="btn" type="button">Trở về</button></a>
         </div>
@@ -11,16 +11,7 @@
     {% if message %}
     <h2 style="text-align: center;">{{message}}</h2>
     {% else %}
-    <!-- <h1>Hóa đơn</h1>
     <div class="list-room-container">
-        <h2>Chi tiết hóa đơn:</h2>
-        <p>Tiền điện: {{ electricity_bill }} VNĐ</p>
-        <p>Tiền nước: {{ water_bill }} VNĐ</p>
-        <p>Tiền wifi: {{ wifi_bill }} VNĐ</p>
-        <hr>
-        <h3>Tổng số tiền: {{ total_bill }} VNĐ</h3> -->
-    <div class="list-room-container">
-        {% if user.username == 'admin' %}
         <div class="display-body-table-container-room">
             <table class="display-table">
                 <tbody>
@@ -41,7 +32,6 @@
                 </tr>
             </table>
         </div>
-        {% else %}
         <div class="display-body-table-container-room">
             <table class="display-table">
                 <tbody>
@@ -62,9 +52,7 @@
                 </tr>
             </table>
         </div>
-        {% endif %}
     </div>    
-
     {% endif %}
 </div>
 {% endblock main-content %}

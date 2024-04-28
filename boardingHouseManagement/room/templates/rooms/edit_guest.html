@@ -24,7 +24,7 @@
               {% if room.id == inf_guest.room.id %}
               <option value="{{room.id}}" selected>{{room.roomsNumber}}</option>
               {% else %}
-              <option value="{{room.id}}">{{room.roomsNumber}}</option>
+              <option value="{{room.id}}">{{room.roomsNumber}}(Nhà{{room.house}})</option>
               {% endif%}
               {% endfor %}
             </select>

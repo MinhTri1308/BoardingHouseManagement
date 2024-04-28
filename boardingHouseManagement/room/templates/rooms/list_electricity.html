@@ -20,7 +20,7 @@
                         <div class="col room-list">
                             <label for="">Danh sách phòng<label>
                                     <select name="room" size="1">
-                                        <option value="">Phòng số</option>
+                                        <option value=""></option>
                                         {% for room in Room %}
                                         <option value="{{room.id}}">{{room.roomsNumber}}(Nhà{{room.house}})</option>
                                         {% endfor %}

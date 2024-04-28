@@ -29,9 +29,9 @@
                         <div class="col form-personnel">
                             <label class="form-title-room" for="area">Khu vực</label>
                             <select name="area" size="1">
-                                <option value="">------</option>
-                                {% for area in Area %}
-                                <option value="{{area.id}}">{{area.nameDistrict}}</option>
+                                <option value=""></option>
+                                {% for areas in Area %}
+                                <option value="{{areas.id}}">{{areas.nameDistrict}}</option>
                                 {% endfor %}
                             </select>
                             {% if new_house.area %}
@@ -48,7 +48,7 @@
                         <div class="col form-personnel">
                             <label class="form-title-room" for="personnel">Nhân viên</label>
                             <select name="personnel" size="1">
-                                <option value="">------</option>
+                                <option value=""></option>
                                 {% for personnel in Personnel %}
                                 <option value="{{personnel.id_personnel}}">{{personnel.fullname}}</option>
                                 {% endfor %}

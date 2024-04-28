@@ -5,7 +5,7 @@
 {% block main-content %}
 <div id="form_addroom">
     <div class="form_navbar navbar_room">
-        <h4 class="title-room">Sửa phòng</h4>
+        <h4 class="title-room">Sửa phòng {{inf_room.roomsNumber}} - Nhà {{inf_room.house}}</h4>
         <div class="form-submit">
             <a class="add_room back" href="{% url 'list_room' %}"><button class="btn btn-normal" type="button">Trở
                     về</button></a>
@@ -17,16 +17,6 @@
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ inf_room.id }}">
                 <div class="row form-item">
-                    <div class="col form-house">
-                        <label class="form-title-room" for="house">Nhà</label>
-                        <select name="house" size="1" disabled>
-                            {% for house in House %}
-                            {% if house.id == inf_room.house.id %}
-                            <option value="{{house.id}}" selected disabled>{{house.nameHouse}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
                     <div class="col form-room">
                         <label class="form-title-room" for="roomsNumber">Phòng số</label>
                         <input class="inp" type="text" name="roomsNumber" value="{{inf_room.roomsNumber}}">

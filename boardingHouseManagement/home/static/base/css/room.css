@@ -72,6 +72,19 @@
     box-shadow: 1px 1px 8px grey;
 }
 
+.display-body-table-container-admin-area {
+    background-color: rgb(250, 248, 250);
+    padding-top: 45px;
+    border-radius: 7px;
+    position: absolute;
+    top: 15px;
+    display: flex;
+    width: 100%;
+    bottom: 242px;
+    overflow-y: scroll;
+    box-shadow: 1px 1px 8px grey;
+}
+
 .display-body-table-container-admin-guest {
     background-color: rgb(250, 248, 250);
     padding-top: 45px;
@@ -167,7 +180,6 @@
     width: 100%;
     border-spacing: 8px;
     font-size: 20px;
-    /* table-layout: fixed; */
     border-collapse: collapse;
 }
 
@@ -342,11 +354,6 @@
     margin-right: 5px;
 }
 
-/* .delete-room {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
 
 .notification {
     margin-bottom: 10px;
@@ -361,6 +368,11 @@
     border: 1px solid;
     width: 500px;
     height: 100px;
+}
+
+.form-delete-item {
+    display: flex;
+    justify-content: center;
 }
 
 .submit {
@@ -390,37 +402,6 @@
 }
 
 
-/* hóa đơn */
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
-.invoice {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-.invoice-header {
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-.invoice-header h2 {
-    margin: 0;
-}
-.invoice-details {
-    margin-bottom: 20px;
-}
-.invoice-details p {
-    margin: 5px 0;
-}
-.invoice-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.invoice-table th,
-.invoice-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+.delete {
+    margin: 100px 0px 100px 260px;
 }

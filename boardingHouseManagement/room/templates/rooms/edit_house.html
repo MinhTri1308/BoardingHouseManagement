@@ -24,8 +24,9 @@
                             {% for area in Area %}
                             {% if area.id == inf_house.area.id %}
                             <option value="{{area.id}}" selected>{{area.nameDistrict}}</option>
-                            {% else %}
-                            <option value="{{area.id}}">{{area.nameDistrict}}</option>
+                            {% if update_house.area %}
+                            <span>{{update_house.area.errors}}</span>
+                            {% endif %}
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -67,7 +68,8 @@
                 <div class="row">
                     <div class="submit submit-house">
                         <button class="btn btn-primary" type="submit">Lưu</button>
-                        <a href="{% url 'delete_house' inf_house.id %}"><button class="btn btn-normal" type="button">Xóa</button></a>
+                        <a href="{% url 'delete_house' inf_house.id %}"><button class="btn btn-normal"
+                                type="button">Xóa</button></a>
                     </div>
                 </div>
             </form>
