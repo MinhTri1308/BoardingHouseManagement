@@ -1,4 +1,4 @@
-Boarding House Management - Python
+Boarding House Management - Python Project
 
 Thành viên nhóm ZSM
 1. 3122410424 - Nguyễn Minh Trí (leader)
